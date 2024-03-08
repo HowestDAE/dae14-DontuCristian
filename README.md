@@ -4,15 +4,15 @@
 <br />
 <div align="center">
 
-  <h1 align="center">NAME OF CHOSEN GAME</h1>
+  <h1 align="center">Horned Knight</h1>
 
   <p align="center">
-    Short description of the game.
+    Horned Knight is a challenging 2D action-platformer where you must overcome all fears, enemies, and traps as the Hero Knight.
     <br />
     <strong>Original game : </strong>
-    <a href="https://www.google.be/"><strong>General info »</strong></a>
+    <a href="https://www.nintendo.co.uk/Games/Nintendo-Switch-download-software/Horned-Knight-1921119.html"><strong>General info »</strong></a>
     ·
-    <a href="https://www.google.be/"><strong>Youtube video »<strong></a>
+    <a href="https://www.youtube.com/watch?v=9JOZ9Hnb6L8&t=8s"><strong>Youtube video »<strong></a>
     <br />
     <br />
   </p>
@@ -46,13 +46,12 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-TODO: add screenshot 
+<img src="image.png" alt="Horned Kinght"> 
 
 Here's why:
-TODO: describe why you chose this game 
-* reason 1
-* reason .. 
-
+* The game is challenging and fun
+* It has multiple cool mechanics like dash and wall jumping
+* The art style is easy to replicate
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
@@ -61,16 +60,17 @@ TODO: describe why you chose this game
 This section gives a clear and detailed overview of which parts of the original game I planned to make.
 
 ### The minimum I will most certainly develop:
-* .. 
-* .. 
+* Attacking 
+* The movement mechanics
+* The health and damage
+* The ground "troops"/ enemies
 
 ### What I will probably make as well:
-* .. 
-* .. 
+* Particle system
+* The extra heart system
 
 ### What I plan to create if I have enough time left:
-* .. 
-* .. 
+* A boss, because the boss level is separate and I wanted to add them both
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -144,7 +144,7 @@ Explain where you applied inheritance (mandatory).
 <!-- CONTACT -->
 ## Contact
 
-Your Name - email@student.howest.be
+Dontu Cristian - cristi.dontu@student.howest.be
 
 Project Link: [https://github.com/your_username/repo_name](https://github.com/your_username/repo_name)
 
