@@ -14,7 +14,8 @@ Game::~Game( )
 
 void Game::Initialize( )
 {
-	
+	m_PlayerPtr = new Player{ Point2f{700,400},"Player_3x5.png", Vector2f{0.f,0.f} };
+	m_SpriteManagerPtr = new SpriteManager();
 }
 
 void Game::Cleanup( )
@@ -23,6 +24,8 @@ void Game::Cleanup( )
 
 void Game::Update( float elapsedSec )
 {
+	m_PlayerPtr->Update(elapsedSec);
+
 	// Check keyboard state
 	//const Uint8 *pStates = SDL_GetKeyboardState( nullptr );
 	//if ( pStates[SDL_SCANCODE_RIGHT] )
@@ -38,15 +41,19 @@ void Game::Update( float elapsedSec )
 void Game::Draw( ) const
 {
 	ClearBackground( );
+
+	m_PlayerPtr->Draw();
 }
 
 void Game::ProcessKeyDownEvent( const SDL_KeyboardEvent & e )
 {
+	m_PlayerPtr->Jump(e);
 	//std::cout << "KEYDOWN event: " << e.keysym.sym << std::endl;
 }
 
 void Game::ProcessKeyUpEvent( const SDL_KeyboardEvent& e )
 {
+
 	//std::cout << "KEYUP event: " << e.keysym.sym << std::endl;
 	//switch ( e.keysym.sym )
 	//{
@@ -70,6 +77,7 @@ void Game::ProcessMouseMotionEvent( const SDL_MouseMotionEvent& e )
 
 void Game::ProcessMouseDownEvent( const SDL_MouseButtonEvent& e )
 {
+
 	//std::cout << "MOUSEBUTTONDOWN event: ";
 	//switch ( e.button )
 	//{

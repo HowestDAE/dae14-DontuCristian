@@ -1,5 +1,8 @@
 #pragma once
 #include "BaseGame.h"
+#include "Player.h"
+#include "SpriteManager.h"
+
 class Game : public BaseGame
 {
 public:
@@ -27,4 +30,9 @@ private:
 	void Initialize();
 	void Cleanup( );
 	void ClearBackground( ) const;
+
+	// Member variables
+
+	Player* m_PlayerPtr{};
+	SpriteManager* m_SpriteManagerPtr{};
 };

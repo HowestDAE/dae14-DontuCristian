@@ -1,15 +1,6 @@
 #pragma once
 #include "Texture.h"
 
-enum class EnemyTypes
-{
-	skelly,
-	worm,
-	spikey,
-	bat
-
-};
-
 class Enemy
 {
 public:
@@ -17,9 +8,8 @@ public:
 	Enemy(const Point2f& pos, const std::string& filePath);
 	~Enemy();
 
-	void Draw() const;
-
-	void Update();
+	virtual void Draw() const = 0;
+	virtual void Update() = 0;
 
 	void SetIsAlive(bool myBool);
 
