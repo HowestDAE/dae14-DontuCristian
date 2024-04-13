@@ -13,26 +13,29 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Source Files\MyClasses">
+    <Filter Include="MyClasses">
       <UniqueIdentifier>{9dd0ba74-02ee-4618-92d0-842e8dfbb9c0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\MyClasses\Entities">
+    <Filter Include="MyClasses\Entities">
       <UniqueIdentifier>{75071755-5035-4c90-808a-e1813d18fa2b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\MyClasses\Misc">
-      <UniqueIdentifier>{20467a5e-6494-4cea-8933-d7e53ff47224}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\MyClasses\LevelStuffThingyPro MAX 3rd Gen+ SportVersion QuentinPower">
-      <UniqueIdentifier>{9525b3e6-5226-402d-829e-a62f63f8d790}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\MyClasses\Entities\Player">
+    <Filter Include="MyClasses\Entities\Player">
       <UniqueIdentifier>{669467ec-2ca4-4e74-b263-3f34d99bc69a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\MyClasses\Misc\Camera">
+    <Filter Include="MyClasses\Misc">
+      <UniqueIdentifier>{20467a5e-6494-4cea-8933-d7e53ff47224}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MyClasses\Misc\Camera">
       <UniqueIdentifier>{f6c4f448-60a0-4386-bbcc-4cc4a780f775}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\MyClasses\Misc\Collisions">
+    <Filter Include="MyClasses\Misc\Collisions">
       <UniqueIdentifier>{32bcb20f-4d8c-4a77-ba81-4f93c7c0cd3b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MyClasses\Level">
+      <UniqueIdentifier>{9525b3e6-5226-402d-829e-a62f63f8d790}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MyClasses\Misc\Sprites">
+      <UniqueIdentifier>{cfa53f0f-2a3c-4aae-8058-7dc22ebd9d46}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -46,25 +49,25 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Player.cpp">
-      <Filter>Source Files\MyClasses\Entities\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="Sprite.cpp">
-      <Filter>Source Files\MyClasses\Misc</Filter>
+      <Filter>MyClasses\Entities\Player</Filter>
     </ClCompile>
     <ClCompile Include="Level.cpp">
-      <Filter>Source Files\MyClasses\LevelStuffThingyPro MAX 3rd Gen+ SportVersion QuentinPower</Filter>
+      <Filter>MyClasses\Level</Filter>
     </ClCompile>
     <ClCompile Include="Enemy.cpp">
-      <Filter>Source Files\MyClasses\Entities</Filter>
+      <Filter>MyClasses\Entities</Filter>
     </ClCompile>
     <ClCompile Include="TextureManager.cpp">
-      <Filter>Source Files\MyClasses\Misc</Filter>
+      <Filter>MyClasses\Misc</Filter>
     </ClCompile>
     <ClCompile Include="Camera.cpp">
-      <Filter>Source Files\MyClasses\Misc\Camera</Filter>
+      <Filter>MyClasses\Misc\Camera</Filter>
     </ClCompile>
     <ClCompile Include="Collisions.cpp">
-      <Filter>Source Files\MyClasses\Misc\Collisions</Filter>
+      <Filter>MyClasses\Misc\Collisions</Filter>
+    </ClCompile>
+    <ClCompile Include="Sprite.cpp">
+      <Filter>MyClasses\Misc\Sprites</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -75,28 +78,28 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Player.h">
-      <Filter>Source Files\MyClasses\Entities\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="Sprite.h">
-      <Filter>Source Files\MyClasses\Misc</Filter>
+      <Filter>MyClasses\Entities\Player</Filter>
     </ClInclude>
     <ClInclude Include="Level.h">
-      <Filter>Source Files\MyClasses\LevelStuffThingyPro MAX 3rd Gen+ SportVersion QuentinPower</Filter>
+      <Filter>MyClasses\Level</Filter>
     </ClInclude>
     <ClInclude Include="GameVars.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Enemy.h">
-      <Filter>Source Files\MyClasses\Entities</Filter>
+      <Filter>MyClasses\Entities</Filter>
     </ClInclude>
     <ClInclude Include="TextureManager.h">
-      <Filter>Source Files\MyClasses\Misc</Filter>
+      <Filter>MyClasses\Misc</Filter>
     </ClInclude>
     <ClInclude Include="Camera.h">
-      <Filter>Source Files\MyClasses\Misc\Camera</Filter>
+      <Filter>MyClasses\Misc\Camera</Filter>
     </ClInclude>
     <ClInclude Include="Collisions.h">
-      <Filter>Source Files\MyClasses\Misc\Collisions</Filter>
+      <Filter>MyClasses\Misc\Collisions</Filter>
+    </ClInclude>
+    <ClInclude Include="Sprite.h">
+      <Filter>MyClasses\Misc\Sprites</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

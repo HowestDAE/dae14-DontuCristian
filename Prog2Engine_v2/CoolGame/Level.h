@@ -15,7 +15,7 @@ public:
 	float m_ScaleFactor;
 private:
 
-	Texture* m_Texture;
+	std::string m_TexturePath;
 	std::vector<std::vector<Point2f>> m_LevelCollider;
 };
 

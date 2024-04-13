@@ -27,7 +27,7 @@ void Game::Update( float elapsedSec )
 {
 	m_PlayerPtr->Update(elapsedSec);
 	Camera::GetInstance()->SetTarget(m_PlayerPtr->GetPosition());
-	Camera::GetInstance()->Update(elapsedSec,m_LevelPtr->m_ScaleFactor);
+	Camera::GetInstance()->Update(elapsedSec,3.47f);
 	// Check keyboard state
 	//const Uint8 *pStates = SDL_GetKeyboardState( nullptr );
 	//if ( pStates[SDL_SCANCODE_RIGHT] )
@@ -48,7 +48,7 @@ void Game::Draw( ) const
 	glPushMatrix();
 	{
 		glTranslatef(-camPos.x, -camPos.y, 0.f);
-		glScalef(m_LevelPtr->m_ScaleFactor, m_LevelPtr->m_ScaleFactor, 0.f);
+		glScalef(3.47f, 3.47f, 1.f);
 		m_LevelPtr->Draw();
 		m_PlayerPtr->Draw();
 	}glPopMatrix();

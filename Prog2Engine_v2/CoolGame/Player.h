@@ -2,6 +2,7 @@
 #include "utils.h"
 #include "Sprite.h"
 #include "GameVars.h"
+#include "Collisions.h"
 #include <iostream>
 
 enum class PlayerState
@@ -18,6 +19,7 @@ enum class PlayerState
 class Player
 {
 public:
+
 	Player(	const Point2f& pos, float speed,float jmpPower, const std::string& filePath, 
 			int rows = { 8 }, int columns = { 5 }, float frameDelay = { 0.15f });
 	~Player();
@@ -32,6 +34,7 @@ public:
 	void Jump(const SDL_KeyboardEvent& e = {});
 	void Dash(const SDL_KeyboardEvent& e = {});
 	void Attack(const SDL_MouseButtonEvent& e = {});
+	void HandleCollision();
 
 
 	void ChangeAnimation();
@@ -57,6 +60,7 @@ private:
 	PlayerState		m_PlayerState;
 	Rectf			m_Collider;
 	Point2f			m_Position;
+	ColDir			m_ColDirection;
 
 	Circlef			m_AttackRange;
 };

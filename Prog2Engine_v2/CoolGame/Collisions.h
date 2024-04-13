@@ -14,7 +14,9 @@ class Collisions
 {
 public:
 
-	static ColDir IsRectInPoly(const Rectf& rect, const std::vector<Point2f>& poly);
+
+	static ColDir IsRectInPoly(const Rectf& rect, const std::vector<std::vector<Point2f>>& poly);
+	static void UpdateCollision();
 
 private:
 

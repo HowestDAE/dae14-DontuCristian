@@ -4,26 +4,28 @@
 #include "GameVars.h"
 
 
-Level::Level(const std::string& svgPath, const std::string& texturePath)
+Level::Level(const std::string& svgPath, const std::string& texturePath):
+	m_TexturePath{texturePath}
 {
-	m_Texture = new Texture{texturePath};
+	TextureManager::GetInstance()->GetTexture(m_TexturePath);
 	SVGParser::GetVerticesFromSvgFile(svgPath,m_LevelCollider);
-	m_ScaleFactor = SCREEN_HEIGHT / m_Texture->GetHeight();
+	m_ScaleFactor = SCREEN_HEIGHT / TextureManager::GetInstance()->GetTexture(m_TexturePath)->GetHeight();
 	std::cout << m_ScaleFactor << "\n";
 }
 
 Level::~Level()
 {
-	delete m_Texture;
+	delete TextureManager::GetInstance()->GetTexture(m_TexturePath);
 }
 void Level::Update(float elapsedSec)
 {
 }
 void Level::Draw() const
 {
-	Rectf dstRect { 0.f,0.f,m_Texture->GetWidth(),m_Texture->GetHeight() };
+	Rectf dstRect { 0.f,0.f,TextureManager::GetInstance()->GetTexture(m_TexturePath)->GetWidth(),
+		TextureManager::GetInstance()->GetTexture(m_TexturePath)->GetHeight() };
 
-		m_Texture->Draw(dstRect);
+	TextureManager::GetInstance()->GetTexture(m_TexturePath)->Draw(dstRect);
 
 		utils::SetColor(Color4f{ 0,1,0,1 });
 		glPushMatrix();

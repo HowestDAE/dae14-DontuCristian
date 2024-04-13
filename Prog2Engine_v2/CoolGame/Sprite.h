@@ -1,5 +1,5 @@
 #pragma once
-#include "Texture.h"
+#include "TextureManager.h"
 #include "utils.h"
 #include <iostream>
 
@@ -29,9 +29,8 @@ public:
 
 private:
 	bool m_isFlipped;
-
-	Texture*	m_MyTexture;
 	Point2f		m_Location;
+	std::string m_Path;
 
 	Rectf		m_SourceRect;
 	int			m_Rows, m_Columns;

@@ -5,19 +5,20 @@ Sprite::Sprite(const std::string& texturePath, const Point2f& location, int rows
 	m_Rows{ rows },
 	m_Columns{ columns },
 	m_FrameDelay{ frameDelay },
-	m_isFlipped{false}
+	m_isFlipped{false},
+	m_Path{texturePath}
 {
-	m_MyTexture = new Texture{texturePath};
+	TextureManager::GetInstance()->GetTexture(texturePath);
 
-	m_FrameWidth = m_MyTexture->GetWidth() / m_Columns;
-	m_FrameHeight = m_MyTexture->GetHeight() / m_Rows;
+	m_FrameWidth = TextureManager::GetInstance()->GetTexture(texturePath)->GetWidth() / m_Columns;
+	m_FrameHeight = TextureManager::GetInstance()->GetTexture(texturePath)->GetHeight() / m_Rows;
 
 	m_Location = Point2f{ location.x - m_FrameWidth/2 , location.y - m_FrameHeight/2 };
 }
 
 Sprite::~Sprite()
 {
-	delete m_MyTexture;
+	delete TextureManager::GetInstance()->GetTexture(m_Path);
 }
 
 void Sprite::Draw() const
@@ -30,7 +31,7 @@ void Sprite::Draw() const
 	}
 	else
 	{
-		m_MyTexture->Draw(m_Location, m_SourceRect);
+		TextureManager::GetInstance()->GetTexture(m_Path)->Draw(m_Location, m_SourceRect);
 	}
 }
 
@@ -67,7 +68,7 @@ void Sprite::Flip() const
 		glTranslatef(-m_Location.x, -m_Location.y, 0);
 		glScalef(-1, 1, 1);
 		glTranslatef(-m_Location.x - m_FrameWidth, m_Location.y, 0);
-		m_MyTexture->Draw(Point2f{ -m_Location.x , m_Location.y }, m_SourceRect);
+		TextureManager::GetInstance()->GetTexture(m_Path)->Draw(Point2f{ -m_Location.x , m_Location.y }, m_SourceRect);
 	glPopMatrix();
 }
 void Sprite::SetIsFlipped(bool myBool)
