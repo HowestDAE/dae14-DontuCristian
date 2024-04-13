@@ -1,7 +1,8 @@
 #pragma once
 #include "BaseGame.h"
 #include "Player.h"
-#include "SpriteManager.h"
+#include "Level.h"
+#include "Camera.h"
 
 class Game : public BaseGame
 {
@@ -29,10 +30,10 @@ private:
 	// FUNCTIONS
 	void Initialize();
 	void Cleanup( );
-	void ClearBackground( ) const;
+	void ClearBackground(Color4f bg = Color4f{0.3f,0.0f,0.8f,1.f}) const;
 
 	// Member variables
 
 	Player* m_PlayerPtr{};
-	SpriteManager* m_SpriteManagerPtr{};
+	Level* m_LevelPtr{};
 };

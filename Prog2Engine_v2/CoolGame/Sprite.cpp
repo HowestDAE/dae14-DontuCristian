@@ -4,10 +4,10 @@
 Sprite::Sprite(const std::string& texturePath, const Point2f& location, int rows, int columns, float frameDelay) :
 	m_Rows{ rows },
 	m_Columns{ columns },
-	m_FrameDelay{ frameDelay }
+	m_FrameDelay{ frameDelay },
+	m_isFlipped{false}
 {
 	m_MyTexture = new Texture{texturePath};
-    m_TextureTransform = new Transform{ Vector2f{0.f,0.f},0.f,Vector2f{0.f,0.f} };
 
 	m_FrameWidth = m_MyTexture->GetWidth() / m_Columns;
 	m_FrameHeight = m_MyTexture->GetHeight() / m_Rows;
@@ -22,21 +22,33 @@ Sprite::~Sprite()
 
 void Sprite::Draw() const
 {
-	const Rectf sourceRect{ float(m_ColIdx * m_FrameWidth),
-							float(m_RowIdx * m_FrameHeight),
-							float(m_FrameWidth),
-							float(m_FrameHeight) };
+	//utils::DrawRect(m_SourceRect);
 
-	utils::DrawRect(sourceRect);
-	m_MyTexture->Draw(m_Location, sourceRect);
+	if (m_isFlipped)
+	{
+		Flip();
+	}
+	else
+	{
+		m_MyTexture->Draw(m_Location, m_SourceRect);
+	}
 }
 
 void Sprite::Update(float elapsedSec, const Point2f& location)
 {
-	m_Location = Point2f{location.x - m_FrameWidth/2, location.y - m_FrameHeight/2};
+	//Updateing the SourceRect
+	m_SourceRect = Rectf{	float(m_ColIdx * m_FrameWidth),
+							float((m_RowIdx + 1) * m_FrameHeight),
+							float(m_FrameWidth),
+							float(m_FrameHeight) };
 
+	m_Location.x = location.x-m_FrameWidth / 2;
+	m_Location.y = location.y - m_FrameHeight / 2;
+
+	//Update the column index
 	m_ColIdx = m_CurrentFrame % m_Columns;
 
+	//Time counter to constrol the framerate
 	m_AccumulatedTime += elapsedSec;
 
 	if (m_AccumulatedTime > m_FrameDelay)
@@ -49,23 +61,27 @@ void Sprite::Update(float elapsedSec, const Point2f& location)
 		m_AccumulatedTime -= m_FrameDelay;
 	}
 }
+void Sprite::Flip() const
+{
+	glPushMatrix();
+		glTranslatef(-m_Location.x, -m_Location.y, 0);
+		glScalef(-1, 1, 1);
+		glTranslatef(-m_Location.x - m_FrameWidth, m_Location.y, 0);
+		m_MyTexture->Draw(Point2f{ -m_Location.x , m_Location.y }, m_SourceRect);
+	glPopMatrix();
+}
+void Sprite::SetIsFlipped(bool myBool)
+{
+	m_isFlipped = myBool;
+}
 void Sprite::SetAnimation(int rowIdx)
 {
 	m_RowIdx = rowIdx;
 }
-void Sprite::Flip(bool x,bool y)
+void Sprite::ResetAnim()
 {
-	if(x)
-	ModifyTransform(Vector2f{ 0.f,0.f }, 0.f, Vector2f{ -1.f ,1.f  });
-	if(y)
-	ModifyTransform(Vector2f{ 0.f,0.f }, 0.f, Vector2f{ 1.f ,-1.f });
-	m_TextureTransform->ApplyTransformation();
-}
-void Sprite::ModifyTransform(const Vector2f& pos, float angle, const Vector2f& scale)
-{
-	m_TextureTransform->Position = pos;
-	m_TextureTransform->Rotation = angle;
-	m_TextureTransform->Scale = scale;
+	m_ColIdx = 0;
+	m_CurrentFrame = 0;
 }
 float Sprite::GetFrameWidth()
 {
@@ -74,4 +90,14 @@ float Sprite::GetFrameWidth()
 float Sprite::GetFrameHeight()
 {
 	return m_FrameHeight;
+}
+
+int Sprite::GetRowIdx()
+{
+	return m_RowIdx;
+}
+
+int Sprite::GetColIdx()
+{
+	return m_ColIdx;
 }

@@ -1,25 +1,33 @@
 #pragma once
-#include "Texture.h"
+#include "Sprite.h"
+#include "utils.h"
 
-class Enemy
-{
-public:
-
-	Enemy(const Point2f& pos, const std::string& filePath);
-	~Enemy();
-
-	virtual void Draw() const = 0;
-	virtual void Update() = 0;
+class Entity
+{public:
+	void Draw() const;
+	void Update(float elapsedSec);
 
 	void SetIsAlive(bool myBool);
 
+	void ChangeAnimation();
+	Point2f GetPosition();
 private:
+	//CONSTANTS
+	const Color4f	COL_COLOR{ 0.f, 1.f, 0.f, 1.f };
+
+	//Members
+	bool m_isOnGround;
 	bool m_isAlive;
+	bool m_isFlipped;
+	float m_Speed;
 
-	Texture* m_PlSpritesheet;
-	Rectf m_Collider;
-	Point2f m_Position;
 
-	Circlef m_AttackRange;
+	Vector2f		m_Velocity;
+	Sprite*			m_Spritesheet;
+	Rectf			m_Collider;
+	Vector2f		m_Position;
+
+	Rectf			m_AttackRange;
+
 };
 

@@ -14,18 +14,20 @@ Game::~Game( )
 
 void Game::Initialize( )
 {
-	m_PlayerPtr = new Player{ Point2f{700,400},"Player_3x5.png", Vector2f{0.f,0.f} };
-	m_SpriteManagerPtr = new SpriteManager();
+	m_PlayerPtr = new Player{Point2f{20,20},90.f,250.f, "Player_8x5.png"};
+	m_LevelPtr = new Level{"Level.svg","Level.png"};
 }
 
 void Game::Cleanup( )
 {
+	delete m_PlayerPtr;
 }
 
 void Game::Update( float elapsedSec )
 {
 	m_PlayerPtr->Update(elapsedSec);
-
+	Camera::GetInstance()->SetTarget(m_PlayerPtr->GetPosition());
+	Camera::GetInstance()->Update(elapsedSec,m_LevelPtr->m_ScaleFactor);
 	// Check keyboard state
 	//const Uint8 *pStates = SDL_GetKeyboardState( nullptr );
 	//if ( pStates[SDL_SCANCODE_RIGHT] )
@@ -40,14 +42,24 @@ void Game::Update( float elapsedSec )
 
 void Game::Draw( ) const
 {
-	ClearBackground( );
+	const Point2f camPos{ Camera::GetInstance()->GetPosition() };
 
-	m_PlayerPtr->Draw();
+	ClearBackground(Color4f{ 0.f,0.f,0.f,1.f });
+	glPushMatrix();
+	{
+		glTranslatef(-camPos.x, -camPos.y, 0.f);
+		glScalef(m_LevelPtr->m_ScaleFactor, m_LevelPtr->m_ScaleFactor, 0.f);
+		m_LevelPtr->Draw();
+		m_PlayerPtr->Draw();
+	}glPopMatrix();
+
+	Camera::GetInstance()->DrawWorld();
 }
 
 void Game::ProcessKeyDownEvent( const SDL_KeyboardEvent & e )
 {
 	m_PlayerPtr->Jump(e);
+	m_PlayerPtr->Dash(e);
 	//std::cout << "KEYDOWN event: " << e.keysym.sym << std::endl;
 }
 
@@ -96,6 +108,7 @@ void Game::ProcessMouseDownEvent( const SDL_MouseButtonEvent& e )
 
 void Game::ProcessMouseUpEvent( const SDL_MouseButtonEvent& e )
 {
+	m_PlayerPtr->Attack(e);
 	//std::cout << "MOUSEBUTTONUP event: ";
 	//switch ( e.button )
 	//{
@@ -111,8 +124,8 @@ void Game::ProcessMouseUpEvent( const SDL_MouseButtonEvent& e )
 	//}
 }
 
-void Game::ClearBackground( ) const
+void Game::ClearBackground(Color4f bg) const
 {
-	glClearColor( 0.0f, 0.0f, 0.3f, 1.0f );
+	glClearColor(bg.r,bg.g,bg.b,bg.a);
 	glClear( GL_COLOR_BUFFER_BIT );
 }
