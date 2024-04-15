@@ -1,8 +1,8 @@
 #include "pch.h"
 #include "Player.h"
 
-Player::Player(	const Point2f& pos, float speed, float jmpPower, const std::string& filePath, Level* levelPtr,
-				int rows, int columns, float frameDelay) :
+Player::Player(const Point2f& pos, float speed, float jmpPower, const std::string& filePath,
+	int rows, int columns, float frameDelay):
 	m_isAlive	 {true},
 	m_NrLives	 {7},
 	m_Velocity	 {0.f,0.f},
@@ -12,7 +12,6 @@ Player::Player(	const Point2f& pos, float speed, float jmpPower, const std::stri
 	m_Speed		 {speed},
 	m_JmpPower	 {jmpPower}
 {
-	m_LevelPtr = levelPtr;
 	m_Position = pos;
 	m_AttackRange = Circlef{ pos, 15 };
 	m_Spritesheet8x5 = new Sprite{ filePath,Point2f{pos.x,pos.y}, rows, columns, frameDelay };

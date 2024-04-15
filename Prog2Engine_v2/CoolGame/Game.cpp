@@ -26,7 +26,7 @@ void Game::Cleanup( )
 
 void Game::Update( float elapsedSec )
 {
-	rect = Rectf{ mousePos.x,mousePos.y,20,20 };
+	//rect = Rectf{ mousePos.x,mousePos.y,20,20 };
 	m_PlayerPtr->Update(elapsedSec);
 	Camera::GetInstance()->SetTarget(m_PlayerPtr->GetPosition());
 	Camera::GetInstance()->Update(elapsedSec,m_LevelPtr->m_ScaleFactor);
@@ -39,7 +39,7 @@ void Game::Draw( ) const
 	glPushMatrix();
 	{
 		glTranslatef(-camPos.x, -camPos.y, 0.f);
-		glScalef(3.47f, 3.47f, 1.f);
+		glScalef(m_LevelPtr->m_ScaleFactor, m_LevelPtr->m_ScaleFactor, 1.f);
 		m_LevelPtr->Draw();
 		m_PlayerPtr->Draw();
 	}glPopMatrix();
@@ -117,8 +117,8 @@ void Game::ProcessKeyUpEvent( const SDL_KeyboardEvent& e )
 
 void Game::ProcessMouseMotionEvent( const SDL_MouseMotionEvent& e )
 {
-	mousePos.x = e.x;
-	mousePos.y = e.y;
+	//mousePos.x = e.x;
+	//mousePos.y = e.y;
 	//std::cout << "MOUSEMOTION event: " << e.x << ", " << e.y << std::endl;
 }
 
