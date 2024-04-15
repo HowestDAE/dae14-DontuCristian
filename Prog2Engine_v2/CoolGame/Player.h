@@ -20,7 +20,7 @@ class Player
 {
 public:
 
-	Player(	const Point2f& pos, float speed,float jmpPower, const std::string& filePath, 
+	Player(	const Point2f& pos, float speed,float jmpPower, const std::string& filePath, Level* levelPtr,
 			int rows = { 8 }, int columns = { 5 }, float frameDelay = { 0.15f });
 	~Player();
 
@@ -60,7 +60,7 @@ private:
 	PlayerState		m_PlayerState;
 	Rectf			m_Collider;
 	Point2f			m_Position;
-	ColDir			m_ColDirection;
+	Level*			m_LevelPtr;
 
 	Circlef			m_AttackRange;
 };

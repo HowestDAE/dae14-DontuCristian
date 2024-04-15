@@ -38,3 +38,8 @@ void Level::Draw() const
 		}glPopMatrix();
 
 }
+
+std::vector<std::vector<Point2f>> Level::GetCollider()
+{
+	return m_LevelCollider;
+}

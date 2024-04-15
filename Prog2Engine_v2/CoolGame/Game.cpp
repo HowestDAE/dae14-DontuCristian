@@ -14,13 +14,14 @@ Game::~Game( )
 
 void Game::Initialize( )
 {
-	m_PlayerPtr = new Player{Point2f{20,20},90.f,250.f, "Player_8x5.png"};
-	m_LevelPtr = new Level{"Level.svg","Level.png"};
+	m_LevelPtr = new Level{ "Level.svg","Level.png" };
+	m_PlayerPtr = new Player{Point2f{20,20},90.f,250.f, "Player_8x5.png",m_LevelPtr};
 }
 
 void Game::Cleanup( )
 {
 	delete m_PlayerPtr;
+	delete m_LevelPtr;
 }
 
 void Game::Update( float elapsedSec )

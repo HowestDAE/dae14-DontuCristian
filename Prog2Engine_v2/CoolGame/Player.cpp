@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "Player.h"
 
-Player::Player(	const Point2f& pos, float speed, float jmpPower, const std::string& filePath, 
+Player::Player(	const Point2f& pos, float speed, float jmpPower, const std::string& filePath, Level* levelPtr,
 				int rows, int columns, float frameDelay) :
 	m_isAlive	 {true},
 	m_NrLives	 {7},
@@ -12,6 +12,7 @@ Player::Player(	const Point2f& pos, float speed, float jmpPower, const std::stri
 	m_Speed		 {speed},
 	m_JmpPower	 {jmpPower}
 {
+	m_LevelPtr = levelPtr;
 	m_Position = pos;
 	m_AttackRange = Circlef{ pos, 15 };
 	m_Spritesheet8x5 = new Sprite{ filePath,Point2f{pos.x,pos.y}, rows, columns, frameDelay };
@@ -42,22 +43,6 @@ void Player::Update(float elapsedSec)
 
 	m_Position.y += m_Velocity.y * elapsedSec;
 	m_Collider.bottom = m_Position.y - (m_Collider.height / 2 + 5.f);
-	
-	//Temorary code for testing
-	{
-		if (m_Collider.bottom <= 5.f)
-		{
-			m_isOnGround = true;
-		}
-		if (m_isOnGround)
-		{
-			m_Velocity.y = 0.f;
-		}
-		else if (!m_isOnGround)
-		{
-			m_Velocity.y -= GRAVITY.y * elapsedSec;
-		}
-	}
 
 	//Setting the player animation based on velocity
 	ChangeStates();
@@ -162,6 +147,32 @@ void Player::Attack(const SDL_MouseButtonEvent& e)
 	{
 		m_Spritesheet8x5->ResetAnim();
 		m_PlayerState = PlayerState::attack;
+	}
+}
+
+void Player::HandleCollision()
+{
+	ColDir colDirection = {Collisions::IsRectInPoly(this->m_Collider, m_LevelPtr->GetCollider())};
+
+	switch (colDirection)
+	{
+	case ColDir::bottom: m_isOnGround = true;
+		break;
+	case ColDir::top: m_Velocity.y = 0.f;
+}
+	{
+		if (m_Collider.bottom <= 5.f)
+		{
+			m_isOnGround = true;
+		}
+		if (m_isOnGround)
+		{
+			m_Velocity.y = 0.f;
+		}
+		else if (!m_isOnGround)
+		{
+			m_Velocity.y -= GRAVITY.y;
+		}
 	}
 }
 

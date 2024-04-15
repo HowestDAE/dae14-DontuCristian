@@ -12,6 +12,8 @@ public:
 	void Update(float elapsedSec);
 	void Draw() const;
 
+	std::vector<std::vector<Point2f>> GetCollider();
+
 	float m_ScaleFactor;
 private:
 
