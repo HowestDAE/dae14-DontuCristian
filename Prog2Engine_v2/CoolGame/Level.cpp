@@ -3,43 +3,29 @@
 #include "Camera.h"
 #include "GameVars.h"
 
+std::vector<Point2f> Level::m_Collider = {};
 
 Level::Level(const std::string& svgPath, const std::string& texturePath):
-	m_TexturePath{texturePath}
+	m_ScaleFactor{ 3.47}
 {
-	TextureManager::GetInstance()->GetTexture(m_TexturePath);
-	SVGParser::GetVerticesFromSvgFile(svgPath,m_LevelCollider);
-	m_ScaleFactor = SCREEN_HEIGHT / TextureManager::GetInstance()->GetTexture(m_TexturePath)->GetHeight();
-	std::cout << m_ScaleFactor << "\n";
+	std::vector<std::vector<Point2f>> collider{};
+	m_Path = texturePath;
+	SVGParser::GetVerticesFromSvgFile(svgPath,collider);
+	m_Collider = collider[0];
+
 }
 
 Level::~Level()
 {
-	delete TextureManager::GetInstance()->GetTexture(m_TexturePath);
 }
 void Level::Update(float elapsedSec)
 {
 }
 void Level::Draw() const
 {
-	Rectf dstRect { 0.f,0.f,TextureManager::GetInstance()->GetTexture(m_TexturePath)->GetWidth(),
-		TextureManager::GetInstance()->GetTexture(m_TexturePath)->GetHeight() };
+	TextureManager::GetInstance()->GetTexture(m_Path)->Draw();
+	utils::SetColor(Color4f{ 0,1,0,1 });
+	utils::DrawPolygon(m_Collider, true);	
 
-	TextureManager::GetInstance()->GetTexture(m_TexturePath)->Draw(dstRect);
-
-		utils::SetColor(Color4f{ 0,1,0,1 });
-		glPushMatrix();
-		{
-			//glTranslatef(297.f, 120.f, 0.f);
-			for (int idx{}; idx < m_LevelCollider.size(); idx++)
-			{
-				utils::DrawPolygon(m_LevelCollider[idx], false);
-			}
-		}glPopMatrix();
-
-}
-
-std::vector<std::vector<Point2f>> Level::GetCollider()
-{
-	return m_LevelCollider;
+		//std::cout << m_LevelCollider.size();
 }

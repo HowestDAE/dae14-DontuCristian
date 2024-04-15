@@ -27,7 +27,8 @@ Player::~Player()
 void Player::Draw() const
 {
 	utils::SetColor(COL_COLOR);
-	utils::DrawRect(m_Collider);
+
+	//utils::DrawRect(m_Collider);
 
 	m_Spritesheet8x5->Draw();
 }
@@ -38,16 +39,46 @@ void Player::Update(float elapsedSec)
 
 	MoveInput();
 
-	m_Position.x += m_Velocity.x * elapsedSec;
+	if (m_PlayerState != PlayerState::dash)
+	{
+		m_Position.x += m_Velocity.x * elapsedSec;
+		m_Position.y += m_Velocity.y * elapsedSec;
+	}
+	
 	m_Collider.left = m_Position.x - m_Collider.width / 2;
-
-	m_Position.y += m_Velocity.y * elapsedSec;
 	m_Collider.bottom = m_Position.y - (m_Collider.height / 2 + 5.f);
+	
+	//Temorary code for testing
+	{
+		if (m_Collider.bottom <= 5.f)
+		{
+			m_isOnGround = true;
+		}
+		if (m_isOnGround)
+		{
+			m_Velocity.y = 0.f;
+		}
+		else if (!m_isOnGround)
+		{
+			m_Velocity.y -= GRAVITY.y * elapsedSec;
+		}
+	}
+
+	//Half working collisions, gotta fix them
+	//HandleCollision();
 
 	//Setting the player animation based on velocity
 	ChangeStates();
 	m_Spritesheet8x5->Update(elapsedSec, m_Position);
 
+	//if (m_PlayerState == PlayerState::dash)
+	//{
+	//
+	//	Vector2f dashVelocity{ cosf((m_DashAngle *float(M_PI))/180) * DASH_SPEED,
+	//					sinf((m_DashAngle * float(M_PI)) / 180) * DASH_SPEED };
+	//
+	//	m_Position += dashVelocity * elapsedSec;
+	//}
 }
 
 void Player::SetIsAlive(bool myBool)
@@ -61,18 +92,31 @@ void Player::MoveInput()
 
 	const Uint8* pStates = SDL_GetKeyboardState(nullptr);
 
-	if (pStates[SDL_SCANCODE_A] || pStates[SDL_SCANCODE_LEFT])
+	if (pStates[SDL_SCANCODE_A])
 	{
 		m_isFlipped = true;
 		m_Velocity.x = -m_Speed;
 	}
-	if (pStates[SDL_SCANCODE_D] || pStates[SDL_SCANCODE_RIGHT])
+	if (pStates[SDL_SCANCODE_D])
 	{
 		m_isFlipped = false;
 		m_Velocity.x = m_Speed;
+	//	if (m_PlayerState == PlayerState::dash)
+	//	{
+	//		m_DashAngle = 0.f;
+	//		if (pStates[SDL_SCANCODE_W])
+	//		{
+	//			m_DashAngle = 45.f;
+	//		}
+	//   }
 	}
-
-
+	//if (pStates[SDL_SCANCODE_W])
+	//{
+	//	if (m_PlayerState == PlayerState::dash)
+	//	{
+	//		m_DashAngle = 90.f;
+	//	}
+	//}
 }
 
 void Player::ChangeStates()
@@ -127,18 +171,14 @@ void Player::Jump(const SDL_KeyboardEvent& e)
 
 void Player::Dash(const SDL_KeyboardEvent& e)
 {
-	if (e.keysym.sym == SDLK_LSHIFT)
-	{
-		m_PlayerState = PlayerState::dash;
-		if (m_isFlipped)
-		{
-			m_Position.x -= 100;
-		}
-		else
-		{
-			m_Position.x += 100;
-		}
-	}
+	//if (e.keysym.sym == SDLK_LSHIFT)
+	//{
+	//	m_PlayerState = PlayerState::dash;
+	//	Vector2f dashVelocity { cosf((m_DashAngle*180)/float(M_PI))* DASH_SPEED,
+	//							-sinf((m_DashAngle*180)/float(M_PI))* DASH_SPEED};
+	//
+	//	m_Position += dashVelocity;
+	//}
 }
 
 void Player::Attack(const SDL_MouseButtonEvent& e)
@@ -152,27 +192,15 @@ void Player::Attack(const SDL_MouseButtonEvent& e)
 
 void Player::HandleCollision()
 {
-	ColDir colDirection = {Collisions::IsRectInPoly(this->m_Collider, m_LevelPtr->GetCollider())};
+	const ColDir collisionDirection = { Collisions::IsRectInPoly(m_Collider,Level::m_Collider) };
 
-	switch (colDirection)
+	switch (collisionDirection)
 	{
-	case ColDir::bottom: m_isOnGround = true;
+	case ColDir::bottom: 
+		m_isOnGround = true;
+		m_Velocity.y = 0.f;
+		m_Position.y = Collisions::m_HitInfo.intersectPoint.y+1.f;	
 		break;
-	case ColDir::top: m_Velocity.y = 0.f;
-}
-	{
-		if (m_Collider.bottom <= 5.f)
-		{
-			m_isOnGround = true;
-		}
-		if (m_isOnGround)
-		{
-			m_Velocity.y = 0.f;
-		}
-		else if (!m_isOnGround)
-		{
-			m_Velocity.y -= GRAVITY.y;
-		}
 	}
 }
 

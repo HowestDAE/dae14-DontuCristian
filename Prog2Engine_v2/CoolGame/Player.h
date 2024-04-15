@@ -28,23 +28,25 @@ public:
 	void Update(float elapsedSec);
 
 	void SetIsAlive(bool myBool);
-	void MoveInput();
-	void ChangeStates();
 
 	void Jump(const SDL_KeyboardEvent& e = {});
 	void Dash(const SDL_KeyboardEvent& e = {});
 	void Attack(const SDL_MouseButtonEvent& e = {});
 	void HandleCollision();
 
-
-	void ChangeAnimation();
-
 	int GetNrLives();
 	Point2f GetPosition();
 
 private:
+	void HandleCollision();
+	void ChangeAnimation();
+	void MoveInput();
+	void ChangeStates();
+
 	//CONSTANTS
 	const Color4f	COL_COLOR{ 0.f, 1.f, 0.f, 1.f };
+	const float DASH_SPEED = { 10.f };
+
 
 	//Members
 	bool m_isOnGround;
@@ -53,6 +55,7 @@ private:
 	int	 m_NrLives;
 	float m_Speed;
 	float m_JmpPower;
+	float m_DashAngle = { 0.f };
 
 
 	Vector2f		m_Velocity;

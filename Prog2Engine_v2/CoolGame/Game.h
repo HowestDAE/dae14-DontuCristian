@@ -33,6 +33,8 @@ private:
 	void ClearBackground(Color4f bg = Color4f{0.3f,0.0f,0.8f,1.f}) const;
 
 	// Member variables
+	Point2f mousePos{};
+	Rectf rect{};
 
 	Player* m_PlayerPtr{};
 	Level* m_LevelPtr{};

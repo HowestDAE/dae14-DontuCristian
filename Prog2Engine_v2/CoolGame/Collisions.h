@@ -18,10 +18,11 @@ public:
 	static ColDir IsRectInPoly(const Rectf& rect, const std::vector<std::vector<Point2f>>& poly);
 	static void UpdateCollision();
 
+	static utils::HitInfo m_HitInfo;
 private:
 
-	Player* m_PlayerPtr;
-	Level*	m_LevelPtr;
+	//Player* m_PlayerPtr;
+	//Level*	m_LevelPtr;
 
 };
 

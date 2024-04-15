@@ -26,11 +26,6 @@ void Camera::Update(float elapsedSec,float zoom)
 		m_ViewRect.bottom = (m_ViewRect.bottom > SCREEN_HEIGHT - m_ViewRect.height) ? SCREEN_HEIGHT - m_ViewRect.height : m_ViewRect.bottom;
 		m_Position = Point2f{m_ViewRect.left * zoom, m_ViewRect.bottom * zoom};
 }
-void Camera::DrawWorld() const
-{
-	utils::SetColor(Color4f{0,1,0,1});
-	utils::DrawRect(m_ViewRect);
-}
 Rectf Camera::GetViewRect()
 {
 	return m_ViewRect;

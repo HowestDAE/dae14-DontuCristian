@@ -1,6 +1,6 @@
 #pragma once
 #include "SVGParser.h"
-#include "Texture.h"
+#include "Sprite.h"
 #include "utils.h"
 #include "Player.h"
 class Level
@@ -11,13 +11,12 @@ public:
 
 	void Update(float elapsedSec);
 	void Draw() const;
-
-	std::vector<std::vector<Point2f>> GetCollider();
+	
+	static  std::vector<Point2f> m_Collider;
 
 	float m_ScaleFactor;
 private:
 
-	std::string m_TexturePath;
-	std::vector<std::vector<Point2f>> m_LevelCollider;
+	std::string m_Path;
 };
 

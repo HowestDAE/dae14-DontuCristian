@@ -86,8 +86,7 @@ This is an example of how to list things you need to use the software and how to
 
 ### How to run the project
 
-Explain which project (version) must be run.
-* any extra steps if required 
+Just build and run the project using Visual Studio
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -100,9 +99,11 @@ Use this space to show useful examples of how a game can be played.
 Additional screenshots and demos work well in this space. 
 
 ### Controls
-* keys, .. 
-* .. 
-
+* A-move left
+* D-move right
+* SPACE-jump
+* Left Mouse Click - attack
+* LSHIFT- dash
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
@@ -114,7 +115,7 @@ Additional screenshots and demos work well in this space.
 If you applied object composition (optional); explain where and how.
 
 ### Inheritance 
-Explain where you applied inheritance (mandatory).
+Haven't applied inheritance yet, I'm gonna use it for the enemies
 
 ### ..
 
@@ -126,8 +127,8 @@ Explain where you applied inheritance (mandatory).
 
 - [x] Accept / set up github project
 - [ ] week 01 topics applied
-    - [ ] const keyword applied proactively (variables, functions,..)
-    - [ ] static keyword applied proactively (class variables, static functions,..)
+    - [x] const keyword applied proactively (variables, functions,..)
+    - [x] static keyword applied proactively (class variables, static functions,..)
     - [ ] object composition (optional)
 - [ ] week 02 topics applied
 - [ ] week 03 topics applied
