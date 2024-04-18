@@ -1,7 +1,5 @@
 #include "pch.h"
 #include "Level.h"
-#include "Camera.h"
-#include "GameVars.h"
 
 std::vector<Point2f> Level::m_Collider = {};
 

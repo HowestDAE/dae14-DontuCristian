@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "Player.h"
 
-Player::Player(const Point2f& pos, float speed, float jmpPower, const std::string& filePath,
+Player::Player(const Vector2f& pos, float speed, float jmpPower, const std::string& filePath,
 	int rows, int columns, float frameDelay):
 	m_isAlive	 {true},
 	m_NrLives	 {7},
@@ -14,30 +14,68 @@ Player::Player(const Point2f& pos, float speed, float jmpPower, const std::strin
 	m_WallHit	 {false}
 {
 	m_Position = pos;
-	m_AttackRange = Circlef{ pos, 15 };
-	m_Spritesheet8x5 = new Sprite{ filePath,Point2f{pos.x,pos.y}, rows, columns, frameDelay };
+	m_AttackRange = Circlef{ Point2f{pos.x,pos.y }, 15
+};
+	m_Spritesheet = new Sprite{ filePath,pos, rows, columns, frameDelay };
 	m_Collider = Rectf{ pos.x-7.f , pos.y-8.f,14.f, 20.f };
 }
 
 Player::~Player()
 {
-	delete m_Spritesheet8x5;
+	delete m_Spritesheet;
 }
 
 void Player::Draw() const
 {
+	const Vector2f nextPos{ m_Position.x + m_Velocity.x * m_ElapsedSec,
+								m_Position.y + m_Velocity.y * m_ElapsedSec };
+
+	const Rectf nextCollider{ m_Collider.left + m_Velocity.x * m_ElapsedSec,
+							  m_Collider.bottom + m_Velocity.y * m_ElapsedSec,
+							  m_Collider.width,
+							  m_Collider.height };
+
+
+
+	//Points from player
+	const Point2f bottomLeft{ m_Collider.left, m_Collider.bottom };
+	const Point2f topLeft{ m_Collider.left, m_Collider.bottom + m_Collider.height };
+	const Point2f topRight{ m_Collider.left + m_Collider.width, m_Collider.bottom + m_Collider.height };
+	const Point2f bottomRight{ m_Collider.left + m_Collider.width, m_Collider.bottom };
+
+	//Next points from player
+	const Point2f nextBottomLeft{ nextCollider.left, nextCollider.bottom };
+	const Point2f nextTopLeft{ nextCollider.left, nextCollider.bottom + nextCollider.height };
+	const Point2f nextTopRight{ nextCollider.left + nextCollider.width, nextCollider.bottom + nextCollider.height };
+	const Point2f nextBottomRight{ nextCollider.left + nextCollider.width, nextCollider.bottom };
+
+	utils::DrawLine(bottomLeft, nextBottomLeft);
+	utils::DrawLine(bottomRight, nextBottomRight);
+	utils::DrawLine(topLeft, nextTopLeft);
+	utils::DrawLine(topRight, nextTopRight);
+
+
 	utils::SetColor(COL_COLOR);
 
-	//utils::DrawRect(m_Collider);
+	utils::DrawRect(m_Collider);
 
-	m_Spritesheet8x5->Draw();
+	m_Spritesheet->Draw();
 }
 
 void Player::Update(float elapsedSec)
 {
+	m_ElapsedSec = elapsedSec;
 	ChangeAnimation();
 
 	MoveInput();
+
+	//Temorary code for testing
+	if (!m_isOnGround)
+	{
+		m_Velocity.y -= GRAVITY.y * elapsedSec;
+	}
+	//Half working collisions, gotta fix them
+	HandleCollision(elapsedSec, Level::m_Collider);
 
 	if (m_PlayerState != PlayerState::dash)
 	{
@@ -48,28 +86,10 @@ void Player::Update(float elapsedSec)
 	m_Collider.left = m_Position.x - m_Collider.width / 2;
 	m_Collider.bottom = m_Position.y - (m_Collider.height / 2 + 5.f);
 	
-	//Temorary code for testing
-	{
-		if (m_Collider.bottom <= 5.f)
-		{
-			m_isOnGround = true;
-		}
-		if (m_isOnGround)
-		{
-			m_Velocity.y = 0.f;
-		}
-		else if (!m_isOnGround)
-		{
-			m_Velocity.y -= GRAVITY.y * elapsedSec;
-		}
-	}
-
-	//Half working collisions, gotta fix them
-	HandleCollision(elapsedSec,Level::m_Collider);
 
 	//Setting the player animation based on velocity
 	ChangeStates();
-	m_Spritesheet8x5->Update(elapsedSec, m_Position);
+	m_Spritesheet->Update(elapsedSec, m_Position);
 
 	//if (m_PlayerState == PlayerState::dash)
 	//{
@@ -127,11 +147,11 @@ void Player::ChangeStates()
 		{
 			if (!m_isOnGround)
 			{
-				if (m_Velocity.y > 0)
+				if (m_Velocity.y >= 0.f)
 				{
 					m_PlayerState = PlayerState::jump;
 				}
-				else
+				else if(m_Velocity.y <= 0.f)
 				{
 					m_PlayerState = PlayerState::fall;
 				}
@@ -151,7 +171,7 @@ void Player::ChangeStates()
 	}
 
 	//End the attack animation
-	if (m_Spritesheet8x5->GetColIdx() == 4 && m_PlayerState == PlayerState::attack)
+	if (m_Spritesheet->GetColIdx() == 4 && m_PlayerState == PlayerState::attack)
 	{
 		m_PlayerState = PlayerState::idle;
 	}
@@ -185,16 +205,22 @@ void Player::Attack(const SDL_MouseButtonEvent& e)
 {
 	if (e.button==SDL_BUTTON_LEFT)
 	{
-		m_Spritesheet8x5->ResetAnim();
+		m_Spritesheet->ResetAnim();
 		m_PlayerState = PlayerState::attack;
 	}
 }
 
 void Player::HandleCollision(float elapsedSec, std::vector<Point2f> poly)
 {
-	const Point2f nextPosition{ m_Position.x + m_Velocity.x * elapsedSec, m_Position.y + m_Velocity.y * elapsedSec };
+	const Vector2f nextPos{ m_Position.x + m_Velocity.x * elapsedSec,
+								m_Position.y + m_Velocity.y * elapsedSec };
 
-	const Rectf nextCollider{ m_Collider.left + m_Velocity.x * elapsedSec, m_Collider.bottom + m_Velocity.y * elapsedSec,  m_Collider.width, m_Collider.height };
+	const Rectf nextCollider{ m_Collider.left + m_Velocity.x * elapsedSec,
+							  m_Collider.bottom + m_Velocity.y * elapsedSec,
+							  m_Collider.width,
+							  m_Collider.height };
+
+
 
 	//Points from player
 	const Point2f bottomLeft{ m_Collider.left, m_Collider.bottom };
@@ -213,79 +239,109 @@ void Player::HandleCollision(float elapsedSec, std::vector<Point2f> poly)
 	utils::HitInfo infoTopLeft{};
 	utils::HitInfo infoTopRight{};
 
-	// Check collision for each polygon
-	const std::vector<std::vector<Point2f>> polygons{ Level::m_Collider };
+	// Check collision with the world
 
-	m_WallHit = false;
-	m_isOnGround = false;
-	for (const std::vector<Point2f> polygon : polygons) {
-		const bool hitBottomLeft{ Raycast(polygon, bottomLeft, nextBottomLeft, infoBottomLeft) };
-		const bool hitBottomRight{ Raycast(polygon, bottomRight, nextBottomRight, infoBottomRight) };
-		const bool hitTopLeft{ Raycast(polygon, topLeft, nextTopLeft, infoTopLeft) };
-		const bool hitTopRight{ Raycast(polygon, topRight, nextTopRight, infoTopRight) };
+	const bool hitBottomLeft{ Raycast(Level::m_Collider, bottomLeft, nextBottomLeft, infoBottomLeft) };
+	const bool hitBottomRight{ Raycast(Level::m_Collider, bottomRight, nextBottomRight, infoBottomRight) };
+	const bool hitTopLeft{ Raycast(Level::m_Collider, topLeft, nextTopLeft, infoTopLeft) };
+	const bool hitTopRight{ Raycast(Level::m_Collider, topRight, nextTopRight, infoTopRight) };
 
-		float avgCount{ 0 };
-		Vector2f avgNormal{ Vector2f() };
-		float avgLambda{ 0.f };
 
-		// Properly calculate the averages
-		if (hitBottomLeft) {
-			avgNormal += infoBottomLeft.normal;
-			avgLambda += infoBottomLeft.lambda;
-			++avgCount;
-		}
+	float avgCount{ 0 };
+	Vector2f avgNormal{ Vector2f() };
+	float avgLambda{ 0.f };
 
-		if (hitBottomRight) {
-			avgNormal += infoBottomRight.normal;
-			avgLambda += infoBottomRight.lambda;
-			++avgCount;
-		}
+	// Properly calculate the averages
+	if (hitBottomLeft)
+	{
+		avgNormal += infoBottomLeft.normal;
+		avgLambda += infoBottomLeft.lambda;
+		++avgCount;
+	}
 
-		if (hitTopLeft) {
-			avgNormal += infoTopLeft.normal;
-			avgLambda += infoTopLeft.lambda;
-			++avgCount;
-		}
+	if (hitBottomRight)
+	{
+		avgNormal += infoBottomRight.normal;
+		avgLambda += infoBottomRight.lambda;
+		++avgCount;
+	}
 
-		if (hitTopRight) {
-			avgNormal += infoTopRight.normal;
-			avgLambda += infoTopRight.lambda;
-			++avgCount;
-		}
+	if (hitTopLeft)
+	{
+		avgNormal += infoTopLeft.normal;
+		avgLambda += infoTopLeft.lambda;
+		++avgCount;
+	}
 
-		if (avgCount != 0.f) {
-			avgNormal /= avgCount;
-			avgLambda /= avgCount;
-		}
+	if (hitTopRight)
+	{
+		avgNormal += infoTopRight.normal;
+		avgLambda += infoTopRight.lambda;
+		++avgCount;
+	}
 
-		m_isOnGround = m_isOnGround || infoBottomLeft.normal.y > 0.f || infoBottomRight.normal.y > 0.f;
+	if (avgCount != 0.f)
+	{
+		avgNormal /= avgCount;
+		avgLambda /= avgCount;
+	}
 
+	if (!utils::IsPointInPolygon(bottomLeft, poly) || !utils::IsPointInPolygon(topLeft, poly) || !utils::IsPointInPolygon(topRight, poly) || !utils::IsPointInPolygon(bottomRight, poly)) 
+	{
+		if (!utils::IsPointInPolygon(topLeft, poly) || !utils::IsPointInPolygon(topRight, poly))
+			m_Velocity.y = -1.f;
+		if (!utils::IsPointInPolygon(bottomLeft, poly) || !utils::IsPointInPolygon(bottomRight, poly)) 
+			m_Velocity.y = 0.f;
+	}
+
+	if (infoBottomLeft.normal.y > 0.f && infoBottomRight.normal.y > 0.f)
+	{
+		m_isOnGround = true;
+	}
+	else
+	{
+		m_isOnGround = false;
+	}
+
+
+	std::cout << avgNormal.y << "\n";
+	if (m_isOnGround)
+	{
+		m_Collider.bottom = infoBottomLeft.intersectPoint.y;
+		m_Velocity.y = 5.f;
+	}
 
 		//Sliding collision
-		if ((hitBottomLeft && !m_isOnGround && !m_Velocity.x >= 0.f) || (hitTopLeft && !m_Velocity.x >= 0.f)) { m_WallHit = true, m_isFlipped = true; }
-		if ((hitBottomRight && !m_isOnGround && !m_Velocity.x >= 0.f) || (hitTopRight && !m_Velocity.x >= 0.f)) { m_WallHit = true; }
-
-		//Can't sliding up
-		if (m_WallHit && (m_Velocity.y > 0 && (hitBottomLeft || hitBottomRight))) {
-			m_Velocity.y = 1.f;
+		if (hitBottomLeft||hitBottomRight||hitTopRight||hitTopLeft)
+		{
+			m_WallHit = true;
 		}
-		if (m_WallHit && m_Velocity.y <= -200.f) {
-			m_Velocity.y = -20.f;
+		else
+		{
+			m_WallHit = false;
+		}
+
+		if (m_WallHit)
+		{
+			m_Velocity.x = 0.f;
 		}
 
 		//Wall collisions
-		if (hitBottomLeft && !m_isOnGround || hitTopLeft) m_Velocity.x = 1.0f;
-		else if (hitBottomRight && !m_isOnGround || hitTopRight) m_Velocity.x = -1.0f;
-
-		if (m_isOnGround) m_Velocity.y = 0.f;
-	}
+		if (hitBottomLeft || hitTopLeft)
+		{
+			m_Velocity.x = 0.f;
+		}
+		else if (hitBottomRight || hitTopRight)
+		{
+			m_Velocity .x = 0.f;
+		}
 }
 
 void Player::ChangeAnimation()
 {
-	m_Spritesheet8x5->SetIsFlipped(m_isFlipped);
+	m_Spritesheet->SetIsFlipped(m_isFlipped);
 
-	m_Spritesheet8x5->SetAnimation(int(m_PlayerState));
+	m_Spritesheet->SetAnimation(int(m_PlayerState));
 
 }
 
@@ -294,7 +350,12 @@ int Player::GetNrLives()
 	return m_NrLives;
 }
 
-Point2f Player::GetPosition()
+Vector2f Player::GetPosition()
 {
 	return m_Position;
+}
+
+Vector2f Player::GetVelocity()
+{
+	return m_Velocity;
 }

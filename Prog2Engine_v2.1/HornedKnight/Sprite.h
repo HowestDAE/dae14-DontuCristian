@@ -7,7 +7,7 @@ class Sprite
 {
 public:
 	//Constructor(s) and destructor
-	Sprite(const std::string& texturePath, const Point2f& location,int rows, int columns, float frameDelay);
+	Sprite(const std::string& texturePath, const Vector2f& location,int rows, int columns, float frameDelay);
 
 	~Sprite();
 	Sprite(Sprite& obj) = default;
@@ -15,7 +15,7 @@ public:
 
 	// Member functions
 	void Draw() const;
-	void Update(float elapsedSec, const Point2f& location);
+	void Update(float elapsedSec, const Vector2f& location);
 	void Flip() const;
 
 	void SetAnimation(int rowIdx);
@@ -28,8 +28,8 @@ public:
 	int	  GetColIdx();
 
 private:
-	bool m_isFlipped;
-	Point2f		m_Location;
+	bool		m_isFlipped;
+	Vector2f	m_Location;
 	std::string m_Path;
 
 	Rectf		m_SourceRect;
@@ -38,6 +38,6 @@ private:
 	float		m_FrameDelay;
 	float		m_AccumulatedTime{};
 	int			m_CurrentFrame{};
-	int			m_RowIdx { 0 }, m_ColIdx { 0 };
+	int			m_RowIdx {}, m_ColIdx {};
 };
 

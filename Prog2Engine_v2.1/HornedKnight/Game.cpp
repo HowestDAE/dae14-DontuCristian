@@ -15,7 +15,7 @@ Game::~Game( )
 void Game::Initialize( )
 {
 	m_LevelPtr = new Level{ "Level.svg","Level.png" };
-	m_PlayerPtr = new Player{Point2f{20,40},90.f,250.f, "PlayerSpritesheet.png"};
+	m_PlayerPtr = new Player{Vector2f{30,40},90.f,250.f, "PlayerSpritesheet.png"};
 }
 
 void Game::Cleanup( )
@@ -31,14 +31,14 @@ void Game::Update( float elapsedSec )
 	Camera::GetInstance()->Update(elapsedSec,m_LevelPtr->m_ScaleFactor);
 }
 
-void Game::Draw( ) const
+void Game::Draw() const
 {
 	const Point2f camPos{ Camera::GetInstance()->GetPosition() };
 	ClearBackground(Color4f{ 0.f,0.f,0.f,1.f });
 	glPushMatrix();
 	{
 		glTranslatef(-camPos.x, -camPos.y, 0.f);
-		//glScalef(m_LevelPtr->m_ScaleFactor, m_LevelPtr->m_ScaleFactor, 1.f);
+		glScalef(m_LevelPtr->m_ScaleFactor, m_LevelPtr->m_ScaleFactor, 1.f);
 		m_LevelPtr->Draw();
 		m_PlayerPtr->Draw();
 	}glPopMatrix();

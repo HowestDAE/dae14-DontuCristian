@@ -2,7 +2,7 @@
 #include "Sprite.h"
 #include "utils.h"
 
-class Entity
+class Enemy
 {public:
 	void Draw() const;
 	void Update(float elapsedSec);

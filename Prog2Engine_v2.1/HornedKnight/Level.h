@@ -2,7 +2,8 @@
 #include "SVGParser.h"
 #include "Sprite.h"
 #include "utils.h"
-#include "Player.h"
+#include "Camera.h"
+#include "GameVars.h"
 class Level
 {
 public:

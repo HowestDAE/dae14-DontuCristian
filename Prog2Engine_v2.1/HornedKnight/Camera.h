@@ -13,17 +13,16 @@ public:
 
 
 	void Update(float elapsedSec,float zoom);
-	void DrawWorld() const;
 
 	Rectf GetViewRect();
-	Point2f GetPosition();
-	void SetTarget(const Point2f& target);
+	Vector2f GetPosition();
+	void SetTarget(const Vector2f& target);
 
 private:
 	Camera();
 
-	Point2f m_Target;
-	Point2f m_Position;
+	Vector2f m_Target;
+	Vector2f m_Position;
 
 	Rectf m_ViewRect;
 

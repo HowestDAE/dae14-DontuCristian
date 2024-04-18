@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "Sprite.h"
 
-Sprite::Sprite(const std::string& texturePath, const Point2f& location, int rows, int columns, float frameDelay) :
+Sprite::Sprite(const std::string& texturePath, const Vector2f& location, int rows, int columns, float frameDelay) :
 	m_Rows{ rows },
 	m_Columns{ columns },
 	m_FrameDelay{ frameDelay },
@@ -13,7 +13,7 @@ Sprite::Sprite(const std::string& texturePath, const Point2f& location, int rows
 	m_FrameWidth = int(TextureManager::GetInstance()->GetTexture(texturePath)->GetWidth()) / m_Columns;
 	m_FrameHeight = int(TextureManager::GetInstance()->GetTexture(texturePath)->GetHeight()) / m_Rows;
 
-	m_Location = Point2f{ location.x - m_FrameWidth/2 , location.y - m_FrameHeight/2 };
+	m_Location = Vector2f{ location.x - m_FrameWidth/2 , location.y - m_FrameHeight/2 };
 }
 
 Sprite::~Sprite()
@@ -31,11 +31,11 @@ void Sprite::Draw() const
 	}
 	else
 	{
-		TextureManager::GetInstance()->GetTexture(m_Path)->Draw(m_Location, m_SourceRect);
+		TextureManager::GetInstance()->GetTexture(m_Path)->Draw(Point2f{m_Location.x,m_Location.y}, m_SourceRect);
 	}
 }
 
-void Sprite::Update(float elapsedSec, const Point2f& location)
+void Sprite::Update(float elapsedSec, const Vector2f& location)
 {
 	//Updateing the SourceRect
 	m_SourceRect = Rectf{	float(m_ColIdx * m_FrameWidth),
@@ -43,7 +43,7 @@ void Sprite::Update(float elapsedSec, const Point2f& location)
 							float(m_FrameWidth),
 							float(m_FrameHeight) };
 
-	m_Location.x = location.x-m_FrameWidth / 2;
+	m_Location.x = location.x - m_FrameWidth / 2;
 	m_Location.y = location.y - m_FrameHeight / 2;
 
 	//Update the column index

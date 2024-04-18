@@ -24,19 +24,19 @@ void Camera::Update(float elapsedSec,float zoom)
 		
 		//m_ViewRect.left = (m_ViewRect.left > 2*SCREEN_WIDTH - m_ViewRect.width) ? 2 * SCREEN_WIDTH - m_ViewRect.width : m_ViewRect.left;
 		m_ViewRect.bottom = (m_ViewRect.bottom > SCREEN_HEIGHT - m_ViewRect.height) ? SCREEN_HEIGHT - m_ViewRect.height : m_ViewRect.bottom;
-		m_Position = Point2f{m_ViewRect.left * zoom, m_ViewRect.bottom * zoom};
+		m_Position = Vector2f{m_ViewRect.left * zoom, m_ViewRect.bottom * zoom};
 }
 Rectf Camera::GetViewRect()
 {
 	return m_ViewRect;
 }
 
-Point2f Camera::GetPosition()
+Vector2f Camera::GetPosition()
 {
 	return m_Position;
 }
 
-void Camera::SetTarget(const Point2f& target)
+void Camera::SetTarget(const Vector2f& target)
 {
 	m_Target = target;
 }
