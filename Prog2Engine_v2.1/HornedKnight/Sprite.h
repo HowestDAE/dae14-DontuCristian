@@ -7,7 +7,7 @@ class Sprite
 {
 public:
 	//Constructor(s) and destructor
-	Sprite(const std::string& texturePath, const Vector2f& location,int rows, int columns, float frameDelay);
+	Sprite(const std::string& texturePath, const Vector2f& location, int rows = { 1 }, int columns = { 1 }, float frameDelay = {0.f});
 
 	~Sprite();
 	Sprite(Sprite& obj) = default;

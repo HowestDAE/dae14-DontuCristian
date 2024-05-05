@@ -14,7 +14,8 @@ TextureManager::TextureManager()
 TextureManager::~TextureManager()
 {
     //deletes the hashmap
-    for (auto iterator = m_MyHashMap.begin(); iterator != m_MyHashMap.end();)
+    //No auto :(
+    for (std::_List_iterator<std::_List_val<std::_List_simple_types<std::pair<const std::string, Texture*>>>> iterator = m_MyHashMap.begin(); iterator != m_MyHashMap.end();)
     {
         delete iterator->second;
         iterator->second = nullptr;
@@ -30,7 +31,8 @@ TextureManager* TextureManager::GetInstance()
 
 Texture* TextureManager::GetTexture(const std::string& texturePath)
 {
-    auto iterator = m_MyHashMap.find(texturePath);
+    //No auto :/
+    std::_List_iterator<std::_List_val<std::_List_simple_types<std::pair<const std::string, Texture*>>>> iterator = m_MyHashMap.find(texturePath);
 
     //returns texture if it exists
     if (iterator != m_MyHashMap.end())

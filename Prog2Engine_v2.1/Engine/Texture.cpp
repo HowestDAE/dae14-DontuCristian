@@ -214,7 +214,7 @@ void Texture::CreateFromSurface( SDL_Surface* pSurface )
 	glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST );
 }
 
-void Texture::Draw( const Point2f& dstBottomLeft, const Rectf& srcRect ) const
+void Texture::Draw( const Point2f& dstBottomLeft, const Rectf& srcRect) const
 {
 	const float epsilon{ 0.001f };
 	if ( !m_CreationOk )
@@ -236,11 +236,11 @@ void Texture::Draw( const Point2f& dstBottomLeft, const Rectf& srcRect ) const
 			dstRect.width = m_Width;
 			dstRect.height = m_Height;
 		}
-		Draw( dstRect, srcRect );
+		Draw( dstRect, srcRect);
 	}
 }
 
-void Texture::Draw( const Rectf& dstRect, const Rectf& srcRect ) const
+void Texture::Draw( const Rectf& dstRect, const Rectf& srcRect) const
 {
 	const float epsilon{ 0.001f };
 	if ( !m_CreationOk )
@@ -302,25 +302,28 @@ void Texture::Draw( const Rectf& dstRect, const Rectf& srcRect ) const
 	glTexEnvi( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE );
 
 	// Draw
-	glEnable( GL_TEXTURE_2D );
 	{
-		glBegin( GL_QUADS );
+		glEnable(GL_TEXTURE_2D);
 		{
-			glTexCoord2f( textLeft, textBottom );
-			glVertex2f( vertexLeft, vertexBottom );
+			glBegin(GL_QUADS);
+			{
 
-			glTexCoord2f( textLeft, textTop );
-			glVertex2f( vertexLeft, vertexTop );
+				glTexCoord2f(textLeft, textBottom);
+				glVertex2f(vertexLeft, vertexBottom);
 
-			glTexCoord2f( textRight, textTop );
-			glVertex2f( vertexRight, vertexTop );
+				glTexCoord2f(textLeft, textTop);
+				glVertex2f(vertexLeft, vertexTop);
 
-			glTexCoord2f( textRight, textBottom );
-			glVertex2f( vertexRight, vertexBottom );
+				glTexCoord2f(textRight, textTop);
+				glVertex2f(vertexRight, vertexTop);
+
+				glTexCoord2f(textRight, textBottom);
+				glVertex2f(vertexRight, vertexBottom);
+			}
+			glEnd();
 		}
-		glEnd( );
+		glDisable(GL_TEXTURE_2D);
 	}
-	glDisable( GL_TEXTURE_2D );
 }
 
 float Texture::GetWidth() const

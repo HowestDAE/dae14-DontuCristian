@@ -8,7 +8,10 @@ Camera::Camera() :
 {
 
 }
-
+Camera::~Camera()
+{
+	delete m_Instance;
+}
 Camera* Camera::GetInstance()
 {
 	m_Instance = (m_Instance != nullptr) ? m_Instance : new Camera;
@@ -26,12 +29,12 @@ void Camera::Update(float elapsedSec,float zoom)
 		m_ViewRect.bottom = (m_ViewRect.bottom > SCREEN_HEIGHT - m_ViewRect.height) ? SCREEN_HEIGHT - m_ViewRect.height : m_ViewRect.bottom;
 		m_Position = Vector2f{m_ViewRect.left * zoom, m_ViewRect.bottom * zoom};
 }
-Rectf Camera::GetViewRect()
+Rectf Camera::GetViewRect() const
 {
 	return m_ViewRect;
 }
 
-Vector2f Camera::GetPosition()
+Vector2f Camera::GetPosition() const
 {
 	return m_Position;
 }

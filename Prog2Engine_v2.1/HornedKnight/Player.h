@@ -25,7 +25,7 @@ public:
 	Player(const Player& obj) = delete;
 	void operator=(const Player&) = delete;
 
-	Player(const Vector2f& pos, float speed, float jmpPower, const std::string& filePath,
+	Player(const Vector2f& pos, const std::string& filePath,
 		int rows = { 8 }, int columns = { 5 }, float frameDelay = { 0.15f });
 
 	~Player();
@@ -35,34 +35,36 @@ public:
 
 	void SetIsAlive(bool myBool);
 
-	void Jump(const SDL_KeyboardEvent& e = {});
 	void Dash(const SDL_KeyboardEvent& e = {});
 	void Attack(const SDL_MouseButtonEvent& e = {});
 
-	int		 GetNrLives();
-	Vector2f GetPosition();
-	Vector2f GetVelocity();
+	int		 GetNrLives() const;
+	Vector2f GetPosition() const;
+	Vector2f GetVelocity() const;
 
 private:
 
-	void HandleCollision(float elapsedSec,std::vector<Point2f> poly);
+	void HandleCollision(float elapsedSec, const std::vector<std::vector<Point2f>>& polysVector);
+	void HandlePlatformCollision(float elapsedSec, const std::vector<Platform*>& platformsVector);
+
 	void ChangeAnimation();
-	void MoveInput();
+	void MoveInput(float& elapsedSec);
 	void ChangeStates();
 
 	//CONSTANTS
 	const Color4f	COL_COLOR{ 0.f, 1.f, 0.f, 1.f };
-	const float DASH_SPEED = { 10.f };
+	const float		DASH_SPEED = { 10.f };
+	const float		SPEED = { 100.f };
+	const float     JUMP_PWR = { 250.f };
 
-	float m_ElapsedSec;
+	float m_ElapsedSec{};
 	//Members
 	bool m_isOnGround;
+	bool m_isOnPlatform;
 	bool m_WallHit;
 	bool m_isAlive;
 	bool m_isFlipped;
 	int	 m_NrLives;
-	float m_Speed;
-	float m_JmpPower;
 	float m_DashAngle = { 0.f };
 
 	Rectf			m_Collider;

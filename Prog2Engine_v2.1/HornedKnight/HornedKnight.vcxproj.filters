@@ -13,6 +13,36 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Source Files\MyClasses">
+      <UniqueIdentifier>{ade16960-88ec-4e36-9343-8d88daf87c42}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\MyClasses\Player">
+      <UniqueIdentifier>{59d4db10-1b5b-4714-9d1f-1b7da878bed3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\MyClasses\Camera">
+      <UniqueIdentifier>{db318477-c128-4def-a2ba-579cc394946a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\MyClasses\Sprites &amp; Texture">
+      <UniqueIdentifier>{1778f2a3-87d9-4fcb-9f68-0f021b528dce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\MyClasses\Level">
+      <UniqueIdentifier>{9ee214e9-33f0-4a6a-98d5-5f029c344064}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\MyClasses\Enemies">
+      <UniqueIdentifier>{5ca7a77a-db6f-4e12-90c7-8a4359691e36}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\MyClasses\Particles">
+      <UniqueIdentifier>{bf450987-9e06-477a-8fc6-d730e69ecf6f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\MyClasses\Particles\Particle base and Manager">
+      <UniqueIdentifier>{999eee93-e8c2-4526-b3a9-8676f88852cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\MyClasses\InverseKinematics">
+      <UniqueIdentifier>{8b38c5ad-c3f2-4450-a375-f10f0fae0071}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\MyClasses\Level\Platforms">
+      <UniqueIdentifier>{a34bfa91-8bd6-485a-963b-1ebbe5d7f37c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
@@ -24,29 +54,47 @@
     <ClCompile Include="pch.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Camera.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Collisions.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Enemy.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Level.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Player.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\MyClasses\Player</Filter>
     </ClCompile>
     <ClCompile Include="Sprite.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\MyClasses\Sprites &amp; Texture</Filter>
     </ClCompile>
     <ClCompile Include="TextureManager.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\MyClasses\Sprites &amp; Texture</Filter>
     </ClCompile>
-    <ClCompile Include="Entity.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Level.cpp">
+      <Filter>Source Files\MyClasses\Level</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>Source Files\MyClasses\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="Dust.cpp">
+      <Filter>Source Files\MyClasses\Particles</Filter>
+    </ClCompile>
+    <ClCompile Include="Lava.cpp">
+      <Filter>Source Files\MyClasses\Particles</Filter>
+    </ClCompile>
+    <ClCompile Include="ParticleManager.cpp">
+      <Filter>Source Files\MyClasses\Particles\Particle base and Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Particle.cpp">
+      <Filter>Source Files\MyClasses\Particles\Particle base and Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Dash.cpp">
+      <Filter>Source Files\MyClasses\Particles</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Source Files\MyClasses\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Platform.cpp">
+      <Filter>Source Files\MyClasses\Level\Platforms</Filter>
+    </ClCompile>
+    <ClCompile Include="MovingPlatform.cpp">
+      <Filter>Source Files\MyClasses\Level\Platforms</Filter>
+    </ClCompile>
+    <ClCompile Include="FadeOutPlatform.cpp">
+      <Filter>Source Files\MyClasses\Level\Platforms</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -56,32 +104,50 @@
     <ClInclude Include="pch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Camera.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Collisions.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Enemy.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="GameVars.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Level.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Player.h">
-      <Filter>Header Files</Filter>
+      <Filter>Source Files\MyClasses\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Source Files\MyClasses\Camera</Filter>
     </ClInclude>
     <ClInclude Include="Sprite.h">
-      <Filter>Header Files</Filter>
+      <Filter>Source Files\MyClasses\Sprites &amp; Texture</Filter>
     </ClInclude>
     <ClInclude Include="TextureManager.h">
-      <Filter>Header Files</Filter>
+      <Filter>Source Files\MyClasses\Sprites &amp; Texture</Filter>
     </ClInclude>
-    <ClInclude Include="Entity.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Level.h">
+      <Filter>Source Files\MyClasses\Level</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>Source Files\MyClasses\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="Dust.h">
+      <Filter>Source Files\MyClasses\Particles</Filter>
+    </ClInclude>
+    <ClInclude Include="Lava.h">
+      <Filter>Source Files\MyClasses\Particles</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleManager.h">
+      <Filter>Source Files\MyClasses\Particles\Particle base and Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Particle.h">
+      <Filter>Source Files\MyClasses\Particles\Particle base and Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Dash.h">
+      <Filter>Source Files\MyClasses\Particles</Filter>
+    </ClInclude>
+    <ClInclude Include="Platform.h">
+      <Filter>Source Files\MyClasses\Level\Platforms</Filter>
+    </ClInclude>
+    <ClInclude Include="MovingPlatform.h">
+      <Filter>Source Files\MyClasses\Level\Platforms</Filter>
+    </ClInclude>
+    <ClInclude Include="FadeOutPlatform.h">
+      <Filter>Source Files\MyClasses\Level\Platforms</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

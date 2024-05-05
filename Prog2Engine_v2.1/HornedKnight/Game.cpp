@@ -15,20 +15,29 @@ Game::~Game( )
 void Game::Initialize( )
 {
 	m_LevelPtr = new Level{ "Level.svg","Level.png" };
-	m_PlayerPtr = new Player{Vector2f{30,40},90.f,250.f, "PlayerSpritesheet.png"};
+	m_PlayerPtr = new Player{Vector2f{30,80}, "PlayerSpritesheet.png"};
+
+
+	ParticleManager::GetInstance()->CreateParticles(ParticleType::dust,5);
+	ParticleManager::GetInstance()->CreateParticles(ParticleType::lava,30);
+	ParticleManager::GetInstance()->CreateParticles(ParticleType::dash,30);
+
 }
 
-void Game::Cleanup( )
+void Game::Cleanup()
 {
 	delete m_PlayerPtr;
 	delete m_LevelPtr;
+	delete ParticleManager::GetInstance();
 }
 
 void Game::Update( float elapsedSec )
 {
+	m_LevelPtr->Update(elapsedSec);
 	m_PlayerPtr->Update(elapsedSec);
 	Camera::GetInstance()->SetTarget(m_PlayerPtr->GetPosition());
-	Camera::GetInstance()->Update(elapsedSec,m_LevelPtr->m_ScaleFactor);
+	Camera::GetInstance()->Update(elapsedSec,m_LevelPtr->GetScaleFactor());
+	ParticleManager::GetInstance()->Update(elapsedSec,mousePos.y);
 }
 
 void Game::Draw() const
@@ -38,17 +47,16 @@ void Game::Draw() const
 	glPushMatrix();
 	{
 		glTranslatef(-camPos.x, -camPos.y, 0.f);
-		glScalef(m_LevelPtr->m_ScaleFactor, m_LevelPtr->m_ScaleFactor, 1.f);
+		glScalef(m_LevelPtr->GetScaleFactor(), m_LevelPtr->GetScaleFactor(), 1.f);
 		m_LevelPtr->Draw();
 		m_PlayerPtr->Draw();
 	}glPopMatrix();
-
+	ParticleManager::GetInstance()->Draw();
 	utils::SetColor(Color4f{0,1,0,1});
 }
 
 void Game::ProcessKeyDownEvent( const SDL_KeyboardEvent & e )
 {
-	m_PlayerPtr->Jump(e);
 	m_PlayerPtr->Dash(e);
 	//std::cout << "KEYDOWN event: " << e.keysym.sym << std::endl;
 }
@@ -81,20 +89,14 @@ void Game::ProcessMouseMotionEvent( const SDL_MouseMotionEvent& e )
 
 void Game::ProcessMouseDownEvent( const SDL_MouseButtonEvent& e )
 {
-
-	//std::cout << "MOUSEBUTTONDOWN event: ";
-	//switch ( e.button )
-	//{
-	//case SDL_BUTTON_LEFT:
-	//	std::cout << " left button " << std::endl;
-	//	break;
-	//case SDL_BUTTON_RIGHT:
-	//	std::cout << " right button " << std::endl;
-	//	break;
-	//case SDL_BUTTON_MIDDLE:
-	//	std::cout << " middle button " << std::endl;
-	//	break;
-	//}
+	switch ( e.button )
+	{
+	case SDL_BUTTON_LEFT:
+		mousePos.x = float(e.x);
+		mousePos.y = float(e.y);
+		ParticleManager::GetInstance()->Emit(ParticleType::lava, Vector2f{ mousePos.x,mousePos.y });
+		break;
+	}
 	
 }
 

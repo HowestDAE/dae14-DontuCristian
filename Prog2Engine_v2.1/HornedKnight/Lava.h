@@ -1,0 +1,27 @@
+#pragma once
+#include "Particle.h"
+class Lava:public Particle
+{
+public:
+	Lava(const Vector2f& pos);
+
+	//Rule of 5
+	void operator= (const Lava&) = delete;
+	void operator= (const Lava&&) = delete;
+	Lava(const Lava& obj) = delete;
+	Lava(const Lava&& obj) = delete;
+
+	~Lava();
+
+	void Update(float elapsedSec,float targetY);
+	void Draw() const;
+
+	void Emit(Vector2f pos);
+
+private:
+
+	float m_Size;
+
+	float m_DestroyRayY;//the y level at which the particles get destroyed
+};
+

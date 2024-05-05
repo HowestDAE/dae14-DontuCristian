@@ -10,7 +10,7 @@ class Enemy
 	void SetIsAlive(bool myBool);
 
 	void ChangeAnimation();
-	Point2f GetPosition();
+	Point2f GetPosition() const;
 private:
 	//CONSTANTS
 	const Color4f	COL_COLOR{ 0.f, 1.f, 0.f, 1.f };

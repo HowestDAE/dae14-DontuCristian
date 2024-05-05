@@ -3,6 +3,9 @@
 #include "Player.h"
 #include "Level.h"
 #include "Camera.h"
+#include "ParticleManager.h"
+#include "Platform.h"
+#include "MovingPlatform.h"
 
 class Game : public BaseGame
 {
@@ -38,4 +41,6 @@ private:
 
 	Player* m_PlayerPtr{};
 	Level* m_LevelPtr{};
+
+	bool m_EmitParticles{false};
 };

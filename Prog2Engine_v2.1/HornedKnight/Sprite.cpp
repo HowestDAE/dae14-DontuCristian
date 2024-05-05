@@ -14,6 +14,8 @@ Sprite::Sprite(const std::string& texturePath, const Vector2f& location, int row
 	m_FrameHeight = int(TextureManager::GetInstance()->GetTexture(texturePath)->GetHeight()) / m_Rows;
 
 	m_Location = Vector2f{ location.x - m_FrameWidth/2 , location.y - m_FrameHeight/2 };
+
+	m_SourceRect = Rectf{ 0.f,0.f,float(m_FrameWidth),float(m_FrameHeight) };
 }
 
 Sprite::~Sprite()
@@ -37,7 +39,7 @@ void Sprite::Draw() const
 
 void Sprite::Update(float elapsedSec, const Vector2f& location)
 {
-	//Updateing the SourceRect
+	//Updating the SourceRect
 	m_SourceRect = Rectf{	float(m_ColIdx * m_FrameWidth),
 							float(m_RowIdx * m_FrameHeight),
 							float(m_FrameWidth),
@@ -49,13 +51,13 @@ void Sprite::Update(float elapsedSec, const Vector2f& location)
 	//Update the column index
 	m_ColIdx = m_CurrentFrame % m_Columns;
 
-	//Time counter to constrol the framerate
+	//Time counter to control the framerate
 	m_AccumulatedTime += elapsedSec;
 
 	if (m_AccumulatedTime > m_FrameDelay)
 	{
 		++m_CurrentFrame;
-		if (m_CurrentFrame >= m_Rows * m_Columns)
+		if (m_CurrentFrame >= m_Columns)
 		{
 			m_CurrentFrame = 0;
 		}

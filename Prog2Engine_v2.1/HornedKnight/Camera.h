@@ -6,16 +6,19 @@
 class Camera
 {
 public:
+	//Rule of 3
+	~Camera();
 	Camera(const Camera& obj) = delete;
 	void operator=(const Camera&) = delete;
 
+	//Gets the instance of my camera
 	static Camera* GetInstance();
-
 
 	void Update(float elapsedSec,float zoom);
 
-	Rectf GetViewRect();
-	Vector2f GetPosition();
+	Rectf GetViewRect() const;
+	Vector2f GetPosition() const;
+
 	void SetTarget(const Vector2f& target);
 
 private:
