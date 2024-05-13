@@ -1,6 +1,6 @@
 #pragma once
 #include "Particle.h"
-class Dust:public Particle
+class Dust final:public Particle
 {
 public:
 	Dust(const Vector2f& pos);
@@ -14,16 +14,18 @@ public:
 	Dust(const Dust& obj) = delete;
 
 	void Update(float elapsedSec);
-	void Emit(const Vector2f& pos);
-	void Destroy();
 
 	void Draw() const;
-private:
 
+	static int m_DustPartCount;
+
+private:
+	//CONSTANTS
+	const float ALIVE_TIME{ 0.5f };
+	const float FADEOUT_TIME{ 0.5f };
+
+	//Member variables
 	float m_Opacity{1.f};
-	float m_AccumulatedTime{};
-	const float m_AliveTime{1.f};
-	const float m_FadeOutTime{1.f};
-	
+	float m_AccumulatedTime{};	
 };
 

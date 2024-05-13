@@ -14,13 +14,10 @@ Game::~Game( )
 
 void Game::Initialize( )
 {
+	m_HudPtr = new HUD{};
+
 	m_LevelPtr = new Level{ "Level.svg","Level.png" };
-	m_PlayerPtr = new Player{Vector2f{30,80}, "PlayerSpritesheet.png"};
-
-
-	ParticleManager::GetInstance()->CreateParticles(ParticleType::dust,5);
-	ParticleManager::GetInstance()->CreateParticles(ParticleType::lava,30);
-	ParticleManager::GetInstance()->CreateParticles(ParticleType::dash,30);
+	m_PlayerPtr = new Player{Vector2f{30.f,70.f}, "PlayerSpritesheet.png"};
 
 }
 
@@ -28,7 +25,7 @@ void Game::Cleanup()
 {
 	delete m_PlayerPtr;
 	delete m_LevelPtr;
-	delete ParticleManager::GetInstance();
+	//delete TextureManager::GetInstance();
 }
 
 void Game::Update( float elapsedSec )
@@ -37,7 +34,12 @@ void Game::Update( float elapsedSec )
 	m_PlayerPtr->Update(elapsedSec);
 	Camera::GetInstance()->SetTarget(m_PlayerPtr->GetPosition());
 	Camera::GetInstance()->Update(elapsedSec,m_LevelPtr->GetScaleFactor());
+
+	if (m_MouseClick)
+		ParticleManager::GetInstance()->Emit(elapsedSec, ParticleType::dash, Vector2f{mousePos.x,mousePos.y});
+
 	ParticleManager::GetInstance()->Update(elapsedSec,mousePos.y);
+	m_HudPtr->Update(elapsedSec);
 }
 
 void Game::Draw() const
@@ -50,9 +52,13 @@ void Game::Draw() const
 		glScalef(m_LevelPtr->GetScaleFactor(), m_LevelPtr->GetScaleFactor(), 1.f);
 		m_LevelPtr->Draw();
 		m_PlayerPtr->Draw();
+		ParticleManager::GetInstance()->Draw();
 	}glPopMatrix();
-	ParticleManager::GetInstance()->Draw();
-	utils::SetColor(Color4f{0,1,0,1});
+	glPushMatrix();
+	{
+		glScalef(4.5f, 4.5f, 1.f);
+		m_HudPtr->Draw();
+	}glPopMatrix();
 }
 
 void Game::ProcessKeyDownEvent( const SDL_KeyboardEvent & e )
@@ -94,7 +100,8 @@ void Game::ProcessMouseDownEvent( const SDL_MouseButtonEvent& e )
 	case SDL_BUTTON_LEFT:
 		mousePos.x = float(e.x);
 		mousePos.y = float(e.y);
-		ParticleManager::GetInstance()->Emit(ParticleType::lava, Vector2f{ mousePos.x,mousePos.y });
+		//Player::SetNrLives(--lives);
+		m_MouseClick = true;
 		break;
 	}
 	
@@ -103,6 +110,13 @@ void Game::ProcessMouseDownEvent( const SDL_MouseButtonEvent& e )
 void Game::ProcessMouseUpEvent( const SDL_MouseButtonEvent& e )
 {
 	m_PlayerPtr->Attack(e);
+
+	switch (e.button)
+	{
+	case SDL_BUTTON_LEFT:
+		m_MouseClick = false;
+		break;
+	}
 	//std::cout << "MOUSEBUTTONUP event: ";
 	//switch ( e.button )
 	//{

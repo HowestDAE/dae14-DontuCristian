@@ -1,9 +1,9 @@
 #include "pch.h"
 #include "FadeOutPlatform.h"
 
-const float FadeOutPlatform::INTERACTABLE_TIME = {2.f};
-const float FadeOutPlatform::FADE_TIME ={1.f};
-const float FadeOutPlatform::RESET_TIME ={3.f};
+const float FadeOutPlatform::INTERACTABLE_TIME = {1.f};
+const float FadeOutPlatform::FADE_TIME ={0.5f};
+const float FadeOutPlatform::RESET_TIME ={2.f};
 
 FadeOutPlatform::FadeOutPlatform(const std::string& textPath, const Vector2f& pos, int rows, int columns):
 	Platform(textPath, pos, rows, columns, FADE_TIME/columns),
@@ -17,8 +17,6 @@ FadeOutPlatform::FadeOutPlatform(const std::string& textPath, const Vector2f& po
 }
 void FadeOutPlatform::Update(float elapsedSec)
 {
-	m_isInteractable = true;
-
 	m_Sprite->Update(elapsedSec, m_Pos);
 	m_Sprite->SetAnimation(0);
 
@@ -30,15 +28,16 @@ void FadeOutPlatform::Update(float elapsedSec)
 		{
 			m_isInteractable = false;
 			m_Sprite->SetAnimation(2);
-			if (m_Sprite->GetColIdx() == 4)
-			{
-				m_Pos.y = -100.f;
-			}
 		}
 		else
 		{
 			m_Sprite->SetAnimation(1);
 		}
+		if (m_AccumulatedTime >= INTERACTABLE_TIME + FADE_TIME)
+		{
+				m_Pos.y = -100.f;
+		}
+
 	}
 	if (m_AccumulatedTime >= INTERACTABLE_TIME + FADE_TIME + RESET_TIME)
 	{
@@ -46,6 +45,7 @@ void FadeOutPlatform::Update(float elapsedSec)
 		m_Pos.y = m_PresetHeight;
 		m_AccumulatedTime = 0.f;
 		m_Collision = false;
+		m_isInteractable = true;
 	}
 	m_Collider.bottom = m_Pos.y - m_Collider.height / 2 + 2.5f;
 }

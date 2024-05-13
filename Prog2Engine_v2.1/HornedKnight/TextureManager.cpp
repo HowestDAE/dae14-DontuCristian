@@ -55,7 +55,6 @@ Texture* TextureManager::GetTexture(const std::string& texturePath)
         {
             std::cout << "Texture creation has failed! name: " << texturePath << std::endl;
 
-
             return m_MyHashMap.at("Null.png");
         }
     }

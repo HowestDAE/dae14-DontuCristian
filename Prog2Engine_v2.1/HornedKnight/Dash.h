@@ -1,6 +1,6 @@
 #pragma once
 #include "Particle.h"
-class Dash :public Particle
+class Dash final:public Particle
 {
 public:
 	Dash(const Vector2f& pos);
@@ -16,16 +16,15 @@ public:
 	void Update(float elapsedSec);
 	void Draw() const;
 
-	void Emit(Vector2f pos);
+	static int m_DashPartCount;
 
 private:
+	//CONSTANTS
+	const float ALIVE_TIME   { 0.5f };
+	const float FADEOUT_TIME { 0.5f };
 
+	//Member variables
 	float m_Opacity{ 1.f };
-	float m_ElapsedSec{};
 	float m_AccumulatedTime{};
-
-	//Constants
-	const float m_AliveTime{1.f};
-	const float m_FadeOutTime{1.f};
 };
 

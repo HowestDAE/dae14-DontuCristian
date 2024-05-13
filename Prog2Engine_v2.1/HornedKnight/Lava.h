@@ -1,6 +1,6 @@
 #pragma once
 #include "Particle.h"
-class Lava:public Particle
+class Lava final:public Particle
 {
 public:
 	Lava(const Vector2f& pos);
@@ -16,12 +16,15 @@ public:
 	void Update(float elapsedSec,float targetY);
 	void Draw() const;
 
-	void Emit(Vector2f pos);
+	static int m_LavaPartCount;
 
 private:
+	//CONSTANTS
+	const static float MAX_SIZE;
+	const static float MAX_DIST; //max dist from the emition point
 
+	//Member variables
 	float m_Size;
-
 	float m_DestroyRayY;//the y level at which the particles get destroyed
 };
 

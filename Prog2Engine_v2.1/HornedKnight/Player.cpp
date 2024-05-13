@@ -1,10 +1,11 @@
 #include "pch.h"
 #include "Player.h"
 
+int Player::m_NrLives = { 6 };
+
 Player::Player(const Vector2f& pos, const std::string& filePath,
 	int rows, int columns, float frameDelay):
 	m_isAlive			{true},
-	m_NrLives			{7},
 	m_Velocity			{0.f,0.f},
 	m_isOnGround		{false},
 	m_isFlipped			{false},
@@ -15,7 +16,7 @@ Player::Player(const Vector2f& pos, const std::string& filePath,
 	m_AttackRange = Circlef{ Point2f{pos.x,pos.y }, 15
 };
 	m_Spritesheet = new Sprite{ filePath,pos, rows, columns, frameDelay };
-	m_Collider = Rectf{ pos.x-5.f , pos.y-16.f,10.f, 19.f };
+	m_Collider = Rectf{ pos.x-5.f , pos.y-16.f,10.f, 16.f };
 }
 
 Player::~Player()
@@ -25,43 +26,6 @@ Player::~Player()
 
 void Player::Draw() const
 {
-	const Vector2f nextPos{ m_Position.x + m_Velocity.x * m_ElapsedSec,
-								m_Position.y + m_Velocity.y * m_ElapsedSec };
-
-	const Rectf nextCollider{ m_Collider.left + m_Velocity.x * m_ElapsedSec,
-							  m_Collider.bottom + m_Velocity.y * m_ElapsedSec,
-							  m_Collider.width,
-							  m_Collider.height };
-
-
-
-	//Points from player
-	const Point2f bottomMidRight{ m_Collider.left + m_Collider.width, m_Collider.bottom + m_Collider.height / 2 };
-	const Point2f bottomMidLeft{ m_Collider.left, m_Collider.bottom + m_Collider.height / 2 };
-
-	const Point2f bottomLeft{ m_Collider.left, m_Collider.bottom };
-	const Point2f topLeft{ m_Collider.left, m_Collider.bottom + m_Collider.height };
-	const Point2f topRight{ m_Collider.left + m_Collider.width, m_Collider.bottom + m_Collider.height };
-	const Point2f bottomRight{ m_Collider.left + m_Collider.width, m_Collider.bottom };
-
-	//Next points from player
-	const Point2f nextMidLeft{ nextCollider.left, nextCollider.bottom + nextCollider.height / 2 };
-	const Point2f nextMidRight{ nextCollider.left + nextCollider.width, nextCollider.bottom + nextCollider.height / 2 };
-
-	const Point2f nextBottomLeft{ nextCollider.left, nextCollider.bottom };
-	const Point2f nextTopLeft{ nextCollider.left, nextCollider.bottom + nextCollider.height };
-	const Point2f nextTopRight{ nextCollider.left + nextCollider.width, nextCollider.bottom + nextCollider.height };
-	const Point2f nextBottomRight{ nextCollider.left + nextCollider.width, nextCollider.bottom };
-
-	utils::DrawLine(bottomLeft, nextBottomLeft);
-	utils::DrawLine(bottomRight, nextBottomRight);
-	utils::DrawLine(topLeft, nextTopLeft);
-	utils::DrawLine(topRight, nextTopRight);
-
-	utils::DrawLine(bottomMidLeft, nextMidLeft);
-	utils::DrawLine(bottomMidRight, nextMidRight);
-
-
 	utils::SetColor(COL_COLOR);
 
 	utils::DrawRect(m_Collider);
@@ -71,27 +35,26 @@ void Player::Draw() const
 
 void Player::Update(float elapsedSec)
 {
-	m_ElapsedSec = elapsedSec;
-
-
 	//Wall sliding
 	if (m_PlayerState == PlayerState::wallSlide)
 	{
 		m_Velocity.x = 0.f;
-		m_Velocity.y = -10.f;
+		m_Velocity.y = -30.f;
 	}
 	MoveInput(elapsedSec);
 	ChangeStates();
 
-	//Temorary code for testing
+	//Applying gravity 
 	if(m_PlayerState != PlayerState::wallSlide)
 	{
 		m_Velocity.y -= GRAVITY.y * elapsedSec;
 	}
 
-	//Half working collisions, gotta fix them
-	HandlePlatformCollision(elapsedSec, Level::m_PlatformsArr);
+	//Fully Working Collisions
 	HandleCollision(elapsedSec, Level::m_ColliderArr);
+	HandleCollision(elapsedSec, Level::m_PlatformsArr);
+	HandleCollision(elapsedSec, Level::m_EnemiesArr);
+	HandleCollision(elapsedSec, Level::m_DMGZoneArr);
 
 	if (m_PlayerState != PlayerState::dash)
 	{
@@ -99,21 +62,11 @@ void Player::Update(float elapsedSec)
 	}
 	
 	m_Collider.left = m_Position.x - m_Collider.width / 2;
-	m_Collider.bottom = m_Position.y - (m_Collider.height / 2 + 7.f);
+	m_Collider.bottom = m_Position.y - (m_Collider.height / 2 + 8.f);
 	
-
 	//Setting the player animation based on velocity
 	ChangeAnimation();
 	m_Spritesheet->Update(elapsedSec, m_Position);
-
-	//if (m_PlayerState == PlayerState::dash)
-	//{
-	//
-	//	Vector2f dashVelocity{ cosf((m_DashAngle *float(M_PI))/180) * DASH_SPEED,
-	//					sinf((m_DashAngle * float(M_PI)) / 180) * DASH_SPEED };
-	//
-	//	m_Position += dashVelocity * elapsedSec;
-	//}
 }
 
 void Player::SetIsAlive(bool myBool)
@@ -123,45 +76,50 @@ void Player::SetIsAlive(bool myBool)
 
 void Player::MoveInput(float& elapsedSec)
 {
-	m_Velocity.x = 0.f;
-
 	const Uint8* pStates = SDL_GetKeyboardState(nullptr);
-
+	
 	if (pStates[SDL_SCANCODE_A])
 	{
 		m_isFlipped = true;
 		m_Velocity.x = -SPEED;
 		m_PlayerState = PlayerState::walking;
 	}
-	if (pStates[SDL_SCANCODE_D])
+	else if (pStates[SDL_SCANCODE_D])
 	{
 		m_isFlipped = false;
 		m_Velocity.x = SPEED;
 		m_PlayerState = PlayerState::walking;
 	}
+	else if (pStates[SDL_SCANCODE_L])
+	{
+		std::cout << m_Position<<"\n";
+	}
+	else
+	{
+		m_Velocity.x = 0.f;
+	}
 	if (pStates[SDL_SCANCODE_SPACE])
 	{
 		if (m_isOnGround)
 		{
+			ParticleManager::GetInstance()->Emit(elapsedSec,ParticleType::dust, Vector2f{m_Collider.left + m_Collider.width/2,m_Collider.bottom});
+
 			m_Velocity.y = JUMP_PWR;
 			m_PlayerState = PlayerState::jump;
 			m_isOnGround = false;
 		}
-		//if (m_isOnGround)
-		//{
-		//	m_Velocity.y = JUMP_PWR * 2;
-		//	m_PlayerState = PlayerState::jump;
-		//	m_isOnGround = false;
-		//}
-		//else if (!m_isOnGround && m_PlayerState == PlayerState::wallSlide)
-		//{
-		//	m_Velocity.y = JUMP_PWR;
-		//	m_Velocity.x = m_isFlipped ? 1000.f : -1000.f;
-		//
-		//	m_isFlipped = !m_isFlipped;
-		//	m_PlayerState = PlayerState::jump;
-		//	m_isOnGround = false;
-		//}
+		if (!m_isOnGround && m_PlayerState == PlayerState::wallSlide)
+		{
+			m_Velocity.y = JUMP_PWR;
+			m_Velocity.x = m_isFlipped ? -SPEED : SPEED;
+			m_isFlipped = !m_isFlipped;
+			if (m_PlayerState == PlayerState::wallSlide)
+			{
+				ParticleManager::GetInstance()->Emit(elapsedSec, ParticleType::dust, Vector2f{ m_Collider.left + m_Collider.width,m_Collider.bottom + m_Collider.height / 2 });
+			}
+			m_PlayerState = PlayerState::jump;
+			m_isOnGround = false;
+		}
 	}
 }
 
@@ -217,15 +175,10 @@ void Player::Attack(const SDL_MouseButtonEvent& e)
 
 void Player::HandleCollision(float elapsedSec, const std::vector<std::vector<Point2f>>& polysVector)
 {
-	const Vector2f nextPos{ m_Position.x + m_Velocity.x * elapsedSec,
-								m_Position.y + m_Velocity.y * elapsedSec };
-
 	const Rectf nextCollider{ m_Collider.left + m_Velocity.x * elapsedSec,
 							  m_Collider.bottom + m_Velocity.y * elapsedSec,
 							  m_Collider.width,
 							  m_Collider.height };
-
-
 
 	//Points from player
 	const Point2f midRight{ m_Collider.left + m_Collider.width, m_Collider.bottom + m_Collider.height / 2};
@@ -331,19 +284,10 @@ void Player::HandleCollision(float elapsedSec, const std::vector<std::vector<Poi
 			avgLambda /= avgCount;
 		}
 
-		m_isOnGround = false;
+		m_WallHit = false;
 
 		m_isOnGround = infoBottomLeft.normal.y > 0.f || infoBottomRight.normal.y > 0.f;
 
-		if (infoTopLeft.normal.y < 0.f || infoTopRight.normal.y < 0.f)
-		{
-			m_Velocity.y = 0.f;
-		}
-		
-		if (m_isOnPlatform)
-		{
-			m_isOnGround = true;
-		}
 
 		if (infoMidLeft.normal.x > 0.f)
 		{
@@ -352,10 +296,6 @@ void Player::HandleCollision(float elapsedSec, const std::vector<std::vector<Poi
 		else if (infoMidRight.normal.x < 0.f)
 		{
 			m_WallHit = true;
-		}
-		else
-		{
-			m_WallHit = false;
 		}
 		if (!m_isOnGround && ((infoBottomLeft.normal.x > 0.f || infoBottomRight.normal.x < 0.f) || 
 							  (infoTopLeft.normal.x > 0.f || infoTopRight.normal.x < 0.f)))
@@ -367,6 +307,12 @@ void Player::HandleCollision(float elapsedSec, const std::vector<std::vector<Poi
 		{
 			m_Velocity.y = 0.f;
 		}
+
+		//Ceiling collisions 
+		if (infoTopLeft.normal.y < 0.f || infoTopRight.normal.y < 0.f)
+		{
+			m_Velocity.y = 0.f;
+		}
 		if (m_WallHit)
 		{
 			m_Velocity.x = 0.f;
@@ -374,17 +320,12 @@ void Player::HandleCollision(float elapsedSec, const std::vector<std::vector<Poi
 	}
 }
 
-void Player::HandlePlatformCollision(float elapsedSec, const std::vector<Platform*>& platformVector)
+void Player::HandleCollision(float elapsedSec, const std::vector<Platform*>& platformVector)
 {
-	const Vector2f nextPos{ m_Position.x + m_Velocity.x * elapsedSec,
-								m_Position.y + m_Velocity.y * elapsedSec };
-
 	const Rectf nextCollider{ m_Collider.left + m_Velocity.x * elapsedSec,
 							  m_Collider.bottom + m_Velocity.y * elapsedSec,
 							  m_Collider.width,
 							  m_Collider.height };
-
-
 
 	//Points from player
 	const Point2f midRight{ m_Collider.left + m_Collider.width, m_Collider.bottom + m_Collider.height / 2 };
@@ -414,12 +355,12 @@ void Player::HandlePlatformCollision(float elapsedSec, const std::vector<Platfor
 
 	for (Platform* platform : platformVector)
 	{
-		const Point2f bottomLeftC	{ platform->GetCollider().left, platform->GetCollider().bottom};
-		const Point2f topLeftC		{ platform->GetCollider().left, platform->GetCollider().bottom + platform->GetCollider().height };
-		const Point2f topRightC		{ platform->GetCollider().left + platform->GetCollider().width, platform->GetCollider().bottom + platform->GetCollider().height };
-		const Point2f bottomRightC	{ platform->GetCollider().left + platform->GetCollider().width, platform->GetCollider().bottom };
+		const Point2f bottomLeftC{ platform->GetCollider().left, platform->GetCollider().bottom };
+		const Point2f topLeftC{ platform->GetCollider().left, platform->GetCollider().bottom + platform->GetCollider().height };
+		const Point2f topRightC{ platform->GetCollider().left + platform->GetCollider().width, platform->GetCollider().bottom + platform->GetCollider().height };
+		const Point2f bottomRightC{ platform->GetCollider().left + platform->GetCollider().width, platform->GetCollider().bottom };
 
-		const std::vector<Point2f> poly = { bottomLeftC,topLeftC,topRightC,bottomRightC};
+		const std::vector<Point2f> poly = { bottomLeftC,topLeftC,topRightC,bottomRightC };
 
 		// Check collision with the COLLIDERS (platforms)
 		const bool hitMidLeft{ Raycast(poly, midLeft, nextMidLeft, infoMidLeft) };
@@ -495,39 +436,100 @@ void Player::HandlePlatformCollision(float elapsedSec, const std::vector<Platfor
 			avgLambda /= avgCount;
 		}
 
+		bool isOnPlatform{ false };
+
+		isOnPlatform = hitBottomLeft || hitBottomRight;
+
 		MovingPlatform* movPlat = dynamic_cast<MovingPlatform*>(platform);
 		FadeOutPlatform* fadePlat = dynamic_cast<FadeOutPlatform*>(platform);
-		
+
 		if (movPlat != nullptr)
 		{
-			m_isOnPlatform = false;
-			m_isOnPlatform = infoBottomLeft.normal.y > 0.f || infoBottomRight.normal.y > 0.f;
-
-			if (m_isOnPlatform)
+			if (isOnPlatform)
 			{
+				m_isOnGround = true;
 				m_Velocity.y = 0.f;
 				m_Velocity.x += movPlat->GetVelocityX();
 			}
 			if ((utils::IsPointInPolygon(midLeft, poly) || utils::IsPointInPolygon(midRight, poly)) ||
-				(utils::IsPointInPolygon(bottomLeft, poly) || utils::IsPointInPolygon(bottomRight, poly) || utils::IsPointInPolygon(topLeft, poly) || utils::IsPointInPolygon(topRight, poly) && !m_isOnPlatform))
+				(utils::IsPointInPolygon(bottomLeft, poly) || utils::IsPointInPolygon(bottomRight, poly) || utils::IsPointInPolygon(topLeft, poly) || utils::IsPointInPolygon(topRight, poly) && !isOnPlatform))
 			{
 				m_Velocity.x = movPlat->GetVelocityX();
 			}
 		}
 		if (fadePlat != nullptr)
 		{
-			m_isOnPlatform = false;
-			m_isOnPlatform = infoBottomLeft.normal.y > 0.f || infoBottomRight.normal.y > 0.f;
-
-			if (m_isOnPlatform)
+			if (isOnPlatform)
 			{
+				m_isOnGround = true;
+				m_Velocity.y = 0.f;
 				fadePlat->SetCollision(true);
 
 				if (!fadePlat->GetIsInteractable())
 				{
-					m_isOnPlatform = false;
-				} 
+					isOnPlatform = false;
+				}
 			}
+		}
+	}
+}
+
+void Player::HandleCollision(float elapsedSec,const std::vector<Enemy*>& enemyVector)
+{
+	bool enemyHit{};
+	int currentLives{m_NrLives};
+	const float	DMG_COOLDOWN{ 2.f };
+
+	m_DMG_AccumulatedTime += elapsedSec;
+
+	for (Enemy* enemy : enemyVector)
+	{
+		if (enemy->GetState() != EnemyStates::dead)
+		{
+			enemyHit = utils::IsOverlapping(m_Collider, enemy->GetCollider());
+		
+			if (enemyHit)
+			{
+				currentLives--;
+				if (m_DMG_AccumulatedTime >= DMG_COOLDOWN)
+				{
+					SetNrLives(currentLives);
+					ParticleManager::GetInstance()->Emit(elapsedSec, ParticleType::blood, m_Position - Vector2f{ 0.f,6.f });
+					
+
+					Camera::GetInstance()->CameraShake();
+					m_DMG_AccumulatedTime = 0.f;
+				}
+				
+			}
+		}
+	}
+}
+
+void Player::HandleCollision(float elapsedSec, const std::vector<DMGZone*> dmgZoneVector)
+{
+	bool zoneHit{};
+	int currentLives{ m_NrLives };
+	const float	DMG_COOLDOWN{ 2.f };
+
+	m_DMG_AccumulatedTime += elapsedSec;
+
+	for (DMGZone* zone : dmgZoneVector)
+	{
+		zoneHit = utils::IsOverlapping(m_Collider, zone->GetCollider());
+
+		if (zoneHit)
+		{
+			currentLives--;
+			if (m_DMG_AccumulatedTime >= DMG_COOLDOWN)
+			{
+				SetNrLives(currentLives);
+				ParticleManager::GetInstance()->Emit(elapsedSec, ParticleType::blood, m_Position - Vector2f{ 0.f,6.f });
+
+				Camera::GetInstance()->CameraShake();
+				m_DMG_AccumulatedTime = 0.f;
+			}
+
 		}
 	}
 }
@@ -537,12 +539,6 @@ void Player::ChangeAnimation()
 	m_Spritesheet->SetIsFlipped(m_isFlipped);
 
 	m_Spritesheet->SetAnimation(int(m_PlayerState));
-
-}
-
-int Player::GetNrLives() const
-{
-	return m_NrLives;
 }
 
 Vector2f Player::GetPosition() const
@@ -553,4 +549,15 @@ Vector2f Player::GetPosition() const
 Vector2f Player::GetVelocity() const
 {
 	return m_Velocity;
+}
+
+void Player::SetNrLives(int lives)
+{
+	if(lives >= 0)
+		m_NrLives = lives;
+}
+
+int Player::GetNrLives()
+{
+	return m_NrLives;
 }

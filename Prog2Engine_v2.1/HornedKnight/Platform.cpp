@@ -10,6 +10,7 @@ Platform::Platform(const std::string& textPath, const Vector2f& pos, int rows, i
 
 Platform::~Platform()
 {
+	delete m_Sprite;
 }
 void Platform::Update(float elapsedSec)
 {
@@ -20,7 +21,6 @@ void Platform::Draw()const
 	m_Sprite->Draw();
 	utils::SetColor(Color4f{ 1.f,0.f,0.f,1.f });
 	utils::DrawRect(m_Collider);
-	std::cout << m_Collider.bottom << "\n";
 }
 
 float Platform::GetVelocityX()

@@ -1,17 +1,23 @@
 #include "pch.h"
 #include "Dust.h"
 
+int Dust::m_DustPartCount = {};
+
 Dust::Dust(const Vector2f& pos):
-	Particle(pos, Vector2f{ float((rand() % 120) - 60),float(rand() % 60) })
+	Particle(pos, Vector2f{ float((rand() % 30) - 15),float(rand() % 10 + 20) })
 {
+	m_AccumulatedTime = 0.f;
+	m_Opacity = 1.f;
+	m_DustPartCount++;
 }
 Dust::~Dust()
 {
+	m_DustPartCount--;
 }
 
 void Dust::Update(float elapsedSec)
 {
-	 if(m_AccumulatedTime < m_AliveTime)
+	 if(m_AccumulatedTime < ALIVE_TIME)
 	 {
 		m_AccumulatedTime += elapsedSec;
 		if (m_Velocity.x > 0.f)
@@ -23,36 +29,20 @@ void Dust::Update(float elapsedSec)
 
 		m_Position += m_Velocity * elapsedSec;
 	 }
-	else if(m_AccumulatedTime > m_AliveTime && m_AccumulatedTime<m_FadeOutTime+m_AliveTime)
-	{
-		 m_AccumulatedTime += elapsedSec;
-		 std::cout << m_Opacity << "\n";
-		 m_Opacity -= 0.05f;
-	}
+	 else if(m_AccumulatedTime > ALIVE_TIME && m_AccumulatedTime<FADEOUT_TIME + ALIVE_TIME)
+	 {
+	 	 m_AccumulatedTime += elapsedSec;
+	 	 m_Opacity -= 0.05f;
+	 }
 	 else
 	 {
-		 Destroy();
+		 m_isDestroyed = true;
 	 }
 }
 void Dust::Draw() const
 {
 	utils::SetColor(Color4f{0.8f,0.8f,0.8f,m_Opacity});
-	utils::FillEllipse(m_Position.ToPoint2f(), 9.f, 9.f);
-}
-
-void Dust::Emit(const Vector2f& pos)
-{
-	m_AccumulatedTime = 0.f;
-	m_Opacity = 1.f;
-	m_Position = pos;
-	m_Velocity = Vector2f{ float((rand() % 60) - 30),float(rand() % 10 + 40) };
-	m_isDestroyed = false;
-}
-
-void Dust::Destroy()
-{
-	m_Position = Vector2f{ -100.f,-100.f };
-	m_Velocity = Vector2f{ 0.f,0.f };
-	m_isDestroyed = true;
+	utils::FillRect(m_Position.ToPoint2f() - Vector2f{ 2.f, 1.f }, 4.f, 2.f);
+	utils::FillRect(m_Position.ToPoint2f() - Vector2f{ 1.f, 2.f }, 2.f, 4.f);
 }
 

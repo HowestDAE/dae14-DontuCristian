@@ -7,6 +7,7 @@ Particle::Particle(const Vector2f&  pos,const Vector2f& vel):
 	m_Position{pos},
 	m_Velocity{vel}
 {
+	m_isDestroyed = false;
 	m_ParticleCount++;
 }
 
@@ -29,17 +30,4 @@ void Particle::Update(float elapsedSec)
 }
 void Particle::Update(float elapsedSec, float targetY)
 {
-}
-void Particle::Emit(const Vector2f& pos)
-{
-	m_Position = pos;
-	m_Velocity = Vector2f{ float(rand() % 30),float(rand() % 30) };  
-	m_isDestroyed = false;
-}
-
-void Particle::Destroy()
-{
-	m_Position = Vector2f{ -100.f,-100.f };
-	m_Velocity = Vector2f{ 0.f,0.f };
-	m_isDestroyed = true;
 }

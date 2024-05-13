@@ -3,19 +3,20 @@
 #include "Dust.h"
 #include "Lava.h"
 #include "Dash.h"
+#include "Blood.h"
 #include <iostream>
 
 enum class ParticleType
 {
 	dust,
 	lava,
-	dash
+	dash,
+	blood
 };
 class ParticleManager
 {
 public:
-	//Gets the instance of my Particle Manager, 
-	//so I have only one instance in the game
+
 	static ParticleManager* GetInstance();
 
 	//Rule of 5
@@ -29,15 +30,19 @@ public:
 	void Draw() const;
 	void Update(float elapsedSec,float targetY);
 
-	void CreateParticles(ParticleType pType, int pNr);
+	void Emit(float elapsedSec,const ParticleType& pType,const Vector2f& pos);
 
-	void Emit(ParticleType pType,const Vector2f& pos);
+	void Destroy();
 
 private:
 
-	ParticleManager();
+	ParticleManager() = default;
+	const float DESTRUCT_TIME {2.f};
+
+	float m_AccumulatedTime{};
 
 	std::vector <Particle*> m_ParticleArr;
+
 	static ParticleManager* m_Instance;
 };
 

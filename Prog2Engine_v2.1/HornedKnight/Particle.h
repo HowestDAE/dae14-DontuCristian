@@ -19,8 +19,6 @@ public:
 
 	virtual void Update(float elapsedSec);
 	virtual void Update(float elapsedSec,float targetY);
-	virtual void Emit(const Vector2f& pos);
-	virtual void Destroy();
 
 	virtual void Draw() const;
 
@@ -29,7 +27,8 @@ public:
 	static int m_ParticleCount;
 
 protected:
-	bool m_isDestroyed = {true};
+
+	bool m_isDestroyed;
 
 	Vector2f m_Position;
 	Vector2f m_Velocity;

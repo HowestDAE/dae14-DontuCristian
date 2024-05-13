@@ -20,7 +20,6 @@ Sprite::Sprite(const std::string& texturePath, const Vector2f& location, int row
 
 Sprite::~Sprite()
 {
-	delete TextureManager::GetInstance()->GetTexture(m_Path);
 }
 
 void Sprite::Draw() const
@@ -81,6 +80,10 @@ void Sprite::SetAnimation(int rowIdx)
 {
 	m_RowIdx = rowIdx;
 }
+void Sprite::SetFrame(int colIdx)
+{
+	m_ColIdx = colIdx;
+}
 void Sprite::ResetAnim()
 {
 	m_ColIdx = 0;
@@ -103,4 +106,14 @@ int Sprite::GetRowIdx()
 int Sprite::GetColIdx()
 {
 	return m_ColIdx;
+}
+
+int Sprite::GetRowsNr()
+{
+	return m_Rows;
+}
+
+int Sprite::GetColNr()
+{
+	return m_Columns;
 }

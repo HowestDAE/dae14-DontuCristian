@@ -3,6 +3,8 @@
 #include "Sprite.h"
 #include "Level.h"
 #include "GameVars.h"
+#include "ParticleManager.h"
+#include "Camera.h"
 #include <iostream>
 
 class Collisions;
@@ -15,18 +17,20 @@ enum class PlayerState
 	dash,
 	jump,
 	wallSlide,
-	push,
+	takeDMG,
 	fall
 };
 class Player
 {
 public:
 
-	Player(const Player& obj) = delete;
-	void operator=(const Player&) = delete;
-
 	Player(const Vector2f& pos, const std::string& filePath,
 		int rows = { 8 }, int columns = { 5 }, float frameDelay = { 0.15f });
+
+	Player(const Player& obj) = delete;
+	void operator=(const Player&) = delete;
+	Player(const Player&& obj) = delete;
+	void operator=(const Player&&) = delete;
 
 	~Player();
 
@@ -38,33 +42,42 @@ public:
 	void Dash(const SDL_KeyboardEvent& e = {});
 	void Attack(const SDL_MouseButtonEvent& e = {});
 
-	int		 GetNrLives() const;
 	Vector2f GetPosition() const;
 	Vector2f GetVelocity() const;
-
+	
+	static void SetNrLives(int lives);
+	static int GetNrLives();
 private:
 
 	void HandleCollision(float elapsedSec, const std::vector<std::vector<Point2f>>& polysVector);
-	void HandlePlatformCollision(float elapsedSec, const std::vector<Platform*>& platformsVector);
+	void HandleCollision(float elapsedSec, const std::vector<Platform*>& platformsVector);
+	void HandleCollision(float elapsedSec, const std::vector<Enemy*>& enemyVector);
+	void HandleCollision(float elapsedSec, const std::vector<DMGZone*> dmgZoneVector);
+
 
 	void ChangeAnimation();
 	void MoveInput(float& elapsedSec);
 	void ChangeStates();
 
-	//CONSTANTS
-	const Color4f	COL_COLOR{ 0.f, 1.f, 0.f, 1.f };
-	const float		DASH_SPEED = { 10.f };
-	const float		SPEED = { 100.f };
-	const float     JUMP_PWR = { 250.f };
+	//Static members
+	static int	m_NrLives;
 
-	float m_ElapsedSec{};
+
+	//CONSTANTS
+	const Color4f	COL_COLOR		{ 0.f, 1.f, 0.f, 1.f };
+	const float		DASH_SPEED		{ 10.f };
+	const float		SPEED			{ 90.f };
+	const float     JUMP_PWR		{ 250.f };
+
+
 	//Members
+	float m_DMG_AccumulatedTime     { 0.f };
+
 	bool m_isOnGround;
-	bool m_isOnPlatform;
 	bool m_WallHit;
 	bool m_isAlive;
 	bool m_isFlipped;
-	int	 m_NrLives;
+
 	float m_DashAngle = { 0.f };
 
 	Rectf			m_Collider;

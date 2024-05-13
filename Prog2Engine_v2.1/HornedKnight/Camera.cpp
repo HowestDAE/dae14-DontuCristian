@@ -19,6 +19,7 @@ Camera* Camera::GetInstance()
 }
 void Camera::Update(float elapsedSec,float zoom)
 {
+		
 		m_ViewRect.left = m_Target.x - (SCREEN_WIDTH / 2)/zoom;
 		m_ViewRect.bottom = m_Target.y - 50.f/zoom;	
 
@@ -27,7 +28,26 @@ void Camera::Update(float elapsedSec,float zoom)
 		
 		//m_ViewRect.left = (m_ViewRect.left > 2*SCREEN_WIDTH - m_ViewRect.width) ? 2 * SCREEN_WIDTH - m_ViewRect.width : m_ViewRect.left;
 		m_ViewRect.bottom = (m_ViewRect.bottom > SCREEN_HEIGHT - m_ViewRect.height) ? SCREEN_HEIGHT - m_ViewRect.height : m_ViewRect.bottom;
+		
 		m_Position = Vector2f{m_ViewRect.left * zoom, m_ViewRect.bottom * zoom};
+
+		if (m_CameraShake)
+		{
+			m_CameraShakeTime += elapsedSec;
+			if (m_CameraShakeTime <= MAX_SHAKE_TIME)
+			{
+				m_Position += Vector2f{ float(rand() % 20 - 10), float(rand() % 20 - 10) };
+			}
+			else
+			{
+				m_CameraShake = false;
+				m_CameraShakeTime = 0.f;
+			}
+		}
+}
+void Camera::CameraShake()
+{
+	m_CameraShake = true;
 }
 Rectf Camera::GetViewRect() const
 {

@@ -2,7 +2,7 @@
 #include "Platform.h"
 #include <iostream>
 
-class MovingPlatform:public Platform
+class MovingPlatform final:public Platform
 {
 public:
 	MovingPlatform(const std::string& textPath, const Vector2f& startPos,float dist,float period);

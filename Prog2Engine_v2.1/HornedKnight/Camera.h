@@ -16,6 +16,8 @@ public:
 
 	void Update(float elapsedSec,float zoom);
 
+	void CameraShake();
+
 	Rectf GetViewRect() const;
 	Vector2f GetPosition() const;
 
@@ -23,6 +25,13 @@ public:
 
 private:
 	Camera();
+
+	//CONSTANTS
+	const float MAX_SHAKE_TIME { 0.3f };
+
+	//Member variables
+	bool m_CameraShake{false};
+	float m_CameraShakeTime{};
 
 	Vector2f m_Target;
 	Vector2f m_Position;

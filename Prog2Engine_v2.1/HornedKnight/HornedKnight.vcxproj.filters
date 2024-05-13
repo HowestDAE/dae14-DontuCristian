@@ -28,20 +28,26 @@
     <Filter Include="Source Files\MyClasses\Level">
       <UniqueIdentifier>{9ee214e9-33f0-4a6a-98d5-5f029c344064}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\MyClasses\Enemies">
-      <UniqueIdentifier>{5ca7a77a-db6f-4e12-90c7-8a4359691e36}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\MyClasses\Particles">
       <UniqueIdentifier>{bf450987-9e06-477a-8fc6-d730e69ecf6f}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\MyClasses\Particles\Particle base and Manager">
       <UniqueIdentifier>{999eee93-e8c2-4526-b3a9-8676f88852cc}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\MyClasses\InverseKinematics">
-      <UniqueIdentifier>{8b38c5ad-c3f2-4450-a375-f10f0fae0071}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\MyClasses\Level\Platforms">
       <UniqueIdentifier>{a34bfa91-8bd6-485a-963b-1ebbe5d7f37c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\MyClasses\Level\DMG Dealers">
+      <UniqueIdentifier>{b3b8fce5-bbd3-4e14-abaa-b7f08a6389af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\MyClasses\HUD">
+      <UniqueIdentifier>{6bebb74f-793c-470e-8c64-a7b79c3214b9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\MyClasses\Level\DMG Dealers\Enemies">
+      <UniqueIdentifier>{5ca7a77a-db6f-4e12-90c7-8a4359691e36}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\MyClasses\Level\DMG Dealers\Spikes">
+      <UniqueIdentifier>{e4964981-1c5b-40ab-96f2-7044dc81c801}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -67,7 +73,7 @@
       <Filter>Source Files\MyClasses\Level</Filter>
     </ClCompile>
     <ClCompile Include="Enemy.cpp">
-      <Filter>Source Files\MyClasses\Enemies</Filter>
+      <Filter>Source Files\MyClasses\Level\DMG Dealers\Enemies</Filter>
     </ClCompile>
     <ClCompile Include="Dust.cpp">
       <Filter>Source Files\MyClasses\Particles</Filter>
@@ -96,6 +102,30 @@
     <ClCompile Include="FadeOutPlatform.cpp">
       <Filter>Source Files\MyClasses\Level\Platforms</Filter>
     </ClCompile>
+    <ClCompile Include="HUD.cpp">
+      <Filter>Source Files\MyClasses\HUD</Filter>
+    </ClCompile>
+    <ClCompile Include="HealthSquare.cpp">
+      <Filter>Source Files\MyClasses\HUD</Filter>
+    </ClCompile>
+    <ClCompile Include="KillZone.cpp">
+      <Filter>Source Files\MyClasses\Level\DMG Dealers</Filter>
+    </ClCompile>
+    <ClCompile Include="DMGZone.cpp">
+      <Filter>Source Files\MyClasses\Level\DMG Dealers</Filter>
+    </ClCompile>
+    <ClCompile Include="Blood.cpp">
+      <Filter>Source Files\MyClasses\Particles</Filter>
+    </ClCompile>
+    <ClCompile Include="OrbitingSpike.cpp">
+      <Filter>Source Files\MyClasses\Level\DMG Dealers\Spikes</Filter>
+    </ClCompile>
+    <ClCompile Include="RotatingSpike.cpp">
+      <Filter>Source Files\MyClasses\Level\DMG Dealers\Spikes</Filter>
+    </ClCompile>
+    <ClCompile Include="Spike.cpp">
+      <Filter>Source Files\MyClasses\Level\DMG Dealers\Spikes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -123,7 +153,7 @@
       <Filter>Source Files\MyClasses\Level</Filter>
     </ClInclude>
     <ClInclude Include="Enemy.h">
-      <Filter>Source Files\MyClasses\Enemies</Filter>
+      <Filter>Source Files\MyClasses\Level\DMG Dealers\Enemies</Filter>
     </ClInclude>
     <ClInclude Include="Dust.h">
       <Filter>Source Files\MyClasses\Particles</Filter>
@@ -149,5 +179,32 @@
     <ClInclude Include="FadeOutPlatform.h">
       <Filter>Source Files\MyClasses\Level\Platforms</Filter>
     </ClInclude>
+    <ClInclude Include="HUD.h">
+      <Filter>Source Files\MyClasses\HUD</Filter>
+    </ClInclude>
+    <ClInclude Include="HealthSquare.h">
+      <Filter>Source Files\MyClasses\HUD</Filter>
+    </ClInclude>
+    <ClInclude Include="KillZone.h">
+      <Filter>Source Files\MyClasses\Level\DMG Dealers</Filter>
+    </ClInclude>
+    <ClInclude Include="DMGZone.h">
+      <Filter>Source Files\MyClasses\Level\DMG Dealers</Filter>
+    </ClInclude>
+    <ClInclude Include="Blood.h">
+      <Filter>Source Files\MyClasses\Particles</Filter>
+    </ClInclude>
+    <ClInclude Include="Spike.h">
+      <Filter>Source Files\MyClasses\Level\DMG Dealers\Spikes</Filter>
+    </ClInclude>
+    <ClInclude Include="OrbitingSpike.h">
+      <Filter>Source Files\MyClasses\Level\DMG Dealers\Spikes</Filter>
+    </ClInclude>
+    <ClInclude Include="RotatingSpike.h">
+      <Filter>Source Files\MyClasses\Level\DMG Dealers\Spikes</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="cpp.hint" />
   </ItemGroup>
 </Project>

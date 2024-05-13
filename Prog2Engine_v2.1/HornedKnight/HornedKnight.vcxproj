@@ -147,42 +147,61 @@ xcopy "$(SolutionDir)Resources\*.*" "$(TargetDir)" /y /d /s</Command>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Blood.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Dash.cpp" />
+    <ClCompile Include="DMGZone.cpp" />
     <ClCompile Include="Dust.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="FadeOutPlatform.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="HealthSquare.cpp" />
+    <ClCompile Include="HUD.cpp" />
+    <ClCompile Include="KillZone.cpp" />
     <ClCompile Include="Lava.cpp" />
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MovingPlatform.cpp" />
+    <ClCompile Include="RotatingSpike.cpp" />
+    <ClCompile Include="OrbitingSpike.cpp" />
     <ClCompile Include="ParticleManager.cpp" />
     <ClCompile Include="Particle.cpp" />
     <ClCompile Include="pch.cpp" />
     <ClCompile Include="Platform.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Spike.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="TextureManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Blood.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Dash.h" />
+    <ClInclude Include="DMGZone.h" />
     <ClInclude Include="Dust.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="FadeOutPlatform.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameVars.h" />
+    <ClInclude Include="HealthSquare.h" />
+    <ClInclude Include="HUD.h" />
+    <ClInclude Include="KillZone.h" />
     <ClInclude Include="Lava.h" />
     <ClInclude Include="Level.h" />
     <ClInclude Include="MovingPlatform.h" />
+    <ClInclude Include="RotatingSpike.h" />
+    <ClInclude Include="OrbitingSpike.h" />
     <ClInclude Include="ParticleManager.h" />
     <ClInclude Include="Particle.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Platform.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="Spike.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="TextureManager.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="cpp.hint" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

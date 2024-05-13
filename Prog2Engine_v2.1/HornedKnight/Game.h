@@ -6,6 +6,7 @@
 #include "ParticleManager.h"
 #include "Platform.h"
 #include "MovingPlatform.h"
+#include "HUD.h"
 
 class Game : public BaseGame
 {
@@ -40,7 +41,11 @@ private:
 	Rectf rect{};
 
 	Player* m_PlayerPtr{};
-	Level* m_LevelPtr{};
+	Level*	m_LevelPtr{};
+	HUD*	m_HudPtr{};
+
+	bool m_MouseClick{false};
+	int lives{ 6 };
 
 	bool m_EmitParticles{false};
 };

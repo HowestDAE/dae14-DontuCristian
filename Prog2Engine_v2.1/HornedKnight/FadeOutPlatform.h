@@ -2,7 +2,7 @@
 #include "Platform.h"
 #include <iostream>
 
-class FadeOutPlatform:public Platform
+class FadeOutPlatform final:public Platform
 {
 public:
 	FadeOutPlatform(const std::string& textPath, const Vector2f& pos, int rows, int columns);

@@ -19,6 +19,7 @@ public:
 	void Flip() const;
 
 	void SetAnimation(int rowIdx);
+	void SetFrame(int colIdx);
 	void ResetAnim();
 	void SetIsFlipped(bool myBool);
 
@@ -26,6 +27,8 @@ public:
 	int	  GetFrameHeight();
 	int	  GetRowIdx();
 	int	  GetColIdx();
+	int   GetRowsNr();
+	int	  GetColNr();
 
 private:
 	bool		m_isFlipped;
