@@ -12,6 +12,8 @@ public:
 
 	static TextureManager* GetInstance();
 
+	static void DeleteSingleton();
+
 	Texture* GetTexture(const std::string& texturePath);
 private:
 	TextureManager();

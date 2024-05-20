@@ -2,8 +2,8 @@
 #include "FadeOutPlatform.h"
 
 const float FadeOutPlatform::INTERACTABLE_TIME = {1.f};
-const float FadeOutPlatform::FADE_TIME ={0.5f};
-const float FadeOutPlatform::RESET_TIME ={2.f};
+const float FadeOutPlatform::FADE_TIME =  {0.5f};
+const float FadeOutPlatform::RESET_TIME = {2.f};
 
 FadeOutPlatform::FadeOutPlatform(const std::string& textPath, const Vector2f& pos, int rows, int columns):
 	Platform(textPath, pos, rows, columns, FADE_TIME/columns),
@@ -24,14 +24,14 @@ void FadeOutPlatform::Update(float elapsedSec)
 	{
 		m_AccumulatedTime += elapsedSec;
 
-		if (m_AccumulatedTime >= INTERACTABLE_TIME)
+		if (m_AccumulatedTime >= INTERACTABLE_TIME && m_AccumulatedTime < INTERACTABLE_TIME + FADE_TIME)
 		{
 			m_isInteractable = false;
 			m_Sprite->SetAnimation(2);
 		}
 		else
 		{
-			m_Sprite->SetAnimation(1);
+ 			m_Sprite->SetAnimation(1);
 		}
 		if (m_AccumulatedTime >= INTERACTABLE_TIME + FADE_TIME)
 		{

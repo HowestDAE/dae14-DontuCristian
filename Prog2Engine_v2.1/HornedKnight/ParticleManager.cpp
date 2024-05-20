@@ -9,12 +9,19 @@ ParticleManager* ParticleManager::GetInstance()
 	return m_Instance;
 }
 
+void ParticleManager::DeleteSingleton()
+{
+	delete m_Instance;
+}
+
 ParticleManager::~ParticleManager()
 {
 	for (Particle* obj : m_ParticleArr)
 	{
 		delete obj;
+		obj = nullptr;
 	}
+	m_ParticleArr.clear();
 }
 
 void ParticleManager::Draw() const

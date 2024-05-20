@@ -19,6 +19,7 @@ public:
 
 	static ParticleManager* GetInstance();
 
+	static void DeleteSingleton();
 	//Rule of 5
 	void operator=(const ParticleManager&) = delete;
 	void operator=(const ParticleManager&&) = delete;

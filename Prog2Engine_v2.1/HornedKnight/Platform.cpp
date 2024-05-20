@@ -11,6 +11,7 @@ Platform::Platform(const std::string& textPath, const Vector2f& pos, int rows, i
 Platform::~Platform()
 {
 	delete m_Sprite;
+	m_Sprite = nullptr;
 }
 void Platform::Update(float elapsedSec)
 {

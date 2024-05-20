@@ -6,8 +6,6 @@ TextureManager* TextureManager::m_Instance = nullptr;
 TextureManager::TextureManager()
 {
     //Creating empty texture so you can always run
-    Texture* emptyTexture = new Texture("Null.png");
-    m_MyHashMap.insert({ "Null.png", emptyTexture });
 
 }
 
@@ -21,12 +19,18 @@ TextureManager::~TextureManager()
         iterator->second = nullptr;
         iterator = m_MyHashMap.erase(iterator);
     }
+
 }
 
 TextureManager* TextureManager::GetInstance()
 {
 	m_Instance = (m_Instance != nullptr) ? m_Instance : new TextureManager();
 	return m_Instance;
+}
+
+void TextureManager::DeleteSingleton()
+{
+    delete m_Instance;
 }
 
 Texture* TextureManager::GetTexture(const std::string& texturePath)
@@ -47,7 +51,6 @@ Texture* TextureManager::GetTexture(const std::string& texturePath)
         if (newTexture->IsCreationOk())
         {
             m_MyHashMap.insert({ texturePath, newTexture });
-
             return m_MyHashMap.at(texturePath);
         }
         //returns empty texture if the creation of the texture fails

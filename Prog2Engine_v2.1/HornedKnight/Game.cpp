@@ -14,10 +14,9 @@ Game::~Game( )
 
 void Game::Initialize( )
 {
-	m_HudPtr = new HUD{};
-
-	m_LevelPtr = new Level{ "Level.svg","Level.png" };
-	m_PlayerPtr = new Player{Vector2f{30.f,70.f}, "PlayerSpritesheet.png"};
+	m_HudPtr	= new HUD{};
+	m_LevelPtr	= new Level{ "Level.svg", "Background.png", "MapPlatforms.png"};
+	m_PlayerPtr = new Player{Vector2f{2740.f,70.f}, "PlayerSpritesheet.png"};
 
 }
 
@@ -25,7 +24,10 @@ void Game::Cleanup()
 {
 	delete m_PlayerPtr;
 	delete m_LevelPtr;
-	//delete TextureManager::GetInstance();
+	delete m_HudPtr;
+	TextureManager::DeleteSingleton();
+	Camera::DeleteSingleton();
+	ParticleManager::DeleteSingleton();
 }
 
 void Game::Update( float elapsedSec )

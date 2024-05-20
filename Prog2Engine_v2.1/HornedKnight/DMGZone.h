@@ -22,9 +22,6 @@ public:
 
 protected:
 
-	//Member Functions
-	float m_AccumulatedTime{};
-
 	Vector2f	m_Pos;
 	Rectf		m_Collider;
 	Sprite*		m_Sprite;

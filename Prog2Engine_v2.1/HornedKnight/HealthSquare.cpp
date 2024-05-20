@@ -11,6 +11,7 @@ HealthSquare::HealthSquare(const std::string& path, const Vector2f& pos, int row
 HealthSquare::~HealthSquare()
 {
 	delete m_Sprite;
+	m_Sprite = nullptr;
 }
 
 void HealthSquare::Update(float elapsedSec)

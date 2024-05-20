@@ -13,6 +13,7 @@ public:
 
 	//Gets the instance of my camera
 	static Camera* GetInstance();
+	static void DeleteSingleton();
 
 	void Update(float elapsedSec,float zoom);
 

@@ -20,6 +20,8 @@ public:
 
 private:
 
+	float m_AccumulatedTime{};
+
 };
 
 

@@ -18,7 +18,8 @@ enum class PlayerState
 	jump,
 	wallSlide,
 	takeDMG,
-	fall
+	fall,
+	wallJump
 };
 class Player
 {
@@ -65,21 +66,25 @@ private:
 
 	//CONSTANTS
 	const Color4f	COL_COLOR		{ 0.f, 1.f, 0.f, 1.f };
-	const float		DASH_SPEED		{ 10.f };
+	const float		DASH_SPEED		{ 400.f };
 	const float		SPEED			{ 90.f };
-	const float     JUMP_PWR		{ 250.f };
+	const float     JUMP_PWR		{ 220.f };
+	const float     DASH_TIME		{ 0.2f };
 
 
 	//Members
+	float m_ElapsedSec				{};
+	float m_Dash_AccumulatedTime	{};
 	float m_DMG_AccumulatedTime     { 0.f };
 
 	bool m_isOnGround;
 	bool m_WallHit;
 	bool m_isAlive;
 	bool m_isFlipped;
+	bool m_isOnPlatform;
 
-	float m_DashAngle = { 0.f };
-
+	
+	Vector2f		m_InputNorm;
 	Rectf			m_Collider;
 	Vector2f		m_Position;
 	Vector2f		m_Velocity;

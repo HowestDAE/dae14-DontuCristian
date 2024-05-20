@@ -4,7 +4,8 @@
 class RotatingSpike final:public Spike
 {
 public:
-	RotatingSpike();
+	RotatingSpike(const std::string& textPath, const Vector2f& pos,
+		int rows = { 1 }, int columns = { 1 }, float frameDelay = { 0.f });
 
 	void operator=(const RotatingSpike&) = delete;
 	void operator=(const RotatingSpike&&) = delete;
@@ -14,10 +15,12 @@ public:
 
 	~RotatingSpike();
 
-	void Update();
+	void Update(float elapsedSec);
 	void Draw() const;
 private:
 
-	Sprite* m_Chain;
+	float m_Angle;
+
+	//Sprite* m_Chain;
 };
 

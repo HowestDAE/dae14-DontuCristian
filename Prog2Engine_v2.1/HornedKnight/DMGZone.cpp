@@ -12,6 +12,7 @@ DMGZone::DMGZone(const std::string& textPath, const Vector2f& pos, int rows, int
 DMGZone::~DMGZone()
 {
 	delete m_Sprite;
+	m_Sprite = nullptr;
 }
 
 void DMGZone::Update(float elapsedSec)

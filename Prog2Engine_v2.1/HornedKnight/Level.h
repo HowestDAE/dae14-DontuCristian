@@ -18,7 +18,7 @@
 class Level
 {
 public:
-	Level(const std::string& svgPath, const std::string& texturePath);
+	Level(const std::string& svgPath, const std::string& textureBackgroundPath, const std::string& textureForegroundPath);
 
 	//Rule of 3
 	~Level();
@@ -36,12 +36,12 @@ public:
 	static std::vector<Enemy*>				 m_EnemiesArr;
 	static std::vector<DMGZone*>			 m_DMGZoneArr;
 
+
 private:
 	int m_PlatformsNr{2};
 	float m_ScaleFactor;
 
-	Rectf rect;
-
-	std::string m_Path;
+	std::string m_BackgroundPath;
+	std::string m_ForegroundPath;
 };
 

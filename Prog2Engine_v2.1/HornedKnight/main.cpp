@@ -14,9 +14,10 @@ int SDL_main(int argv, char** args)
 
 	Game* pGame{ new Game{ Window{ "Project name - Name, first name - 1DAEXX", 800.f , 500.f } } };
 	pGame->Run();
-	delete pGame;
 
-	DumpMemoryLeaks();
+	delete pGame;
+    DumpMemoryLeaks();
+
 	return 0;
 }
 

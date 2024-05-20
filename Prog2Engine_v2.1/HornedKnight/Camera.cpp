@@ -10,8 +10,13 @@ Camera::Camera() :
 }
 Camera::~Camera()
 {
+}
+
+void Camera::DeleteSingleton()
+{
 	delete m_Instance;
 }
+
 Camera* Camera::GetInstance()
 {
 	m_Instance = (m_Instance != nullptr) ? m_Instance : new Camera;

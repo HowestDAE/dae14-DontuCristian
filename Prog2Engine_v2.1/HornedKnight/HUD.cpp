@@ -11,7 +11,11 @@ HUD::HUD()
 	}
 }HUD::~HUD()
 {
-	m_HealthBarArr.clear();
+	for (int idx{}; idx < m_HealthBarArr.size(); idx++)
+	{
+		delete m_HealthBarArr[idx];
+		m_HealthBarArr[idx] = nullptr;
+	}
 }
 
 void HUD::Update(float elapsedSec)

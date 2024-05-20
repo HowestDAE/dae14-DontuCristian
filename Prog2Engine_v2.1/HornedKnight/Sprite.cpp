@@ -8,18 +8,12 @@ Sprite::Sprite(const std::string& texturePath, const Vector2f& location, int row
 	m_isFlipped{false},
 	m_Path{texturePath}
 {
-	TextureManager::GetInstance()->GetTexture(texturePath);
-
 	m_FrameWidth = int(TextureManager::GetInstance()->GetTexture(texturePath)->GetWidth()) / m_Columns;
 	m_FrameHeight = int(TextureManager::GetInstance()->GetTexture(texturePath)->GetHeight()) / m_Rows;
 
 	m_Location = Vector2f{ location.x - m_FrameWidth/2 , location.y - m_FrameHeight/2 };
 
 	m_SourceRect = Rectf{ 0.f,0.f,float(m_FrameWidth),float(m_FrameHeight) };
-}
-
-Sprite::~Sprite()
-{
 }
 
 void Sprite::Draw() const

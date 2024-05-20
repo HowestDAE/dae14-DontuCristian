@@ -4,7 +4,7 @@
 class KillZone final: public DMGZone
 {
 public:
-	KillZone();
+	KillZone(const std::string& textPath, const Vector2f& pos, int rows, int columns, float frameDelay);
 
 	void operator=(const KillZone&) = delete;
 	void operator=(const KillZone&&) = delete;
@@ -13,8 +13,10 @@ public:
 	KillZone(const KillZone&& obj) = delete;
 	~KillZone();
 
-	void Update();
+	void Update(float elapsedSec);
 	void Draw() const;
+
+	Rectf GetCollider() const;
 
 private:
 
