@@ -10,12 +10,3 @@ KillZone::~KillZone()
 {
 }
 
-void KillZone::Update(float elapsedSec)
-{
-	m_Sprite->Update(elapsedSec, m_Pos);
-}
-
-Rectf KillZone::GetCollider() const
-{
-	return m_Collider;
-}

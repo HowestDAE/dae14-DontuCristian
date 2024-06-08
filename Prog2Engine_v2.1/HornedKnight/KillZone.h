@@ -13,10 +13,6 @@ public:
 	KillZone(const KillZone&& obj) = delete;
 	~KillZone();
 
-	void Update(float elapsedSec);
-
-	Rectf GetCollider() const;
-
 private:
 
 };

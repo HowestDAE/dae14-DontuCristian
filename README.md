@@ -77,11 +77,9 @@ This section gives a clear and detailed overview of which parts of the original 
 
 <!-- GETTING STARTED -->
 ## Getting Started
-Detailed instructions on how to run your game project are in this section.
 
 ### Prerequisites
 
-This is an example of how to list things you need to use the software and how to install them.
 * Visual Studio 2022
 
 ### How to run the project
@@ -115,9 +113,12 @@ Additional screenshots and demos work well in this space.
 If you applied object composition (optional); explain where and how.
 
 ### Inheritance 
-Haven't applied inheritance yet, I'm gonna use it for the enemies
+I used inheritance for some of the Damage Zones classes, like the Kill Zones
 
-### ..
+### Polymorphism
+I used polymorphism for a lot of my classes, like the Particle class which has 3 derived classes with different behaviour.
+I used polymorphism for other classes which have multiple object types with similar behaviour, like the Platform which splits into Moving and Fading, 
+or the damage zones some of them being moveable some having specific behaviour or animations while others don't.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -126,28 +127,44 @@ Haven't applied inheritance yet, I'm gonna use it for the enemies
 ## Checklist
 
 - [x] Accept / set up github project
-- [ ] week 01 topics applied
+- [x] week 01 topics applied
+    - [x] std::vector
+    - [x] Transformations
+- [x] week 02 topics applied
     - [x] const keyword applied proactively (variables, functions,..)
     - [x] static keyword applied proactively (class variables, static functions,..)
-    - [ ] object composition (optional)
-- [ ] week 02 topics applied
-- [ ] week 03 topics applied
-- [ ] week 04 topics applied
+    - [x] object composition (optional)
+- [x] week 03 topics applied
+    - [x] inheritance 
+- [x] week 04 topics applied
+    - [x] polymorphism
+    - [x] (pure),virtual, override
+    - [x] typecasting (dynamic,static..)
 - [ ] week 05 topics applied
+    - [ ] operator overloading
+    - [ ] friends
 - [ ] week 06 topics applied
+   -[x] rule of 3
 - [ ] week 07 topics applied
-- [ ] week 08 topics applied
+    - [ ] value categories
+    - [ ] references part 1
+- [x] week 08 topics applied
+    - [x] move semantics rule of 5
+    - [ ] references part 2
 - [ ] week 09 topics applied (optional)
+    - [ ] output formatting
+    - [ ] File IO
 - [ ] week 10 topics applied (optional)
+    - [ ] error handling
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- CONTACT -->
 ## Contact
 
-Dontu Cristian - cristi.dontu@student.howest.be
+Donțu Cristian - cristi.dontu@student.howest.be
 
-Project Link: [https://github.com/your_username/repo_name](https://github.com/your_username/repo_name)
+Project Link: [https://github.com/HowestDAE/dae14-DontuCristian](https://github.com/HowestDAE/dae14-DontuCristian)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -157,8 +174,8 @@ Project Link: [https://github.com/your_username/repo_name](https://github.com/yo
 
 Use this space to list resources you find helpful and would like to give credit to. 
 
-* [Example 1: cpp reference on std::vector](https://en.cppreference.com/w/cpp/container/vector)
-* ..
+* [Cpp reference on std::vector](https://en.cppreference.com/w/cpp/container/vector)
+* [Refactoring Guru on Singleton](https://refactoring.guru/design-patterns/singleton)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
