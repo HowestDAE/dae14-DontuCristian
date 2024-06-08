@@ -107,9 +107,9 @@ Level::Level(const std::string& svgPath, const std::string& textureBackgroundPat
 	m_DMGZoneArr.push_back(new OrbitingSpike{ "SpikeBall.png",Rectf{2908.f,32.f,16.f,16.f},false,1,1,0.f });
 	m_DMGZoneArr.push_back(new OrbitingSpike{ "SpikeBall.png",Rectf{2956.f,32.f,16.f,16.f},true, 1,1,0.f });
 
-	m_EmitterArr.push_back(new BulletEmitter{ Vector2f{2069.f,160.f},Vector2f{0.f,-1.f}, 2.f});
-	m_EmitterArr.push_back(new BulletEmitter{ Vector2f{2099.f,160.f},Vector2f{0.f,-1.f}, 4.f});
-	//m_EmitterArr.push_back(new BulletEmitter{ Vector2f{2069.f,160.f},Vector2f{0.f,-1.f} });
+	m_EmitterArr.push_back(new BulletEmitter{ Vector2f{2069.f,160.f},Vector2f{0.f,-1.f}, 1.f});
+	m_EmitterArr.push_back(new BulletEmitter{ Vector2f{2099.f,160.f},Vector2f{0.f,-1.f}, 2.f});
+	m_EmitterArr.push_back(new BulletEmitter{ Vector2f{2665.f,25.f}, Vector2f{1.f,0.f},  0.f });
 }
 
 Level::~Level()
@@ -157,7 +157,7 @@ void Level::Update(float elapsedSec)
 	}
 	m_EmitterArr[0]->Emit(elapsedSec,"SpikeBulletDown.png");
 	m_EmitterArr[1]->Emit(elapsedSec, "SpikeBulletDown.png");
-	//m_EmitterArr[2]->Emit(elapsedSec, "SpikeBulletDown.png");
+	m_EmitterArr[2]->Emit(elapsedSec, "SpikeBulletRight.png");
 	for (BulletEmitter* obj : m_EmitterArr)
 	{
 		obj->Update(elapsedSec);

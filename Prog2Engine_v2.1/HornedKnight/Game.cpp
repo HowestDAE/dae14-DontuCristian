@@ -23,7 +23,7 @@ void Game::Initialize( )
 
 	m_HudPtr	= new HUD{};
 	m_LevelPtr	= new Level{ "Level.svg", "Background.png", "MapPlatforms.png"};
-	m_PlayerPtr = new Player{Vector2f{3700.f,40.f}, "PlayerSpritesheet.png"};
+	m_PlayerPtr = new Player{Vector2f{2668.f,40.f}, "PlayerSpritesheet.png"};
 }
 
 void Game::Cleanup()

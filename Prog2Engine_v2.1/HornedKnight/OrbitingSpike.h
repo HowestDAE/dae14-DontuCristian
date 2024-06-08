@@ -15,7 +15,7 @@ public:
 
 	~OrbitingSpike();
 
-	void Update(float elapsedSec);
+	void Update(float elapsedSec) override;
 private:
 	//CONSTANTS
 	const float SPEED{50.f};

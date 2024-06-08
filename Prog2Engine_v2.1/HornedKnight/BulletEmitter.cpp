@@ -6,7 +6,7 @@ std::vector <Bullet*> BulletEmitter::m_BulletArr = {};
 BulletEmitter::BulletEmitter(const Vector2f& pos, const Vector2f& direction, float firstBulletDelay):
 	m_Pos{pos},
 	m_Dir{direction},
-	m_AccumulatedTime{EMISSION_TIME - firstBulletDelay}
+	m_AccumulatedTime{EMISSION_DELAY - firstBulletDelay}
 {
 }
 
@@ -40,16 +40,16 @@ void BulletEmitter::Update(float elapsedSec)
 void BulletEmitter::Emit(float elapsedSec,const std::string& textPath)
 {
 	m_AccumulatedTime += elapsedSec;
-	if (m_AccumulatedTime >= EMISSION_TIME)
+	if (m_AccumulatedTime >= EMISSION_DELAY)
 	{
 		m_BulletArr.push_back(new Bullet{ textPath,m_Pos,m_Dir,1,1,0.f });
-		m_AccumulatedTime -= EMISSION_TIME;
+		m_AccumulatedTime -= EMISSION_DELAY;
 	}
 }
 
 void BulletEmitter::Shoot(const std::string& textPath)
 {
-	m_BulletArr.push_back(new Bullet{ textPath,m_Pos,Vector2f{-1.f,0.f},1,4,0.f });
+	m_BulletArr.push_back(new Bullet{ textPath,m_Pos,Vector2f{-1.f,0.f},1,4,0.2f });
 }
 
 void BulletEmitter::DestroyBullet()

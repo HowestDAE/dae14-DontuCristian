@@ -16,7 +16,7 @@ Player::Player(const Vector2f& pos, const std::string& filePath,
 	m_InputNorm			{1.f,0.f},
 	m_isWallJumping		{false},
 	m_RightWallHit		{false},
-	m_canDash			{false}
+	m_canDash			{true}
 {
 	m_Position = pos;
 	m_AttackRange = Circlef{ Point2f{pos.x + 5.f,pos.y - 5.f}, 10};
@@ -42,7 +42,7 @@ void Player::Draw() const
 void Player::Update(float elapsedSec)
 {
 	m_AccumulatedTime += elapsedSec;
-	m_canDash = m_AccumulatedTime >= DASH_DELAY ? true : false;
+	//m_canDash = m_AccumulatedTime >= DASH_DELAY ? true : false;
 
 	if (m_NrLives <= 0)
 	{
@@ -582,19 +582,16 @@ void Player::HandleCollision(float elapsedSec, const std::vector<Platform*>& pla
 				m_isOnGround = true;
 				m_Velocity.y = 0.f;
 				m_Velocity.x += movPlat->GetVelocityX();
-				std::cout << m_Velocity << "\n";
 			}
 			if ((utils::IsPointInPolygon(midLeft, poly) || utils::IsPointInPolygon(midRight, poly)) ||
-				(utils::IsPointInPolygon(bottomLeft, poly) || utils::IsPointInPolygon(bottomRight, poly) || 
-					utils::IsPointInPolygon(topLeft, poly) || utils::IsPointInPolygon(topRight, poly) && !m_isOnPlatform))
+				((utils::IsPointInPolygon(bottomLeft, poly) || utils::IsPointInPolygon(bottomRight, poly) || 
+					utils::IsPointInPolygon(topLeft, poly) || utils::IsPointInPolygon(topRight, poly)) && !m_isOnPlatform))
 			{
-				if (!m_WallHit)
-				{
-					m_Velocity.x = movPlat->GetVelocityX();
-					m_isOnGround = false;
-				}
-			
+
+				m_Velocity.x = movPlat->GetVelocityX();
+				m_isOnGround = false;
 			}
+
 			if (infoTopLeft.normal.y < 0.f || infoTopRight.normal.y < 0.f)
 			{
 				m_Velocity.y = 0.f;

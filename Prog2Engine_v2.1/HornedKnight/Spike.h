@@ -15,7 +15,7 @@ public:
 	Spike(const Spike&& obj) = delete;
 	virtual ~Spike();
 
-	void Update(float elapsedSec);
+	virtual void Update(float elapsedSec);
 
 private:
 

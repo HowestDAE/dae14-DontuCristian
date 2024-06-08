@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "Bullet.h"
 
-const float Bullet::SPEED = 60.f;
+const float Bullet::SPEED = 40.f;
 const float Bullet::DESTRUCT_DIST = 200.f;
 const float Bullet::DESTRUCT_TIME = Bullet::DESTRUCT_DIST / Bullet::SPEED;
 

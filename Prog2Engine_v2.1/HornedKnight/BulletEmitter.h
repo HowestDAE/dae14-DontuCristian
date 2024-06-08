@@ -28,7 +28,7 @@ public:
 private:
 
 	//CONSTANTS
-	const float EMISSION_TIME{ 4.f };
+	const float EMISSION_DELAY{ 2.f };
 
 	//Members
 	float m_AccumulatedTime;
