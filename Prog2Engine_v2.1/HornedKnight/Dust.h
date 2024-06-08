@@ -13,9 +13,9 @@ public:
 	Dust(const Dust&& obj) = delete;
 	Dust(const Dust& obj) = delete;
 
-	void Update(float elapsedSec);
+	void Update(float elapsedSec) override;
 
-	void Draw() const;
+	void Draw() const override;
 
 	static int m_DustPartCount;
 

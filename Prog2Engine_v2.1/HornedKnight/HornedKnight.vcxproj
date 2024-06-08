@@ -150,21 +150,23 @@ xcopy "$(SolutionDir)Resources\*.*" "$(TargetDir)" /y /d /s</Command>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Blood.cpp" />
+    <ClCompile Include="Bullet.cpp" />
+    <ClCompile Include="BulletEmitter.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="CheckPoint.cpp" />
     <ClCompile Include="Dash.cpp" />
     <ClCompile Include="DMGZone.cpp" />
     <ClCompile Include="Dust.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="FadeOutPlatform.cpp" />
+    <ClCompile Include="Fireball.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="HealthSquare.cpp" />
     <ClCompile Include="HUD.cpp" />
     <ClCompile Include="KillZone.cpp" />
-    <ClCompile Include="Lava.cpp" />
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MovingPlatform.cpp" />
-    <ClCompile Include="RotatingSpike.cpp" />
     <ClCompile Include="OrbitingSpike.cpp" />
     <ClCompile Include="ParticleManager.cpp" />
     <ClCompile Include="Particle.cpp" />
@@ -173,25 +175,28 @@ xcopy "$(SolutionDir)Resources\*.*" "$(TargetDir)" /y /d /s</Command>
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Spike.cpp" />
     <ClCompile Include="Sprite.cpp" />
+    <ClCompile Include="StringSprite.cpp" />
     <ClCompile Include="TextureManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Blood.h" />
+    <ClInclude Include="Bullet.h" />
+    <ClInclude Include="BulletEmitter.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="CheckPoint.h" />
     <ClInclude Include="Dash.h" />
     <ClInclude Include="DMGZone.h" />
     <ClInclude Include="Dust.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="FadeOutPlatform.h" />
+    <ClInclude Include="Fireball.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameVars.h" />
     <ClInclude Include="HealthSquare.h" />
     <ClInclude Include="HUD.h" />
     <ClInclude Include="KillZone.h" />
-    <ClInclude Include="Lava.h" />
     <ClInclude Include="Level.h" />
     <ClInclude Include="MovingPlatform.h" />
-    <ClInclude Include="RotatingSpike.h" />
     <ClInclude Include="OrbitingSpike.h" />
     <ClInclude Include="ParticleManager.h" />
     <ClInclude Include="Particle.h" />
@@ -200,6 +205,7 @@ xcopy "$(SolutionDir)Resources\*.*" "$(TargetDir)" /y /d /s</Command>
     <ClInclude Include="Player.h" />
     <ClInclude Include="Spike.h" />
     <ClInclude Include="Sprite.h" />
+    <ClInclude Include="StringSprite.h" />
     <ClInclude Include="TextureManager.h" />
   </ItemGroup>
   <ItemGroup>

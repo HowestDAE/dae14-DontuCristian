@@ -16,7 +16,7 @@ public:
 	virtual ~DMGZone();
 
 	virtual void Update(float elapsedSec);
-	virtual void Draw() const;
+	void Draw() const;
 
 	Rectf GetCollider() const;
 

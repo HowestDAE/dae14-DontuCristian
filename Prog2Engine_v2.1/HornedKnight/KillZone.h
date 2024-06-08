@@ -14,7 +14,6 @@ public:
 	~KillZone();
 
 	void Update(float elapsedSec);
-	void Draw() const;
 
 	Rectf GetCollider() const;
 

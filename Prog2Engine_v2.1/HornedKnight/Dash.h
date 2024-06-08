@@ -13,8 +13,8 @@ public:
 
 	~Dash();
 
-	void Update(float elapsedSec);
-	void Draw() const;
+	void Update(float elapsedSec) override;
+	void Draw() const override;
 
 	static int m_DashPartCount;
 

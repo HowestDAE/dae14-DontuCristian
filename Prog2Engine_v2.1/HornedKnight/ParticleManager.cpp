@@ -35,7 +35,7 @@ void ParticleManager::Draw() const
 	}
 }
 
-void ParticleManager::Update(float elapsedSec,float targetY)
+void ParticleManager::Update(float elapsedSec)
 {
 	Destroy();
 	for (Particle* obj : m_ParticleArr)
@@ -43,12 +43,6 @@ void ParticleManager::Update(float elapsedSec,float targetY)
 		if (obj != nullptr)
 		{
 			obj->Update(elapsedSec);
-		}
-		Lava* lavaParticles = dynamic_cast<Lava*>(obj);
-
-		if (lavaParticles)
-		{
-			obj->Update(elapsedSec,targetY);
 		}
 	}
 }
@@ -61,13 +55,6 @@ void ParticleManager::Emit(float elapsedSec, const ParticleType& pType, const Ve
 		for (int idx{}; idx < 5; idx++)
 		{
 			m_ParticleArr.push_back(new Dust{ pos });
-		}
-		break;
-	case ParticleType::lava:
-		for (int idx{}; idx < 30; idx++)
-		{
-			if(Lava::m_LavaPartCount < 30)
-			m_ParticleArr.push_back(new Lava{ Vector2f{pos.x + float(rand()%10-5),pos.y-float(rand()%25)}});
 		}
 		break;
 	case ParticleType::blood:
@@ -102,5 +89,6 @@ void ParticleManager::Destroy()
 			m_ParticleArr.erase(m_ParticleArr.begin() + idx);
 		}
 	}
+	m_ParticleArr.shrink_to_fit();
 }
 

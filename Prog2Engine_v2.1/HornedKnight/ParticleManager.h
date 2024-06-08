@@ -1,7 +1,6 @@
 #pragma once
 #include "Particle.h"
 #include "Dust.h"
-#include "Lava.h"
 #include "Dash.h"
 #include "Blood.h"
 #include <iostream>
@@ -9,7 +8,6 @@
 enum class ParticleType
 {
 	dust,
-	lava,
 	dash,
 	blood
 };
@@ -29,7 +27,7 @@ public:
 	~ParticleManager();
 
 	void Draw() const;
-	void Update(float elapsedSec,float targetY);
+	void Update(float elapsedSec);
 
 	void Emit(float elapsedSec,const ParticleType& pType,const Vector2f& pos);
 

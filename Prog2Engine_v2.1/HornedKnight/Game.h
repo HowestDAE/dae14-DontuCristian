@@ -1,5 +1,7 @@
 #pragma once
 #include "BaseGame.h"
+#include "SoundStream.h"
+#include "StringSprite.h"
 #include "Player.h"
 #include "Level.h"
 #include "Camera.h"
@@ -7,6 +9,14 @@
 #include "Platform.h"
 #include "MovingPlatform.h"
 #include "HUD.h"
+#include "BulletEmitter.h"
+
+enum class GameState
+{
+	intro,
+	running,
+	outro
+};
 
 class Game : public BaseGame
 {
@@ -37,12 +47,15 @@ private:
 	void ClearBackground(Color4f bg = Color4f{0.3f,0.0f,0.8f,1.f}) const;
 
 	// Member variables
-	Point2f mousePos{};
-	Rectf rect{};
+	GameState m_GameState{GameState::intro};
+	SoundStream* m_BackgroundMusic{};
 
 	Player* m_PlayerPtr{};
 	Level*	m_LevelPtr{};
 	HUD*	m_HudPtr{};
+
+	Sprite* m_MenuBackground{};
+	StringSprite* m_MenuText{};
 
 	bool m_MouseClick{false};
 	int lives{ 6 };

@@ -21,6 +21,7 @@ public:
 	void SetFrame(int colIdx);
 	void ResetAnim();
 	void SetIsFlipped(bool myBool);
+	void SetFrameDelay(float delay);
 
 	int	  GetFrameWidth();
 	int	  GetFrameHeight();

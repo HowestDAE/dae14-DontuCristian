@@ -14,17 +14,27 @@ Game::~Game( )
 
 void Game::Initialize( )
 {
+	m_MenuBackground = new Sprite{ "IntroPage.png",Vector2f{0.f,0.f}};
+	m_MenuText = new StringSprite{ "PRESS ENTER TO START","Minecraft.ttf",30,Color4f{1.f,1.f,1.f,1.f},Vector2f{-200.f,0.f}};
+
+	m_BackgroundMusic = new SoundStream{"BackgroundMusic.mp3"};
+
+	m_BackgroundMusic->SetVolume(30);
+
 	m_HudPtr	= new HUD{};
 	m_LevelPtr	= new Level{ "Level.svg", "Background.png", "MapPlatforms.png"};
-	m_PlayerPtr = new Player{Vector2f{2740.f,70.f}, "PlayerSpritesheet.png"};
-
+	m_PlayerPtr = new Player{Vector2f{3700.f,40.f}, "PlayerSpritesheet.png"};
 }
 
 void Game::Cleanup()
 {
+	delete m_MenuBackground;
+	delete m_MenuText;
+	delete m_BackgroundMusic;
 	delete m_PlayerPtr;
 	delete m_LevelPtr;
 	delete m_HudPtr;
+
 	TextureManager::DeleteSingleton();
 	Camera::DeleteSingleton();
 	ParticleManager::DeleteSingleton();
@@ -32,40 +42,94 @@ void Game::Cleanup()
 
 void Game::Update( float elapsedSec )
 {
-	m_LevelPtr->Update(elapsedSec);
-	m_PlayerPtr->Update(elapsedSec);
-	Camera::GetInstance()->SetTarget(m_PlayerPtr->GetPosition());
-	Camera::GetInstance()->Update(elapsedSec,m_LevelPtr->GetScaleFactor());
+	switch (m_GameState)
+	{
+	case GameState::intro:
+		if (!m_BackgroundMusic->IsPlaying())
+		{
+			m_BackgroundMusic->Play(false);
+		}
+		m_MenuText->Recreate("PRESS ENTER TO START");
+		break;
+	case GameState::running:
+		m_LevelPtr->Update(elapsedSec);
+		m_PlayerPtr->Update(elapsedSec);
+		Camera::GetInstance()->SetTarget(m_PlayerPtr->GetPosition());
+		Camera::GetInstance()->Update(elapsedSec, m_LevelPtr->GetScaleFactor());
 
-	if (m_MouseClick)
-		ParticleManager::GetInstance()->Emit(elapsedSec, ParticleType::dash, Vector2f{mousePos.x,mousePos.y});
-
-	ParticleManager::GetInstance()->Update(elapsedSec,mousePos.y);
-	m_HudPtr->Update(elapsedSec);
+		ParticleManager::GetInstance()->Update(elapsedSec);
+		m_HudPtr->Update(elapsedSec);
+		break;
+	case GameState::outro:
+		m_MenuText->SetPosition(Vector2f{ -150.f,0.f });
+		m_MenuText->Recreate("Congratulations!!!");
+		break;
+	}
 }
 
 void Game::Draw() const
 {
 	const Point2f camPos{ Camera::GetInstance()->GetPosition() };
-	ClearBackground(Color4f{ 0.f,0.f,0.f,1.f });
-	glPushMatrix();
+
+	switch (m_GameState)
 	{
-		glTranslatef(-camPos.x, -camPos.y, 0.f);
-		glScalef(m_LevelPtr->GetScaleFactor(), m_LevelPtr->GetScaleFactor(), 1.f);
-		m_LevelPtr->Draw();
-		m_PlayerPtr->Draw();
-		ParticleManager::GetInstance()->Draw();
-	}glPopMatrix();
-	glPushMatrix();
-	{
-		glScalef(4.5f, 4.5f, 1.f);
-		m_HudPtr->Draw();
-	}glPopMatrix();
+	case GameState::intro:
+		glPushMatrix();
+		{
+			glTranslatef(SCREEN_WIDTH/2.f,SCREEN_HEIGHT/2.f,0.f);
+			glScalef(0.625f, 0.625f, 1.f);
+			m_MenuBackground->Draw();
+			m_MenuText->Draw();
+		}glPopMatrix();
+		break;
+	case GameState::running:
+		ClearBackground(Color4f{ 0.f,0.f,0.f,1.f });
+		glPushMatrix();
+		{
+			glTranslatef(-camPos.x, -camPos.y, 0.f);
+			glScalef(m_LevelPtr->GetScaleFactor(), m_LevelPtr->GetScaleFactor(), 1.f);
+			m_LevelPtr->Draw();
+			m_PlayerPtr->Draw();
+			ParticleManager::GetInstance()->Draw();
+		}glPopMatrix();
+		glPushMatrix();
+		{
+			glScalef(4.5f, 4.5f, 1.f);
+			m_HudPtr->Draw();
+		}glPopMatrix();
+		break;
+	case GameState::outro:
+		glPushMatrix();
+		{
+			glTranslatef(SCREEN_WIDTH / 2.f, SCREEN_HEIGHT / 2.f, 0.f);
+			glScalef(0.625f, 0.625f, 1.f);
+			m_MenuBackground->Draw();
+			m_MenuText->Draw();
+		}glPopMatrix();
+		break;
+	}
 }
 
 void Game::ProcessKeyDownEvent( const SDL_KeyboardEvent & e )
 {
-	m_PlayerPtr->Dash(e);
+	if (m_GameState == GameState::running)
+	{
+		m_PlayerPtr->Dash(e);
+		if (e.keysym.sym == SDLK_w)
+		{
+			if (utils::IsPointInRect(m_PlayerPtr->GetPosition().ToPoint2f(), m_LevelPtr->GetExitDoor()))
+			{
+				m_GameState = GameState::outro;
+			}
+		}
+	}
+	if (m_GameState == GameState::intro)
+	{
+		if (e.keysym.sym == SDLK_RETURN)
+		{
+			m_GameState = GameState::running;
+		}
+	}
 	//std::cout << "KEYDOWN event: " << e.keysym.sym << std::endl;
 }
 
@@ -90,35 +154,18 @@ void Game::ProcessKeyUpEvent( const SDL_KeyboardEvent& e )
 
 void Game::ProcessMouseMotionEvent( const SDL_MouseMotionEvent& e )
 {
-	mousePos.x = e.x;
-	mousePos.y = e.y;
 	//std::cout << "MOUSEMOTION event: " << e.x << ", " << e.y << std::endl;
 }
 
 void Game::ProcessMouseDownEvent( const SDL_MouseButtonEvent& e )
 {
-	switch ( e.button )
-	{
-	case SDL_BUTTON_LEFT:
-		mousePos.x = float(e.x);
-		mousePos.y = float(e.y);
-		//Player::SetNrLives(--lives);
-		m_MouseClick = true;
-		break;
-	}
-	
 }
 
 void Game::ProcessMouseUpEvent( const SDL_MouseButtonEvent& e )
 {
+	if (m_GameState == GameState::running)
 	m_PlayerPtr->Attack(e);
 
-	switch (e.button)
-	{
-	case SDL_BUTTON_LEFT:
-		m_MouseClick = false;
-		break;
-	}
 	//std::cout << "MOUSEBUTTONUP event: ";
 	//switch ( e.button )
 	//{

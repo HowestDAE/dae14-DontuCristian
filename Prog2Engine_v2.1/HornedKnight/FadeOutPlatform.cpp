@@ -3,10 +3,10 @@
 
 const float FadeOutPlatform::INTERACTABLE_TIME = {1.f};
 const float FadeOutPlatform::FADE_TIME =  {0.5f};
-const float FadeOutPlatform::RESET_TIME = {2.f};
+const float FadeOutPlatform::RESET_TIME = {1.5f};
 
 FadeOutPlatform::FadeOutPlatform(const std::string& textPath, const Vector2f& pos, int rows, int columns):
-	Platform(textPath, pos, rows, columns, FADE_TIME/columns),
+	Platform(textPath, pos, rows, columns, RESET_TIME/columns),
 	m_isInteractable	{ true },
 	m_AccumulatedTime	{ 0.f },
 	m_PresetHeight		{ pos.y },
@@ -56,8 +56,4 @@ void FadeOutPlatform::SetCollision(bool myBool)
 bool FadeOutPlatform::GetIsInteractable()
 {
 	return m_isInteractable;
-}
-Sprite* FadeOutPlatform::GetSprite()
-{
-	return m_Sprite;
 }

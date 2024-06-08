@@ -26,13 +26,23 @@ void Camera::Update(float elapsedSec,float zoom)
 {
 		
 		m_ViewRect.left = m_Target.x - (SCREEN_WIDTH / 2)/zoom;
-		m_ViewRect.bottom = m_Target.y - 50.f/zoom;	
 
-		m_ViewRect.left = (m_ViewRect.left < 0) ? 0 : m_ViewRect.left;
-		m_ViewRect.bottom = (m_ViewRect.bottom < 0) ? 0 : m_ViewRect.bottom;
-		
+		if (m_Target.y > SCREEN_HEIGHT / (zoom * 2.f))
+		{
+			m_ViewRect.bottom = m_Target.y - SCREEN_HEIGHT / (zoom * 2.f);
+		}
+		else
+		{
+			m_ViewRect.bottom = 0.f;
+		}
+
+
+		m_ViewRect.left = (m_ViewRect.left < 0.f) ? 0.f : m_ViewRect.left;
+		m_ViewRect.bottom = (m_ViewRect.bottom < 0.f) ? 0.f : m_ViewRect.bottom;
+
+
+		m_ViewRect.bottom = ( m_ViewRect.bottom > SCREEN_HEIGHT / (zoom * 2.f)) ? SCREEN_HEIGHT / (zoom * 2.f) : m_ViewRect.bottom;
 		//m_ViewRect.left = (m_ViewRect.left > 2*SCREEN_WIDTH - m_ViewRect.width) ? 2 * SCREEN_WIDTH - m_ViewRect.width : m_ViewRect.left;
-		m_ViewRect.bottom = (m_ViewRect.bottom > SCREEN_HEIGHT - m_ViewRect.height) ? SCREEN_HEIGHT - m_ViewRect.height : m_ViewRect.bottom;
 		
 		m_Position = Vector2f{m_ViewRect.left * zoom, m_ViewRect.bottom * zoom};
 

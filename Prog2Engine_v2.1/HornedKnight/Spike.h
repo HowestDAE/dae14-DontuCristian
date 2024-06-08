@@ -16,7 +16,6 @@ public:
 	virtual ~Spike();
 
 	void Update(float elapsedSec);
-	void Draw() const;
 
 private:
 

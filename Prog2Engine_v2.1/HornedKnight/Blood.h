@@ -1,6 +1,6 @@
 #pragma once
 #include "Particle.h"
-class Blood:public Particle
+class Blood final:public Particle
 {
 public:
 	Blood(const Vector2f& pos);
@@ -13,8 +13,8 @@ public:
 
 	~Blood();
 
-	void Update(float elapsedSec);
-	void Draw() const;
+	void Update(float elapsedSec) override;
+	void Draw() const override;
 
 	static int m_BloodPartCount;
 

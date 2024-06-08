@@ -16,7 +16,6 @@ public:
 	~OrbitingSpike();
 
 	void Update(float elapsedSec);
-	void Draw() const;
 private:
 	//CONSTANTS
 	const float SPEED{50.f};

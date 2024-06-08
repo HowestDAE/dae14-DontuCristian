@@ -7,11 +7,10 @@ class FadeOutPlatform final:public Platform
 public:
 	FadeOutPlatform(const std::string& textPath, const Vector2f& pos, int rows, int columns);
 
-	void Update(float elapsedSec);
+	void Update(float elapsedSec) override;
+	
 	void SetCollision(bool myBool);
-
 	bool	GetIsInteractable();
-	Sprite* GetSprite();
 	
 private:
 	//CONSTANTS

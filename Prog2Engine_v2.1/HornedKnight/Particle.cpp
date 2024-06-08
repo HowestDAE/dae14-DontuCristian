@@ -18,7 +18,6 @@ Particle::~Particle()
 
 void Particle::Draw() const
 {
-	//utils::FillRect(Rectf{m_Position.x-10.f,m_Position.y-10.f,20.f,20.f});
 }
 bool Particle::GetIsDestroyed()
 {
@@ -27,7 +26,4 @@ bool Particle::GetIsDestroyed()
 void Particle::Update(float elapsedSec)
 {
 	m_Position += m_Velocity * elapsedSec;
-}
-void Particle::Update(float elapsedSec, float targetY)
-{
 }

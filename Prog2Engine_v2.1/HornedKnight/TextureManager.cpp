@@ -6,7 +6,8 @@ TextureManager* TextureManager::m_Instance = nullptr;
 TextureManager::TextureManager()
 {
     //Creating empty texture so you can always run
-
+    Texture* emptyTexture = new Texture("Null.png");
+    m_MyHashMap.insert({ "Null.png", emptyTexture });
 }
 
 TextureManager::~TextureManager()

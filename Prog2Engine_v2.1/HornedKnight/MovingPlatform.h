@@ -7,7 +7,7 @@ class MovingPlatform final:public Platform
 public:
 	MovingPlatform(const std::string& textPath, const Vector2f& startPos,float dist,float period);
 
-	void Update(float elapsedSec);
+	void Update(float elapsedSec) override;
 
 private:
 	//CONSTANTS

@@ -49,6 +49,9 @@
     <Filter Include="Source Files\MyClasses\Level\DMG Dealers\Spikes">
       <UniqueIdentifier>{e4964981-1c5b-40ab-96f2-7044dc81c801}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\MyClasses\Level\DMG Dealers\Bullets">
+      <UniqueIdentifier>{673211ce-a674-415f-baa4-5121f6820531}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
@@ -76,9 +79,6 @@
       <Filter>Source Files\MyClasses\Level\DMG Dealers\Enemies</Filter>
     </ClCompile>
     <ClCompile Include="Dust.cpp">
-      <Filter>Source Files\MyClasses\Particles</Filter>
-    </ClCompile>
-    <ClCompile Include="Lava.cpp">
       <Filter>Source Files\MyClasses\Particles</Filter>
     </ClCompile>
     <ClCompile Include="ParticleManager.cpp">
@@ -120,11 +120,23 @@
     <ClCompile Include="OrbitingSpike.cpp">
       <Filter>Source Files\MyClasses\Level\DMG Dealers\Spikes</Filter>
     </ClCompile>
-    <ClCompile Include="RotatingSpike.cpp">
-      <Filter>Source Files\MyClasses\Level\DMG Dealers\Spikes</Filter>
-    </ClCompile>
     <ClCompile Include="Spike.cpp">
       <Filter>Source Files\MyClasses\Level\DMG Dealers\Spikes</Filter>
+    </ClCompile>
+    <ClCompile Include="CheckPoint.cpp">
+      <Filter>Source Files\MyClasses</Filter>
+    </ClCompile>
+    <ClCompile Include="Fireball.cpp">
+      <Filter>Source Files\MyClasses\Level\DMG Dealers</Filter>
+    </ClCompile>
+    <ClCompile Include="Bullet.cpp">
+      <Filter>Source Files\MyClasses\Level\DMG Dealers\Bullets</Filter>
+    </ClCompile>
+    <ClCompile Include="BulletEmitter.cpp">
+      <Filter>Source Files\MyClasses\Level\DMG Dealers\Bullets</Filter>
+    </ClCompile>
+    <ClCompile Include="StringSprite.cpp">
+      <Filter>Source Files\MyClasses\Sprites &amp; Texture</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -156,9 +168,6 @@
       <Filter>Source Files\MyClasses\Level\DMG Dealers\Enemies</Filter>
     </ClInclude>
     <ClInclude Include="Dust.h">
-      <Filter>Source Files\MyClasses\Particles</Filter>
-    </ClInclude>
-    <ClInclude Include="Lava.h">
       <Filter>Source Files\MyClasses\Particles</Filter>
     </ClInclude>
     <ClInclude Include="ParticleManager.h">
@@ -200,8 +209,20 @@
     <ClInclude Include="OrbitingSpike.h">
       <Filter>Source Files\MyClasses\Level\DMG Dealers\Spikes</Filter>
     </ClInclude>
-    <ClInclude Include="RotatingSpike.h">
-      <Filter>Source Files\MyClasses\Level\DMG Dealers\Spikes</Filter>
+    <ClInclude Include="CheckPoint.h">
+      <Filter>Source Files\MyClasses</Filter>
+    </ClInclude>
+    <ClInclude Include="Fireball.h">
+      <Filter>Source Files\MyClasses\Level\DMG Dealers</Filter>
+    </ClInclude>
+    <ClInclude Include="Bullet.h">
+      <Filter>Source Files\MyClasses\Level\DMG Dealers\Bullets</Filter>
+    </ClInclude>
+    <ClInclude Include="BulletEmitter.h">
+      <Filter>Source Files\MyClasses\Level\DMG Dealers\Bullets</Filter>
+    </ClInclude>
+    <ClInclude Include="StringSprite.h">
+      <Filter>Source Files\MyClasses</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

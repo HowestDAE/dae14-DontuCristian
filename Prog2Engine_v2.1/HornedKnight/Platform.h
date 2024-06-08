@@ -9,7 +9,7 @@ public:														//for the sprite animations |
 	Platform(const std::string& textPath, const Vector2f& pos, int rows = { 1 }, int columns = { 1 }, float frameDelay = { 0.f });
 	virtual ~Platform();
 
-	virtual void Update(float elapsedSec);
+	virtual void Update(float elapsedSec) = 0;
 
 	void Draw() const;
 

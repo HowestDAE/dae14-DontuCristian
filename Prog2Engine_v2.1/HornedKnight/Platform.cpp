@@ -15,7 +15,6 @@ Platform::~Platform()
 }
 void Platform::Update(float elapsedSec)
 {
-	m_Sprite->Update(elapsedSec, m_Pos);
 }
 void Platform::Draw()const
 {

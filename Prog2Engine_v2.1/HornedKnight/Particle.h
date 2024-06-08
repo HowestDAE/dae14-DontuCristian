@@ -18,9 +18,8 @@ public:
 
 
 	virtual void Update(float elapsedSec);
-	virtual void Update(float elapsedSec,float targetY);
 
-	virtual void Draw() const;
+	virtual void Draw() const = 0;
 
 	bool GetIsDestroyed();
 

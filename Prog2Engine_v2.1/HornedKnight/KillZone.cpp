@@ -15,14 +15,6 @@ void KillZone::Update(float elapsedSec)
 	m_Sprite->Update(elapsedSec, m_Pos);
 }
 
-void KillZone::Draw() const
-{
-	m_Sprite->Draw();
-
-	utils::SetColor(Color4f{ 1.f,0.f,0.f,1.f });
-	utils::DrawRect(m_Collider);
-}
-
 Rectf KillZone::GetCollider() const
 {
 	return m_Collider;

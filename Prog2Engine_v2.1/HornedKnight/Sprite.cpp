@@ -32,6 +32,9 @@ void Sprite::Draw() const
 
 void Sprite::Update(float elapsedSec, const Vector2f& location)
 {
+	//Update the column index
+	m_ColIdx = m_CurrentFrame % m_Columns;
+
 	//Updating the SourceRect
 	m_SourceRect = Rectf{	float(m_ColIdx * m_FrameWidth),
 							float(m_RowIdx * m_FrameHeight),
@@ -40,9 +43,6 @@ void Sprite::Update(float elapsedSec, const Vector2f& location)
 
 	m_Location.x = location.x - m_FrameWidth / 2;
 	m_Location.y = location.y - m_FrameHeight / 2;
-
-	//Update the column index
-	m_ColIdx = m_CurrentFrame % m_Columns;
 
 	//Time counter to control the framerate
 	m_AccumulatedTime += elapsedSec;
@@ -69,6 +69,10 @@ void Sprite::Flip() const
 void Sprite::SetIsFlipped(bool myBool)
 {
 	m_isFlipped = myBool;
+}
+void Sprite::SetFrameDelay(float delay)
+{
+	m_FrameDelay = delay;
 }
 void Sprite::SetAnimation(int rowIdx)
 {
