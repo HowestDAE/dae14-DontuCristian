@@ -111,7 +111,6 @@ void Player::MoveInput(float elapsedSec)
 	const Uint8* pStates = SDL_GetKeyboardState(nullptr);
 	if (m_Velocity.x == 0.f || m_Velocity.y < 0.f)
 	{
-		m_canDash = true;
     	m_isWallJumping = false;
 	}
 	if (pStates[SDL_SCANCODE_SPACE])
