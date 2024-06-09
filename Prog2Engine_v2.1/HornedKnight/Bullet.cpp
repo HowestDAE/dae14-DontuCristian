@@ -2,10 +2,10 @@
 #include "Bullet.h"
 
 const float Bullet::SPEED = 40.f;
-const float Bullet::DESTRUCT_DIST = 200.f;
-const float Bullet::DESTRUCT_TIME = Bullet::DESTRUCT_DIST / Bullet::SPEED;
 
-Bullet::Bullet(const std::string& textPath, const Vector2f& pos, const Vector2f& direction,int rows, int columns, float frameDelay):	
+Bullet::Bullet(const std::string& textPath, const Vector2f& pos, const Vector2f& direction, float destructDist,
+	int rows, int columns, float frameDelay):
+	DESTRUCT_TIME{ destructDist /SPEED},
 	m_Pos{pos},
 	m_AccumulatedTime{0.f},
 	m_isDestroyed{ false },
@@ -48,8 +48,6 @@ void Bullet::Update(float elapsedSec)
 void Bullet::Draw() const
 {
 	m_Sprite->Draw();
-
-	utils::DrawRect(m_Collider);
 }
 
 bool Bullet::GetIsDestroyed()

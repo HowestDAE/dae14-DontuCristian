@@ -54,7 +54,7 @@ private:
 
 	//Members
 	bool	m_isFlipped;
-	bool	m_isReset;
+	bool	m_ResetAnimation;
 
 	float	m_AccumulatedTime{};
 

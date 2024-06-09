@@ -32,24 +32,19 @@ Player::~Player()
 
 void Player::Draw() const
 {
-	utils::SetColor(COL_COLOR);
-
-	utils::DrawRect(m_Collider);
-	utils::DrawEllipse(m_AttackRange.center,m_AttackRange.radius,m_AttackRange.radius);
-
 	m_Spritesheet->Draw();
 }
 void Player::Update(float elapsedSec)
 {
+	m_ElapsedSec = elapsedSec;
 	m_AccumulatedTime += elapsedSec;
-	//m_canDash = m_AccumulatedTime >= DASH_DELAY ? true : false;
+	m_canDash = m_AccumulatedTime >= DASH_DELAY ? true : false;
 
 	if (m_NrLives <= 0)
 	{
 		m_isAlive = false;
+		m_RefillBarPct = 0.f;
 	}
-
-	m_ElapsedSec = elapsedSec;
 
 	MoveInput(elapsedSec);
 	ChangeStates();
@@ -83,23 +78,26 @@ void Player::Update(float elapsedSec)
 	HandleCollision(elapsedSec, Level::m_CheckPoints);
 	HandleCollision(elapsedSec, BulletEmitter::m_BulletArr);
 
+	//Setting the player animation based on velocity
+	ChangeAnimation();
+
+	//Changing the player position and the collider's
 	m_Position += m_Velocity * elapsedSec;
 
 	m_Collider.left = m_Position.x - m_Collider.width / 2;
 	m_Collider.bottom = m_Position.y - (m_Collider.height / 2 + 8.f);
 
-	if (m_isFlipped == false)
-	{
-		m_AttackRange.center.x = m_Position.x + 5.f;
-	}
-	else if (m_isFlipped == true)
-	{
-		m_AttackRange.center.x = m_Position.x - 5.f;
-	}
-	m_AttackRange.center.y = m_Position.y - 5.f;
+	//Flipp the attack range
+		if (m_isFlipped == false)
+		{
+			m_AttackRange.center.x = m_Position.x + 5.f;
+		}
+		else if (m_isFlipped == true)
+		{
+			m_AttackRange.center.x = m_Position.x - 5.f;
+		}
+		m_AttackRange.center.y = m_Position.y - 5.f;
 
-	//Setting the player animation based on velocity
-	ChangeAnimation();
 	m_Spritesheet->Update(elapsedSec, m_Position);
 }
 
@@ -113,13 +111,14 @@ void Player::MoveInput(float elapsedSec)
 	const Uint8* pStates = SDL_GetKeyboardState(nullptr);
 	if (m_Velocity.x == 0.f || m_Velocity.y < 0.f)
 	{
+		m_canDash = true;
     	m_isWallJumping = false;
 	}
 	if (pStates[SDL_SCANCODE_SPACE])
 	{
 		if (m_isOnGround)
 		{
-			ParticleManager::GetInstance()->Emit(m_ElapsedSec, ParticleType::dust, Vector2f{ m_Collider.left + m_Collider.width / 2,m_Collider.bottom });
+			ParticleManager::GetInstance()->Emit(elapsedSec, ParticleType::dust, Vector2f{ m_Collider.left + m_Collider.width / 2,m_Collider.bottom });
 
 			m_Velocity.y = JUMP_PWR;
 			m_PlayerState = PlayerState::jump;
@@ -127,12 +126,13 @@ void Player::MoveInput(float elapsedSec)
 		if (!m_isOnGround && m_PlayerState == PlayerState::wallSlide)
 		{
 			m_isWallJumping = true;
+			m_canDash = false;
 
 			m_Velocity.y = JUMP_PWR;
 			m_Velocity.x = m_isFlipped ? SPEED : -SPEED;
 			m_isFlipped = !m_isFlipped;
 			m_PlayerState = PlayerState::jump;
-			ParticleManager::GetInstance()->Emit(m_ElapsedSec, ParticleType::dust, Vector2f{ m_Collider.left + m_Collider.width,m_Collider.bottom + m_Collider.height / 2 });
+			ParticleManager::GetInstance()->Emit(elapsedSec, ParticleType::dust, Vector2f{ m_Collider.left + m_Collider.width,m_Collider.bottom + m_Collider.height / 2 });
 		}
 	}
 	if (pStates[SDL_SCANCODE_A])
@@ -203,10 +203,6 @@ void Player::MoveInput(float elapsedSec)
 			if(!m_isOnPlatform)
 			m_Velocity.x = 0.f;
 		}
-	}
-	if (pStates[SDL_SCANCODE_L])
-	{
-		std::cout << m_Position << "\n";
 	}
 }
 
@@ -283,7 +279,7 @@ void Player::Attack(const SDL_MouseButtonEvent& e)
 	{
 		m_Spritesheet->ResetAnim();
 		m_PlayerState = PlayerState::attack;
-		m_Spritesheet->SetFrameDelay(0.1f);
+		m_Spritesheet->SetFrameDelay(0.14f);
 	}
 }
 void Player::HandleCollision(float elapsedSec, const std::vector<std::vector<Point2f>>& polysVector)
@@ -305,7 +301,7 @@ void Player::HandleCollision(float elapsedSec, const std::vector<std::vector<Poi
 
 	//Next points from player
 	const Point2f nextMidLeft	{ nextCollider.left, nextCollider.bottom + nextCollider.height/2 };
-	const Point2f nextMidRight{  nextCollider.left + nextCollider.width, nextCollider.bottom + nextCollider.height / 2 };
+	const Point2f nextMidRight  {  nextCollider.left + nextCollider.width, nextCollider.bottom + nextCollider.height / 2 };
 
 	const Point2f nextBottomLeft	{ nextCollider.left, nextCollider.bottom };
 	const Point2f nextTopLeft		{ nextCollider.left, nextCollider.bottom + nextCollider.height };
@@ -399,9 +395,12 @@ void Player::HandleCollision(float elapsedSec, const std::vector<std::vector<Poi
 		}
 
 		m_WallHit = false;
+		m_isOnGround = false;
 
-
-		m_isOnGround = infoBottomLeft.normal.y > 0.f || infoBottomRight.normal.y > 0.f;
+		if (infoBottomLeft.normal.y > 0.f || infoBottomRight.normal.y > 0.f)
+		{
+			m_isOnGround = true;
+		}
 
 		if (infoMidLeft.normal.x > 0.f)
 		{
@@ -605,27 +604,12 @@ void Player::HandleCollision(float elapsedSec, const std::vector<Platform*>& pla
 				m_Velocity.y = 0.f;
 				fadePlat->SetCollision(true);
 			}
-			if (infoMidLeft.normal.x > 0.f)
+			if (infoMidLeft.normal.x > 0.f || infoMidRight.normal.x < 0.f)
 			{
-				m_WallHit = true;
-				m_RightWallHit = false;
+				m_Velocity.x = 0.f;
 			}
-			if (infoMidRight.normal.x < 0.f)
-			{
-				m_WallHit = true;
-				m_RightWallHit = false;
-			}
-			if (!m_isOnGround && (infoBottomLeft.normal.x > 0.f || infoTopLeft.normal.x > 0.f))
-			{
-				m_WallHit = true;
-				m_RightWallHit = false;
-			}
-			if (!m_isOnGround && (infoBottomRight.normal.x < 0.f || infoTopRight.normal.x < 0.f))
-			{
-				m_WallHit = true;
-				m_RightWallHit = true;
-			}
-			if (m_WallHit)
+			if (!m_isOnGround && ((infoBottomRight.normal.x < 0.f || infoTopRight.normal.x < 0.f)||
+				(infoBottomLeft.normal.x > 0.f || infoTopLeft.normal.x > 0.f)))
 			{
 				m_Velocity.x = 0.f;
 			}
@@ -647,6 +631,12 @@ void Player::HandleCollision(float elapsedSec,const std::vector<Enemy*>& enemyVe
 
 	m_DMG_AccumulatedTime += elapsedSec;
 
+	if (m_RefillBarPct >= 1.f)
+	{
+		currentLives++;
+		SetNrLives(currentLives);
+		m_RefillBarPct = 0.f;
+	}
 	for (Enemy* enemy : enemyVector)
 	{
 		if (enemy->GetState() != EnemyStates::dead)
@@ -698,15 +688,12 @@ void Player::HandleCollision(float elapsedSec,const std::vector<Enemy*>& enemyVe
 		}
 		if (!m_isAlive)
 		{
-			enemy->SetState(EnemyStates::run);
+			if(enemy->GetType()==EnemyType::ranged)
+				enemy->SetState(EnemyStates::idle);
+			else
+				enemy->SetState(EnemyStates::run);
 		}
 
-	}
-	if (m_RefillBarPct >= 1.f)
-	{
-		currentLives++;
-		SetNrLives(currentLives);
-		m_RefillBarPct = 0.f;
 	}
 }
 void Player::HandleCollision(float elapsedSec, const std::vector<DMGZone*>& dmgZoneVector)

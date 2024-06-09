@@ -16,22 +16,13 @@ CheckPoint::~CheckPoint()
 
 void CheckPoint::Update(float elapsedSec)
 {
+	m_Sprite->SetAnimation(int(m_isActive));
 	m_Sprite->Update(elapsedSec, m_Pos);
 }
 
 void CheckPoint::Draw()
 {
 	m_Sprite->Draw();
-
-	if (m_isActive)
-	{
-		utils::SetColor(Color4f{1.f,0.f,0.f,1.f});
-	}
-	else
-	{
-		utils::SetColor(Color4f{ 0.f,0.f,1.f,1.f });
-	}
-	utils::DrawRect(m_Collider);
 }
 
 Rectf CheckPoint::GetCollider() const

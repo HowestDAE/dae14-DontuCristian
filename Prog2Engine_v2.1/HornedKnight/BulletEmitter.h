@@ -6,7 +6,7 @@
 class BulletEmitter
 {
 public:
-	BulletEmitter(const Vector2f& pos, const Vector2f& direction, float firstBulletDelay);
+	BulletEmitter(const Vector2f& pos, const Vector2f& direction,float destructDist ,float firstBulletDelay);
 
 	//Rule of 5
 	void operator=(const BulletEmitter&) = delete;
@@ -26,9 +26,9 @@ public:
 
 	static std::vector <Bullet*> m_BulletArr;
 private:
-
 	//CONSTANTS
 	const float EMISSION_DELAY{ 2.f };
+	const float DESTRUCT_DIST;
 
 	//Members
 	float m_AccumulatedTime;

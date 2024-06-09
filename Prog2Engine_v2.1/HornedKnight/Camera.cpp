@@ -42,7 +42,7 @@ void Camera::Update(float elapsedSec,float zoom)
 
 
 		m_ViewRect.bottom = ( m_ViewRect.bottom > SCREEN_HEIGHT / (zoom * 2.f)) ? SCREEN_HEIGHT / (zoom * 2.f) : m_ViewRect.bottom;
-		//m_ViewRect.left = (m_ViewRect.left > 2*SCREEN_WIDTH - m_ViewRect.width) ? 2 * SCREEN_WIDTH - m_ViewRect.width : m_ViewRect.left;
+		m_ViewRect.left = (m_ViewRect.left + m_ViewRect.width) >= 4296.f ? 4296.f - m_ViewRect.width : m_ViewRect.left;
 		
 		m_Position = Vector2f{m_ViewRect.left * zoom, m_ViewRect.bottom * zoom};
 
@@ -78,3 +78,4 @@ void Camera::SetTarget(const Vector2f& target)
 {
 	m_Target = target;
 }
+

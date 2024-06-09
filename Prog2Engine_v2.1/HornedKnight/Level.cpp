@@ -25,13 +25,13 @@ Level::Level(const std::string& svgPath, const std::string& textureBackgroundPat
 	m_PlatformsArr.push_back(new FadeOutPlatform{ "FadeOutPlatform.png", Vector2f{1910.f,20.f},3,5 });
 
 	m_EnemiesArr.push_back(new Enemy{ "Skelleton.png", Vector2f{164.f,40.f},Vector2f{196.f,40.f},EnemyType::normal,15.f,20.f,4,5,0.1f });
-	m_EnemiesArr.push_back(new Enemy{ "Cobra.png",	   Vector2f{308.f,40.f},Vector2f{340.f,40.f},EnemyType::normal,15.f,16.f,4,6,0.1f });
+	m_EnemiesArr.push_back(new Enemy{ "Cobra.png",	   Vector2f{308.f,39.f},Vector2f{340.f,39.f},EnemyType::normal,15.f,16.f,4,6,0.1f });
 	m_EnemiesArr.push_back(new Enemy{ "WeirdSlime.png",Vector2f{356.f,21.f},Vector2f{406.f,21.f},EnemyType::normal,18.f,12.f,3,6,0.1f });
 	m_EnemiesArr.push_back(new Enemy{ "WeirdSlime.png",Vector2f{470.f,21.f},Vector2f{534.f,21.f},EnemyType::normal,18.f,12.f,3,6,0.1f });
-	m_EnemiesArr.push_back(new Enemy{ "Cobra.png",	   Vector2f{548.f,40.f},Vector2f{595.f,40.f},EnemyType::normal,15.f,16.f,4,6,0.1f });
+	m_EnemiesArr.push_back(new Enemy{ "Cobra.png",	   Vector2f{548.f,39.f},Vector2f{595.f,39.f},EnemyType::normal,15.f,16.f,4,6,0.1f });
 
 	m_EnemiesArr.push_back(new Enemy{ "Skelleton.png", Vector2f{890.f,40.f},Vector2f{890.f,40.f},EnemyType::ranged,15.f,20.f,4,5,0.1f });
-	m_EnemiesArr.push_back(new Enemy{ "Cobra.png",	   Vector2f{1220.f,40.f},Vector2f{1220.f,40.f},EnemyType::ranged,15.f,16.f,4,6,0.1f });
+	m_EnemiesArr.push_back(new Enemy{ "Cobra.png",	   Vector2f{1220.f,39.f},Vector2f{1220.f,39.f},EnemyType::ranged,15.f,16.f,4,6,0.1f });
 
 	m_EnemiesArr.push_back(new Enemy{ "Bat.png",	   Vector2f{1298.f,138.f},Vector2f{1362.f,115.f},EnemyType::bat,15.f,10.f,3,5,0.1f });
 	m_EnemiesArr.push_back(new Enemy{ "Bat.png",	   Vector2f{1362.f,138.f},Vector2f{1298.f,115.f},EnemyType::bat,15.f,10.f,3,5,0.1f });
@@ -42,9 +42,9 @@ Level::Level(const std::string& svgPath, const std::string& textureBackgroundPat
 	m_EnemiesArr.push_back(new Enemy{ "SpikeAnimal.png", Vector2f{1637.f,23.f},Vector2f{1700.f,23.f},EnemyType::normal,15.f,16.f,3,7,0.1f });
 	m_EnemiesArr.push_back(new Enemy{ "SpikeAnimal.png", Vector2f{1729.f,23.f},Vector2f{1795.f,23.f},EnemyType::normal,15.f,16.f,3,7,0.1f });
 
-	m_EnemiesArr.push_back(new Enemy{ "WeirdSlime.png", Vector2f{1959.f,23.f},Vector2f{2000.f,22.f},EnemyType::normal,18.f,12.f,3,6,0.1f });
+	m_EnemiesArr.push_back(new Enemy{ "WeirdSlime.png", Vector2f{1959.f,22.f},Vector2f{2000.f,22.f},EnemyType::normal,18.f,12.f,3,6,0.1f });
 
-	m_EnemiesArr.push_back(new Enemy{ "Cobra.png",	   Vector2f{2777.f,40.f},Vector2f{2777.f,40.f},EnemyType::ranged,15.f,16.f,4,6,0.1f });
+	m_EnemiesArr.push_back(new Enemy{ "Cobra.png",	   Vector2f{2777.f,39.f},Vector2f{2777.f,39.f},EnemyType::ranged,15.f,16.f,4,6,0.1f });
 
 	m_EnemiesArr.push_back(new Enemy{ "SpikeAnimal.png", Vector2f{3089.f,23.f},Vector2f{3143.f,40.f},EnemyType::normal,15.f,16.f,3,7,0.1f });
 
@@ -107,9 +107,9 @@ Level::Level(const std::string& svgPath, const std::string& textureBackgroundPat
 	m_DMGZoneArr.push_back(new OrbitingSpike{ "SpikeBall.png",Rectf{2908.f,32.f,16.f,16.f},false,1,1,0.f });
 	m_DMGZoneArr.push_back(new OrbitingSpike{ "SpikeBall.png",Rectf{2956.f,32.f,16.f,16.f},true, 1,1,0.f });
 
-	m_EmitterArr.push_back(new BulletEmitter{ Vector2f{2069.f,160.f},Vector2f{0.f,-1.f}, 1.f});
-	m_EmitterArr.push_back(new BulletEmitter{ Vector2f{2099.f,160.f},Vector2f{0.f,-1.f}, 2.f});
-	m_EmitterArr.push_back(new BulletEmitter{ Vector2f{2665.f,25.f}, Vector2f{1.f,0.f},  0.f });
+	m_EmitterArr.push_back(new BulletEmitter{ Vector2f{2069.f,160.f},Vector2f{0.f,-1.f},200.f ,1.f});
+	m_EmitterArr.push_back(new BulletEmitter{ Vector2f{2099.f,160.f},Vector2f{0.f,-1.f},200.f ,2.f});
+	m_EmitterArr.push_back(new BulletEmitter{ Vector2f{2665.f,25.f}, Vector2f{1.f,0.f},100.f ,0.f });
 }
 
 Level::~Level()
@@ -175,12 +175,6 @@ void Level::Draw() const
 {
 	TextureManager::GetInstance()->GetTexture(m_BackgroundPath)->Draw();
 	
-	utils::SetColor(Color4f{ 0,1,0,1 });
-	
-	for (std::vector<Point2f> obj : m_ColliderArr)
-	{
-		utils::DrawPolygon(obj, true);
-	}
 	for (Platform* obj : m_PlatformsArr)
 	{
 		obj->Draw();
@@ -201,7 +195,6 @@ void Level::Draw() const
 	{
 		obj->Draw();
 	}
-	utils::DrawRect(m_ExitDoor);
 	TextureManager::GetInstance()->GetTexture(m_ForegroundPath)->Draw();
 }
 float Level::GetScaleFactor() const

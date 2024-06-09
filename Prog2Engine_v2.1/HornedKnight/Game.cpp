@@ -23,7 +23,7 @@ void Game::Initialize( )
 
 	m_HudPtr	= new HUD{};
 	m_LevelPtr	= new Level{ "Level.svg", "Background.png", "MapPlatforms.png"};
-	m_PlayerPtr = new Player{Vector2f{2668.f,40.f}, "PlayerSpritesheet.png"};
+	m_PlayerPtr = new Player{Vector2f{30.f,40.f}, "PlayerSpritesheet.png"};
 }
 
 void Game::Cleanup()
@@ -52,13 +52,13 @@ void Game::Update( float elapsedSec )
 		m_MenuText->Recreate("PRESS ENTER TO START");
 		break;
 	case GameState::running:
+		m_HudPtr->Update(elapsedSec);
 		m_LevelPtr->Update(elapsedSec);
 		m_PlayerPtr->Update(elapsedSec);
 		Camera::GetInstance()->SetTarget(m_PlayerPtr->GetPosition());
 		Camera::GetInstance()->Update(elapsedSec, m_LevelPtr->GetScaleFactor());
 
 		ParticleManager::GetInstance()->Update(elapsedSec);
-		m_HudPtr->Update(elapsedSec);
 		break;
 	case GameState::outro:
 		m_MenuText->SetPosition(Vector2f{ -150.f,0.f });

@@ -23,6 +23,11 @@ void StringSprite::Recreate(const std::string& text)
 	m_StringTexture = new Texture{ text, m_FontPath, m_Size, m_Color };
 }
 
+Vector2f StringSprite::GetPosition()
+{
+	return m_Position;
+}
+
 void StringSprite::Draw()
 {
 	m_StringTexture->Draw(m_Position.ToPoint2f());

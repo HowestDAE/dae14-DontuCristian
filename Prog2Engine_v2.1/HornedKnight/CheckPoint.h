@@ -4,7 +4,7 @@
 class CheckPoint
 {
 public:
-	CheckPoint(const std::string& textPath, const Vector2f& pos, int rows = { 1 }, int columns = { 9 }, float frameDelay = {0.2f});
+	CheckPoint(const std::string& textPath, const Vector2f& pos, int rows = { 2 }, int columns = { 9 }, float frameDelay = {0.2f});
 
 	//Rule of 5
 	void operator= (const CheckPoint&) = delete;

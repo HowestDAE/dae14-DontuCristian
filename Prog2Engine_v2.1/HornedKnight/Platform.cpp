@@ -19,8 +19,6 @@ void Platform::Update(float elapsedSec)
 void Platform::Draw()const
 {
 	m_Sprite->Draw();
-	utils::SetColor(Color4f{ 1.f,0.f,0.f,1.f });
-	utils::DrawRect(m_Collider);
 }
 
 float Platform::GetVelocityX()

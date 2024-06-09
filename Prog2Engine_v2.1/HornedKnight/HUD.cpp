@@ -1,7 +1,8 @@
 #include "pch.h"
 #include "HUD.h"
 
-HUD::HUD()
+HUD::HUD():
+	m_canDraw{false}
 {
 	m_BarOutline = Rectf{ 10.f,87.f,20.f,3.5f };
 	m_BarFill=Rectf{ 11.f,87.75f,18.f,2.f };
@@ -15,6 +16,8 @@ HUD::HUD()
 	{
 		m_HealthBarArr.push_back(new HealthSquare{"HealthSquare.png",Vector2f{10.f + idx*6.f,94.f}});
 	}
+
+	m_HudText = new StringSprite{ "EXTRA HEART!","Minecraft.ttf",40,Color4f{1.f,1.f,1.f,1.f},Vector2f{0.f,0.f} };
 }HUD::~HUD()
 {
 	for (int idx{}; idx < m_HealthBarArr.size(); idx++)
@@ -26,6 +29,28 @@ HUD::HUD()
 
 void HUD::Update(float elapsedSec)
 {
+	if (Player::GetBarPct() >= 1.f)
+	{
+		m_canDraw = true;
+	}
+
+	Vector2f textPos{ m_HudText->GetPosition() };
+
+	if (m_canDraw)
+	{
+		m_AccumulatedTime += elapsedSec;
+		if (m_AccumulatedTime < ALIVE_TEXT_TIME / 2.f)
+		{
+			textPos.y += 0.4f;
+			m_HudText->SetPosition(textPos);
+		}
+		else if (m_AccumulatedTime > ALIVE_TEXT_TIME)
+		{
+			m_AccumulatedTime = 0.f;
+			m_canDraw = false;
+		}
+	}
+
 	UpdateHealthBar(elapsedSec);
 	UpdateRefillBar();
 }
@@ -34,6 +59,16 @@ void HUD::Draw() const
 {
 	DrawHealthBar();
 	DrawRefillBar();
+
+	if (m_canDraw)
+	{
+		glPushMatrix();
+		{
+			glTranslatef(80.f, 84.f, 0.f);
+			glScalef(0.1f, 0.1f, 1.f);
+			m_HudText->Draw();
+		}glPopMatrix();
+	}
 }
 
 void HUD::DrawRefillBar() const

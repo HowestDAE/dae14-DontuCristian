@@ -9,7 +9,8 @@ Enemy::Enemy(const std::string& textPath, const Vector2f& startPos, const Vector
 	m_Type		{type},
 	m_isFlipped	{false},
 	m_Collider	{startPos.x - colliderWidth/2, startPos.y - colliderHeight/2,
-	             colliderWidth,colliderHeight}
+	             colliderWidth,colliderHeight},
+	m_ResetAnimation	{false}
 {
 	if (type == EnemyType::ranged)
 	{
@@ -24,7 +25,7 @@ Enemy::Enemy(const std::string& textPath, const Vector2f& startPos, const Vector
 	m_Velocity = m_EndPos - m_StartPos;
 	m_Velocity = m_Velocity.Normalized() * SPEED;
 
-	m_Emitter = new BulletEmitter{ m_Pos, Vector2f{-1.f,0.f},0.f};
+	m_Emitter = new BulletEmitter{m_Pos, Vector2f{-1.f,0.f},200.f,0.f};
 }
 Enemy::~Enemy()
 {
@@ -38,8 +39,6 @@ void Enemy::Draw() const
 {
 	m_Spritesheet->Draw();
 
-	utils::SetColor(Color4f{ 1.f,0.f,0.f,1.f });
-	utils::DrawRect(m_Collider);
 }
 void Enemy::Update(float elapsedSec)
 {	
@@ -55,7 +54,7 @@ void Enemy::Update(float elapsedSec)
 		if (m_Type == EnemyType::bat || 
 			m_Type == EnemyType::normal)
 		{
-			m_isReset = false;
+			m_ResetAnimation = false;
 			ChangeAnimation();
 
 			m_isFlipped = m_Velocity.x > 0 ? true : false;
@@ -66,10 +65,10 @@ void Enemy::Update(float elapsedSec)
 	case EnemyStates::dead:
 	{
 		ChangeAnimation();
-		if (!m_isReset)
+		if (!m_ResetAnimation)
 		{
 			m_Spritesheet->ResetAnim();
-			m_isReset = true;
+			m_ResetAnimation = true;
 		}
 		int frame{ m_Spritesheet->GetColIdx() };
 		if (m_Spritesheet->GetColIdx() != m_Spritesheet->GetColNr() - 1)
@@ -79,6 +78,7 @@ void Enemy::Update(float elapsedSec)
 	}
 		break;
 	case EnemyStates::idle:
+		ChangeAnimation();
 		if (m_Type == EnemyType::ranged)
 		{
 			m_AccumulatedTime += elapsedSec;
@@ -88,16 +88,15 @@ void Enemy::Update(float elapsedSec)
 				m_AccumulatedTime -= STATE_TIME;
 			}
 		}
-		m_isReset = false;
-		ChangeAnimation();
+		m_ResetAnimation = false;
 		m_Spritesheet->SetFrameDelay(0.2f);
 		m_Spritesheet->Update(elapsedSec, m_Pos);
 		break;
 	case EnemyStates::attack:
-		if (!m_isReset)
+		if (!m_ResetAnimation)
 		{
 			m_Spritesheet->ResetAnim();
-			m_isReset = true;
+			m_ResetAnimation = true;
 		}
 		ChangeAnimation();
 		if (m_Spritesheet->GetColIdx() != m_Spritesheet->GetColNr() - 1)

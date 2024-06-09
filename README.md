@@ -92,9 +92,16 @@ Just build and run the project using Visual Studio
 
 <!-- HOW TO PLAY -->
 ## How to play
-
-Use this space to show useful examples of how a game can be played. 
-Additional screenshots and demos work well in this space. 
+To kill an enemy you just have to aproach it and click attack, 
+then if you are within the players melee range then the enemy will die.
+<img src="GameScreenShot01.png" alt="Horned Kinght-Attack"> 
+To dash you have to press LShift and using the W,A,D keys you control the dash direction.
+A for left, D for right and W, WA, WD for going diagonally either left or right.
+<img src="GameScreenShot02.png" alt="Horned Kinght-Dash"> 
+To wall slide you have to be above the ground and keep holding either A (if the wall is left of you )
+or D (if the wall is rigth of you) next to the wall.
+If you release any of them you'll just fall to the ground. If you want to wall jump, just press Space while wall sliding.
+<img src="GameScreenShot03.png" alt="Horned Kinght-WallSlide"> 
 
 ### Controls
 * A-move left

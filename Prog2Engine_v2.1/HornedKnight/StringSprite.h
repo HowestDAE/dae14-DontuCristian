@@ -16,6 +16,8 @@ public:
 	void SetPosition(const Vector2f& position);
 	void Recreate(	const std::string& text);
 
+	Vector2f GetPosition();
+
 private:
 
 	// datamembers

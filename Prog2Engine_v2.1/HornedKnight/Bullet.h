@@ -6,7 +6,8 @@ class Bullet
 {
 public:
 	
-	Bullet(const std::string& textPath, const Vector2f& pos, const Vector2f& direction, int rows, int columns, float frameDelay);
+	Bullet(const std::string& textPath, const Vector2f& pos, const Vector2f& direction, float destructDist,
+		int rows, int columns, float frameDelay);
 
 	//Rule of 5
 	void operator=(const Bullet&) = delete;
@@ -29,9 +30,10 @@ public:
 
 private:
 	//CONSTANTS
+	const float DESTRUCT_TIME;
+
+	//static members
 	static const float SPEED;
-	static const float DESTRUCT_DIST;
-	static const float DESTRUCT_TIME;
 
 
 

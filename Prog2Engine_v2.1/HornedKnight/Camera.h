@@ -22,6 +22,7 @@ public:
 	Rectf GetViewRect() const;
 	Vector2f GetPosition() const;
 
+
 	void SetTarget(const Vector2f& target);
 
 private:

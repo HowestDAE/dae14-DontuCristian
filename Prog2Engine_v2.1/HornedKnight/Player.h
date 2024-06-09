@@ -45,6 +45,8 @@ public:
 	Vector2f GetPosition() const;
 	Vector2f GetVelocity() const;
 	
+	//Used for the HUD
+
 	static void SetNrLives(int lives);
 	static int GetNrLives();
 
